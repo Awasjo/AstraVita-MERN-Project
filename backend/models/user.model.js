@@ -11,14 +11,10 @@ const userSchema = new mongoose.Schema({
   hash: String,
   salt: String,
   isOnline: { type: Boolean, default: false }
-});
+}, { discriminatorKey: 'role' });
 
 userSchema.methods.getFullName = function() {
   return `${this.firstName} ${this.lastName}`;
-};
-
-userSchema.methods.deleteAccount = function() {
-  return this.model('User').deleteOne({ _id: this._id });
 };
 
 userSchema.methods.setPassword = function(password) {
