@@ -11,8 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "mongodb": "^6.9.0",
-    "mongoose": "^8.7.1"
+    "mongoose": "^8.7.1",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "dotenv": "^16.4.5",
