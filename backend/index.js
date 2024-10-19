@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('./config/passport');
+const session = require('express-session');
+const userRoutes = require('./routes/user.route');
 
 require('dotenv').config();
 
@@ -10,11 +13,21 @@ const mongoUri = process.env.MONGODB_URI;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // MongoDB connection
 mongoose.connect(mongoUri)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error('MongoDB connection error:', err));
+
+// Routes
+app.use('/api/users', userRoutes);
 
 // Simple route
 app.get('/', (req, res) => {
