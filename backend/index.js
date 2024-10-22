@@ -4,12 +4,11 @@ const passport = require('./config/passport');
 const session = require('express-session');
 const userRoutes = require('./routes/user.route');
 
-HEAD
+
 const cors = require('cors');
 
 app.use(cors());
 
-fb7b4f3d0bad7cb9d59423d59756733d7491c1c4
 
 require('dotenv').config();
 
