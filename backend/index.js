@@ -3,15 +3,12 @@ const mongoose = require('mongoose');
 const passport = require('./config/passport');
 const session = require('express-session');
 const userRoutes = require('./routes/user.route');
-
-
 const cors = require('cors');
-
-app.use(cors());
 
 require('dotenv').config();
 
 const app = express();
+app.use(cors());
 const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGODB_URI;
 
