@@ -27,6 +27,10 @@ userSchema.methods.validPassword = function(password) {
   return this.hash === hash;
 };
 
+userSchema.methods.setOnlineStatus = function(status) {
+  this.isOnline = status;
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
