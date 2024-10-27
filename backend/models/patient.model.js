@@ -2,14 +2,26 @@ const mongoose = require('mongoose');
 const User = require('./user.model');
 
 const patientSchema = new mongoose.Schema({
-  linkedDoctors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }],
-  testResults: [{ type: String, default: "Temporary placeholder for test results" }]
+  testResults: [{ type: String, default: "Temporary placeholder for test results" }],
+  permissionRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }],
+  approvedDoctors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }]
 });
 
-patientSchema.methods.addLinkedDoctor = function(doctorId) {
-  if (!this.linkedDoctors.includes(doctorId)) {
-    this.linkedDoctors.push(doctorId);
+patientSchema.methods.requestPermission = function(doctorId) {
+  if (!this.permissionRequests.includes(doctorId) && !this.approvedDoctors.includes(doctorId)) {
+    this.permissionRequests.push(doctorId);
   }
+};
+
+patientSchema.methods.approvePermission = function(doctorId) {
+  this.permissionRequests = this.permissionRequests.filter(id => id.toString() !== doctorId.toString());
+  if (!this.approvedDoctors.includes(doctorId)) {
+    this.approvedDoctors.push(doctorId);
+  }
+};
+
+patientSchema.methods.rejectPermission = function(doctorId) {
+  this.permissionRequests = this.permissionRequests.filter(id => id.toString() !== doctorId.toString());
 };
 
 patientSchema.methods.getTestResults = function() {

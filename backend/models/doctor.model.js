@@ -4,12 +4,12 @@ const User = require('./user.model');
 const doctorSchema = new mongoose.Schema({
   jobTitle: String,
   employer: String,
-  linkedPatients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }]
+  approvedPatients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Patient' }]
 });
 
-doctorSchema.methods.addLinkedPatient = function(patientId) {
-  if (!this.linkedPatients.includes(patientId)) {
-    this.linkedPatients.push(patientId);
+doctorSchema.methods.approvePatient = function(patientId) {
+  if (!this.approvedPatients.includes(patientId)) {
+    this.approvedPatients.push(patientId);
   }
 };
 
