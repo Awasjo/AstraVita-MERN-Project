@@ -15,6 +15,22 @@ router.get('/logout', (req, res, next) => {
     res.json({ message: 'Logout successful' });
   });
 });
+// Common routes
+router.post('/set-online-status', authMiddleware.isAuthenticated, userController.setOnlineStatus);
+
+// Get all doctors and patients, this might be only useful for the admin, 
+//currently anyone who is logged in can see all doctors and patients 
+router.get('/doctors', authMiddleware.isAuthenticated, userController.getAllDoctors);
+router.get('/patients', authMiddleware.isAuthenticated, userController.getAllPatients);
+
+// Patient routes
+router.post('/patients/request-permission/:doctorId', authMiddleware.requireRole('Patient'), userController.requestPermission);
+router.get('/patients/doctors', authMiddleware.requireRole('Patient'), userController.getPatientDoctors);
+
+// Doctor routes
+router.get('/doctors/permission-requests', authMiddleware.requireRole('Doctor'), userController.getPermissionRequests);
+router.post('/doctors/handle-permission-request', authMiddleware.requireRole('Doctor'), userController.handlePermissionRequest);
+router.get('/doctors/patients', authMiddleware.requireRole('Doctor'), userController.getDoctorPatients);
 
 // CRUD operations
 router.post('/', userController.create);
@@ -22,11 +38,5 @@ router.get('/', authMiddleware.isAuthenticated, userController.getAll);
 router.get('/:id', authMiddleware.isAuthenticated, userController.getById);
 router.put('/:id', authMiddleware.isAuthenticated, userController.update);
 router.delete('/:id', authMiddleware.isAuthenticated, userController.delete);
-
-// Doctor-specific routes
-router.get('/doctor/patients', authMiddleware.requireRole('Doctor'), userController.getDoctorPatients);
-
-// Patient-specific routes
-router.get('/patient/doctors', authMiddleware.requireRole('Patient'), userController.getPatientDoctors);
 
 module.exports = router;
