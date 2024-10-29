@@ -141,14 +141,14 @@ exports.getAllPatients = async (req, res) => {
   }
 };
 
-exports.requestPermission = async (req, res) => {
+exports.patientRequestDoctorPermission = async (req, res) => {
   try {
     const patient = await Patient.findById(req.user._id);
     if (!patient) {
       return res.status(404).json({ message: 'Patient not found' });
     }
     const doctorId = req.params.doctorId;
-    patient.requestPermission(doctorId);
+    patient.requestDoctorPermission(doctorId);
     await patient.save();
     res.status(200).json({ message: 'Permission request sent successfully' });
   } catch (error) {
@@ -156,7 +156,7 @@ exports.requestPermission = async (req, res) => {
   }
 };
 
-exports.getPermissionRequests = async (req, res) => {
+exports.getDoctorPermissionRequests = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.user._id);
     if (!doctor) {
@@ -169,7 +169,7 @@ exports.getPermissionRequests = async (req, res) => {
   }
 };
 
-exports.handlePermissionRequest = async (req, res) => {
+exports.doctorHandlePatientPermission = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.user._id);
     if (!doctor) {
@@ -181,18 +181,77 @@ exports.handlePermissionRequest = async (req, res) => {
       return res.status(404).json({ message: 'Patient not found' });
     }
     if (action === 'approve') {
-      patient.approvePermission(doctor._id);
+      patient.approveDoctor(doctor._id);
       doctor.approvePatient(patient._id);
     } else if (action === 'reject') {
-      patient.rejectPermission(doctor._id);
+      patient.rejectDoctor(doctor._id);
     } else {
       return res.status(400).json({ message: 'Invalid action' });
     }
-    await patient.save();
-    await doctor.save();
+    await Promise.all([patient.save(), doctor.save()]);
     res.status(200).json({ message: 'Permission request handled successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error handling permission request', error: error.message });
+  }
+};
+
+exports.doctorRequestPatientPermission = async (req, res) => {
+  try {
+    const doctor = await Doctor.findById(req.user._id);
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+    
+    const patientId = req.params.patientId;
+    const patient = await Patient.findById(patientId);
+    if (!patient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+
+    doctor.requestPatientPermission(patientId);
+    patient.addDoctorRequest(doctor._id);
+    
+    await Promise.all([doctor.save(), patient.save()]);
+    res.status(200).json({ message: 'Permission request sent successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error requesting permission', error: error.message });
+  }
+};
+
+exports.patientHandleDoctorPermission = async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.user._id);
+    if (!patient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+
+    const { doctorId, action } = req.body;
+    const doctor = await Doctor.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: 'Doctor not found' });
+    }
+
+    const approved = action === 'approve';
+    patient.handleDoctorRequest(doctorId, approved);
+    doctor.handlePatientResponse(patient._id, approved);
+
+    await Promise.all([patient.save(), doctor.save()]);
+    res.status(200).json({ message: 'Permission request handled successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error handling permission request', error: error.message });
+  }
+};
+
+exports.getPatientDoctorRequests = async (req, res) => {
+  try {
+    const patient = await Patient.findById(req.user._id)
+      .populate('doctorRequests', 'firstName lastName jobTitle');
+    if (!patient) {
+      return res.status(404).json({ message: 'Patient not found' });
+    }
+    res.status(200).json(patient.doctorRequests);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching doctor requests', error: error.message });
   }
 };
 
