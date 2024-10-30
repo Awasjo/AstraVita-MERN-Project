@@ -28,20 +28,17 @@ router.get('/doctors', authMiddleware.isAuthenticated, userController.getAllDoct
 router.get('/patients', authMiddleware.isAuthenticated, userController.getAllPatients);
 
 // Patient routes
-router.post('/patients/request-permission/:doctorId', authMiddleware.requireRole('Patient'), userController.requestPermission);
+router.post('/patients/request-doctor-permission/:doctorId', authMiddleware.requireRole('Patient'), userController.patientRequestDoctorPermission);
+router.post('/patients/handle-doctor-permission', authMiddleware.requireRole('Patient'), userController.patientHandleDoctorPermission);
+router.get('/patients/doctor-requests', authMiddleware.requireRole('Patient'), userController.getPatientDoctorRequests);
 router.get('/patients/doctors', authMiddleware.requireRole('Patient'), userController.getPatientDoctors);
 
 // Doctor routes
-router.get('/doctors/permission-requests', authMiddleware.requireRole('Doctor'), userController.getPermissionRequests);
-router.post('/doctors/handle-permission-request', authMiddleware.requireRole('Doctor'), userController.handlePermissionRequest);
-router.get('/doctors/patients', authMiddleware.requireRole('Doctor'), (req, res) => {
-  console.log('User authenticated:', req.isAuthenticated());
-  if (req.isAuthenticated()) {
-    console.log('User role:', req.user.role);
-  }
-  userController.getDoctorPatients(req, res);
-});
-
+//Please update front end routes as these URL has been changed since commit f03c1fd1bcf11cb1f862c5d28280df993500a967
+router.get('/doctors/patient-permission-requests', authMiddleware.requireRole('Doctor'), userController.getDoctorPermissionRequests);
+router.post('/doctors/handle-patient-permission', authMiddleware.requireRole('Doctor'), userController.doctorHandlePatientPermission);
+router.post('/doctors/request-patient-permission/:patientId', authMiddleware.requireRole('Doctor'), userController.doctorRequestPatientPermission);
+router.get('/doctors/patients', authMiddleware.requireRole('Doctor'), userController.getDoctorPatients);
 
 // CRUD operations
 router.post('/register', userController.create);
