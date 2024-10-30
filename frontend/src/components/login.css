@@ -4,9 +4,9 @@
     margin: 100px auto;
     padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 5px;    
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: skyblue;
+    background-color: white;
     text-align: center;
   }
   
@@ -44,21 +44,11 @@
   body {
     background-color: skyblue; /* Sky blue background */
     font-family: Arial, sans-serif; /* Optional: to make text look better */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flow-root;
+
     height: 100vh;
     margin: 0;
   }
   
-  /* Style the login container */
-  .login-container {
-    width: 300px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    background-color: white; /* Keep the form background white for contrast */
-    text-align: center;
-  }
+    
   

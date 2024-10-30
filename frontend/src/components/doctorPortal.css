@@ -1,0 +1,489 @@
+.doctor-container {
+    width: 100%;
+    height:100%;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    flex-direction: column;
+  }
+  .home-desktop-doctor-portal-my-patients {
+    width: 100%;
+    height:100%;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    align-items: flex-start;
+    flex-shrink: 0;
+    background-color: rgba(241, 241, 241, 1);
+  }
+  .home-patient-card {
+    top: 298px;
+    left: 280px;
+    width: 1080px;
+    height: 80px;
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    flex-shrink: 1;
+    background-color: rgba(255, 255, 255, 1);
+    margin-bottom:1rem;
+  }
+  .home-remove-button {
+    top: 20px;
+    left: 1020px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .doctor-ellipse1 {
+    top: 0px;
+    left: 0px;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+  }
+  .home-iconmonstrxmark91 {
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+  }
+  .home-message-button {
+    top: 20px;
+    left: 960px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .doctor-ellipse2 {
+    top: 0px;
+    left: 0px;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+  }
+  .home-iconmonstrspeechbubble192 {
+    top: 12px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+  }
+  .home-test-results-button {
+    top: 20px;
+    left: 900px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .doctor-ellipse3 {
+    top: 0px;
+    left: 0px;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+  }
+  .home-iconmonstrclipboard12 {
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+  }
+  .patientCard-text10 {
+    top: 42px;
+    left: 88px;
+    color: rgba(102, 102, 102, 1);
+    height: auto;
+    position: absolute;
+    font-size: 14px;
+    font-style: Medium;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .patientCard-text12 {
+    top: 21px;
+    left: 88px;
+    color: rgba(34, 34, 34, 1);
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-profile-picture {
+    top: 16px;
+    left: 20px;
+    width: 48px;
+    height: 48px;
+    position: absolute;
+  }
+  .home-sort-options {
+    top: 259px;
+    left: 1194px;
+    width: 166px;
+    height: 19px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .home-iconmonstrarrow651 {
+    top: 1px;
+    left: 150px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  .doctor-text14 {
+    color: rgba(68, 68, 68, 1);
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: right;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-search-bar {
+    top: 188px;
+    left: 280px;
+    width: 1080px;
+    height: 40px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+    background-color: rgba(217, 217, 217, 1);
+  }
+  .home-text16 {
+    top: 11px;
+    left: 48px;
+    color: rgba(136, 136, 136, 1);
+    height: auto;
+    position: absolute;
+    font-size: 14px;
+    font-style: Medium;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-iconmonstrmagnifier21 {
+    top: 12px;
+    left: 16px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  .home-add-patient-button {
+    top: 100px;
+    left: 1200px;
+    width: 160px;
+    height: 48px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+    background-color: rgba(48, 51, 107, 1);
+  }
+  .home-text18 {
+    top: 14px;
+    left: 47px;
+    color: rgba(255, 255, 255, 1);
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: center;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-iconmonstrplus21 {
+    top: 16px;
+    left: 21px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  .home-text20 {
+    top: 107px;
+    left: 280px;
+    color: rgba(48, 51, 107, 1);
+    height: auto;
+    position: absolute;
+    font-size: 28px;
+    font-style: Bold;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-side-navbar {
+    top: 0px;
+    left: 0px;
+    width: 200px;
+    height: 100%;
+    display: flex;
+    position: fixed;
+    align-items: flex-start;
+    flex-shrink: 0;
+    background-color: rgba(24, 26, 54, 1);
+  }
+  .home-placeholder-logo {
+    top: 40px;
+    left: 45px;
+    width: 109px;
+    height: 24px;
+    position: absolute;
+  }
+  .home-settings {
+    top: 282px;
+    left: 30px;
+    width: 91px;
+    height: 19px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .doctor-text22 {
+    left: 26px;
+    color: rgba(217, 218, 228, 1);
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-iconmonstrgear11 {
+    top: 2px;
+    left: 0px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  .home-messages {
+    top: 223px;
+    left: 30px;
+    width: 105px;
+    height: 19px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .doctor-text24 {
+    left: 26px;
+    color: white;
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-iconmonstrspeechbubble191 {
+    top: 2px;
+    left: 0px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  .home-my-doctors {
+    top: 150px;
+    left: 0px;
+    width: 200px;
+    height: 48px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+    background-color: rgba(40, 43, 89, 1);
+  }
+  .doctor-text26 {
+    top: 14px;
+    left: 56px;
+    color: rgba(255, 255, 255, 1);
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-iconmonstruser311 {
+    top: 16px;
+    left: 30px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  .home-line {
+    top: 0px;
+    left: 0px;
+    width: 6px;
+    height: 48px;
+    position: absolute;
+  }
+  .doctor-log-out {
+    top: 1190px;
+    left: 31px;
+    width: 90px;
+    height: 19px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .doctor-text28 {
+    left: 25px;
+    color: rgba(217, 218, 228, 1);
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-iconmonstrlogout181 {
+    top: 2px;
+    left: 0px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  .home-homepage {
+    top: 1130px;
+    left: 30px;
+    width: 111px;
+    height: 19px;
+    display: flex;
+    position: absolute;
+    align-items: flex-start;
+    flex-shrink: 1;
+  }
+  .doctor-text30 {
+    left: 26px;
+    color: rgba(217, 218, 228, 1);
+    height: auto;
+    position: absolute;
+    font-size: 16px;
+    font-style: Semi Bold;
+    text-align: left;
+    font-family: Inter;
+    font-weight: 700;
+    line-height: normal;
+    font-stretch: normal;
+    text-decoration: none;
+  }
+  .home-iconmonstrhome11 {
+    top: 1px;
+    left: 0px;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+  }
+  
+  .home-patient-search-bar {
+    position: fixed;
+    background-color: #3e4999;
+    z-index: 1;
+    border-color: #1a1ab166;
+    border-width: 7px;
+    border-style: solid;
+    left: 89rem;
+    width: 30rem;
+    height: 11rem;
+    border-radius: 5px;
+    top: 6.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .patient-iconmonstrmagnifier21 {
+    left: -13rem;
+    width: 16px;
+    height: 16px;
+    position: relative;
+  }
+
+  .patient-search-text {
+    position:relative;
+    left: 3rem;
+    font-size: 16px;
+    color: royalblue;
+    font-weight:600
+  }
+
+  .submit-patient-search {    
+    border: #1a1ab166;
+    border-width: 3px;
+    border-style: solid;
+    background-color: #85e1cf;
+    position: relative;
+    height: 3rem;
+    width: 100%;
+
+    border-radius: 5px;
+  }
+
+  .patient-search-name {
+    background-color: white;
+    height: 2rem;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 1rem;
+    border-color:#0088ffde;
+  }
+  

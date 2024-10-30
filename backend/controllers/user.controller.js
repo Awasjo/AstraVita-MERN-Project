@@ -7,11 +7,10 @@ exports.create = async (req, res) => {
     const { username, password, firstName, lastName, email, role } = req.body;
 
     let newUser;
-
     if (role === 'Patient') {
-      newUser = new Patient({ username, firstName, lastName, email });
+      newUser = new Patient({ username, firstName, lastName, email, role: 'Patient' });
     } else if (role === 'Doctor') {
-      newUser = new Doctor({ username, firstName, lastName, email });
+      newUser = new Doctor({ username, firstName, lastName, email, role: 'Doctor' });
     } else {
       return res.status(400).json({ message: 'Invalid role' });
     }
@@ -71,12 +70,14 @@ exports.delete = async (req, res) => {
 };
 
 exports.getDoctorPatients = async (req, res) => {
+
   try {
     if (req.user.role !== 'Doctor') {
       return res.status(403).json({ message: 'Access denied. Only doctors can view patients.' });
     }
     
-    const doctor = await Doctor.findById(req.user._id).populate('approvedPatients', 'firstName lastName isOnline testResults');
+    const doctor = await Doctor.findById(req.user._id).populate('approvedPatients');
+
     if (!doctor) {
       return res.status(404).json({ message: 'Doctor not found' });
     }
@@ -85,6 +86,7 @@ exports.getDoctorPatients = async (req, res) => {
       id: patient._id,
       firstName: patient.firstName,
       lastName: patient.lastName,
+      username: patient.username,
       isOnline: patient.isOnline,
       testResults: patient.testResults
     }));

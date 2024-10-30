@@ -6,6 +6,8 @@ const authMiddleware = require('../middleware/auth.middleware');
 
 // Authentication routes
 router.post('/login', passport.authenticate('local'), (req, res) => {
+  console.log('Session after login:', req.session);
+  console.log('req.session.passport.user:', req.session.passport.user);
   res.json({ message: 'Login successful', user: { id: req.user._id, username: req.user.username, role: req.user.role } });
 });
 
@@ -15,8 +17,10 @@ router.get('/logout', (req, res, next) => {
     res.json({ message: 'Logout successful' });
   });
 });
+
 // Common routes
 router.post('/set-online-status', authMiddleware.isAuthenticated, userController.setOnlineStatus);
+
 
 // Get all doctors and patients, this might be only useful for the admin, 
 //currently anyone who is logged in can see all doctors and patients 
@@ -30,13 +34,14 @@ router.get('/patients/doctor-requests', authMiddleware.requireRole('Patient'), u
 router.get('/patients/doctors', authMiddleware.requireRole('Patient'), userController.getPatientDoctors);
 
 // Doctor routes
+//Please update front end routes as these URL has been changed since commit f03c1fd1bcf11cb1f862c5d28280df993500a967
 router.get('/doctors/patient-permission-requests', authMiddleware.requireRole('Doctor'), userController.getDoctorPermissionRequests);
 router.post('/doctors/handle-patient-permission', authMiddleware.requireRole('Doctor'), userController.doctorHandlePatientPermission);
 router.post('/doctors/request-patient-permission/:patientId', authMiddleware.requireRole('Doctor'), userController.doctorRequestPatientPermission);
 router.get('/doctors/patients', authMiddleware.requireRole('Doctor'), userController.getDoctorPatients);
 
 // CRUD operations
-router.post('/', userController.create);
+router.post('/register', userController.create);
 router.get('/', authMiddleware.isAuthenticated, userController.getAll);
 router.get('/:id', authMiddleware.isAuthenticated, userController.getById);
 router.put('/:id', authMiddleware.isAuthenticated, userController.update);
