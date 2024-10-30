@@ -11,14 +11,19 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/users/login', {
-        username,
-        password,
-      });
-      console.log(response.data);
+      const response = await axios.post(
+        'http://localhost:3000/api/users/login',
+        { username, password },
+        { withCredentials: true } // Include credentials
+      );
+      console.log('Login response:', response);
       if (response.data.message === 'Login successful') {
         // Navigate to the home/dashboard page after login
-        navigate('/dashboard');
+        if (response.data.user.role === 'Doctor') { 
+          navigate('/doctor', { state: { doctor: response.data.user } });
+        } else if (response.data.user.role === 'Patient') {
+          navigate('/patient', { state: { patient: response.data.user } });
+        }
       }
     } catch (error) {
       console.error('Login failed:', error.response.data.message);
@@ -27,6 +32,7 @@ function Login() {
   };
 
   return (
+    <div className="login-page">
     <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
@@ -50,6 +56,7 @@ function Login() {
         </div>
         <button type="submit">Login</button>
       </form>
+    </div>
     </div>
   );
 }

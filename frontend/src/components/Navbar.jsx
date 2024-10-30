@@ -17,6 +17,13 @@ const Navbar = () => {
           </Link>
         </span>
       </div>
+      <div className="home-register-button">
+      <span className="home-text46">
+        <Link to="/register">
+          <span>Register</span>
+          </Link>
+      </span>
+      </div>
       <span className="home-text48">
         <span>Contact</span>
       </span>

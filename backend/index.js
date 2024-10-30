@@ -3,23 +3,41 @@ const mongoose = require('mongoose');
 const passport = require('./config/passport');
 const session = require('express-session');
 const userRoutes = require('./routes/user.route');
-const cors = require('cors');
 
+const authMiddleware = require('./middleware/auth.middleware');
 require('dotenv').config();
-
 const app = express();
-app.use(cors());
+
+
+  //set headers for cords
+  app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Set to front-end origin
+    res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200); // Handle preflight requests
+      }
+      next();
+    });
+
 const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGODB_URI;
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: { 
+    secure: false,
+    httpOnly: true, 
+}
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -29,7 +47,10 @@ mongoose.connect(mongoUri)
     .catch(err => console.error('MongoDB connection error:', err));
 
 // Routes
+// all frontend requests to the user controller should start with /api/users
 app.use('/api/users', userRoutes);
+app.use(authMiddleware.isAuthenticated);
+
 
 // Simple route
 app.get('/', (req, res) => {

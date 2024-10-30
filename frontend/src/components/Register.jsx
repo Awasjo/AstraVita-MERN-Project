@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './Register.css';
 
 const Register = () => {
@@ -7,19 +8,34 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('Patient');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords don't match");
-      return;
-    }
-    // Placeholder for registration logic
-    console.log('Registration submitted', { username, email, password });
-    // After successful registration, navigate to login page
+
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (password !== confirmPassword) {
+    alert("Passwords don't match");
+    return;
+  }
+  try {
+    const response = await axios.post('http://localhost:3000/api/users/register', {
+      username,
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+    });
     navigate('/login');
-  };
+  } catch (error) {
+    console.error('Registration failed:', error);
+    alert('Registration failed: ' + error.message);
+  }
+}
 
   return (
     <div className="register-container">
@@ -34,6 +50,30 @@ const Register = () => {
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="firstName">First Name</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            required
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="lastName">Last Name</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            required
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
             className="form-input"
           />
         </div>
@@ -72,6 +112,19 @@ const Register = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="form-input"
           />
+          <div className="form-group">
+            <label htmlFor="role">Role</label>
+            <select
+              id="role"
+              name="role"
+              required
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              className="form-input">
+              <option value="Patient">Patient</option>
+              <option value="Doctor">Doctor</option>
+            </select>
+          </div>
         </div>
         <button type="submit" className="register-button">
           Register

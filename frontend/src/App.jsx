@@ -4,6 +4,8 @@ import { Helmet } from 'react-helmet'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Import the Navbar component
 import Login from './components/Login';
+import Register from './components/Register';
+import DoctorPortal from './components/DoctorPortal';
 
 import './App.css'
 
@@ -88,10 +90,9 @@ const Home = () => {
                 reactions in 20 minutes.
               </span>
             </span>
-            <span className="home-text21">
+            <span className="home-text21">ProbeiT</span>
               <span className="home-text22">OneDrug</span>
-              <span> ProbeiT</span>
-            </span>
+              
           </div>
           <div className="home-placeholder-image">
             <img
@@ -202,6 +203,8 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} /> {/* Home route */}
         <Route path="/login" element={<Login />} /> {/* Login route */}
+        <Route path="/register" element={<Register />} /> {/* Register route */}
+        <Route path="/doctor" element={<DoctorPortal />} /> {/* Doctor portal route */}
       </Routes>
     </Router>
   );
