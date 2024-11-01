@@ -171,7 +171,7 @@ exports.getDoctorPermissionRequests = async (req, res) => {
   }
 };
 
-exports.doctorHandlePatientPermission = async (req, res) => {
+exports.handlePermissionRequest = async (req, res) => {
   try {
     const doctor = await Doctor.findById(req.user._id);
     if (!doctor) {
@@ -271,5 +271,21 @@ exports.setOnlineStatus = async (req, res) => {
     res.status(200).json({ message: 'Online status updated successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error updating online status', error: error.message });
+  }
+};
+
+exports.searchPatients = async (req, res) => {
+  console.log('Search patients request received:', req.query);
+  try {
+    const { firstName, lastName } = req.query;
+    const patients = await Patient.find({
+      firstName: { $regex: firstName, $options: 'i' },
+      lastName: { $regex: lastName, $options: 'i' },
+    });
+    console.log('Search results:', patients);
+    res.status(200).json(patients);
+  } catch (error) {
+    console.error('Error searching for patients:', error);
+    res.status(500).json({ message: 'Error searching for patients', error: error.message });
   }
 };

@@ -36,9 +36,10 @@ router.get('/patients/doctors', authMiddleware.requireRole('Patient'), userContr
 // Doctor routes
 //Please update front end routes as these URL has been changed since commit f03c1fd1bcf11cb1f862c5d28280df993500a967
 router.get('/doctors/patient-permission-requests', authMiddleware.requireRole('Doctor'), userController.getDoctorPermissionRequests);
-router.post('/doctors/handle-patient-permission', authMiddleware.requireRole('Doctor'), userController.doctorHandlePatientPermission);
+router.post('/doctors/handle-permission-request', authMiddleware.requireRole('Doctor'), userController.handlePermissionRequest);
 router.post('/doctors/request-patient-permission/:patientId', authMiddleware.requireRole('Doctor'), userController.doctorRequestPatientPermission);
 router.get('/doctors/patients', authMiddleware.requireRole('Doctor'), userController.getDoctorPatients);
+router.get('/doctors/patients/search', authMiddleware.isAuthenticated, userController.searchPatients);
 
 // CRUD operations
 router.post('/register', userController.create);
