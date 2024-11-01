@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const User = require('./user.model');
 
 const patientSchema = new mongoose.Schema({
-  testResults: [{ type: String, default: "Temporary placeholder for test results" }],
+  testResults: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Test Result' }],
   permissionRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }],
   approvedDoctors: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }],
   doctorRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Doctor' }]
