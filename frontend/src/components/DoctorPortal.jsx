@@ -1,58 +1,77 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
-
 import { Helmet } from 'react-helmet'
-
 import './doctorPortal.css'
 import PatientCard from './PatientCard';
-
 
 const DoctorPortal = () => {
   const [approvedPatients, setApprovedPatients] = useState([]);
   const [showPatientSearchBar, setShowPatientSearchBar] = useState(false);
+  const [patientSearchFirstName, setPatientSearchFirstName] = useState('');
+  const [patientSearchLastName, setPatientSearchLastName] = useState('');
   const location = useLocation();
   const doctor = location.state.doctor;
-
   
-
   const handleAddPatientButton = () => { 
     setShowPatientSearchBar(!showPatientSearchBar);
   }
-
-  const handleAddPatientRequest = () => {
-    
-  }
-
-  /*Get logged in doctor data */
-  useEffect(() => {
-    const fetchApprovedPatients = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/users/doctors/patients', { withCredentials: true });
-        if (response.data) {
-          setApprovedPatients(response.data);  // Update state with patient data
-          console.log('Approved patients: ', approvedPatients);
-        } else {
-          setApprovedPatients([]);  // Ensure it's an array if data is missing
-        }
-      } catch (error) {
-        console.error('Error fetching doctors patients:', error);
-        setApprovedPatients([]);  // Ensure it's an array even on error
+  const fetchApprovedPatients = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/users/doctors/patients', { withCredentials: true });
+      if (response.data) {
+        setApprovedPatients(response.data);  // Update state with patient data          
+      } else {
+        setApprovedPatients([]);  // Ensure it's an array if data is missing
       }
-    };
-
+    } catch (error) {
+      console.error('Error fetching doctors patients:', error);
+      setApprovedPatients([]);  // Ensure it's an array even on error
+    }
+  };
+  
+  useEffect(() => {
     fetchApprovedPatients();
   }, []);
-
+  
+  
+  const handleAddPatientRequest = async () => {
+    console.log(`patient first name: ${patientSearchFirstName}, last name: ${patientSearchLastName}`);
+    try {
+      const response = await axios.get(`http://localhost:3000/api/users/doctors/patients/search?firstName=${patientSearchFirstName}&lastName=${patientSearchLastName}`, { withCredentials: true });
+      if (response.data) {
+        console.log(response.data);
+        const permissionResponse = await axios.post('http://localhost:3000/api/users/doctors/handle-permission-request',
+          {
+            patientId: response.data[0]._id, // <--- Use response instead of permissionResponse
+            action: 'approve'
+          }, 
+          { withCredentials: true }
+        );
+        if (permissionResponse.data) {
+          console.log(permissionResponse.data);
+          fetchApprovedPatients();
+        } else {
+          console.log('Error adding patient to doctor')
+        }
+        
+      } else {
+        console.log('No patients found');
+      }
+    } catch (error) {
+      console.error('Error fetching patients:', error);
+    }
+  };
+  /*Get logged in doctor data */
+  
   return (
     <div className="doctor-container">
       <Helmet>
         <title>Doctor Portal</title>
         <meta property="og:title" content="Doctor Portal" />
       </Helmet>
-
       <div className="home-desktop-doctor-portal-my-patients">
-
       {approvedPatients.map((patient) => (
         <PatientCard key={patient._id} patient={patient} />
       ))}
@@ -153,7 +172,6 @@ const DoctorPortal = () => {
           </div>
         </div>
       </div>
-
       {showPatientSearchBar && 
         <div className="home-patient-search-bar">
           <div className="home-search-bar1">
@@ -161,11 +179,13 @@ const DoctorPortal = () => {
             type="text"
             className="patient-search-name"
             placeholder="First Name"
+            onChange={(e) => setPatientSearchFirstName(e.target.value)}
           />
           <input
             type="text"
             className="patient-search-name"
             placeholder="Last Name"
+            onChange={(e) => setPatientSearchLastName(e.target.value)}
           />
         </div>
           <button className="submit-patient-search" onClick={handleAddPatientRequest}>
@@ -183,5 +203,4 @@ const DoctorPortal = () => {
     </div>
   )
 }
-
 export default DoctorPortal;
