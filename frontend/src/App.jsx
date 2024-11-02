@@ -6,6 +6,8 @@ import Navbar from './components/Navbar'; // Import the Navbar component
 import Login from './components/Login';
 import Register from './components/Register';
 import DoctorPortal from './components/DoctorPortal';
+import PatientPortal from './components/PatientPortal';
+import Layout from './components/Layout';
 
 import './App.css'
 
@@ -204,7 +206,18 @@ const App = () => {
         <Route path="/" element={<Home />} /> {/* Home route */}
         <Route path="/login" element={<Login />} /> {/* Login route */}
         <Route path="/register" element={<Register />} /> {/* Register route */}
-        <Route path="/doctor" element={<DoctorPortal />} /> {/* Doctor portal route */}
+        <Route path="/doctor" 
+        element={
+          <Layout>
+        <DoctorPortal />
+        </Layout>
+        } /> {/* Doctor portal route */}
+        <Route path="/patient" 
+        element={
+          <Layout>
+        <PatientPortal />
+        </Layout>
+        } /> {/* Patient portal route */}
       </Routes>
     </Router>
   );

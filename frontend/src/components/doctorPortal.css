@@ -6,6 +6,8 @@
   min-height: 100vh;
   align-items: center;
   flex-direction: column;
+  position:absolute;
+  left:200px;
 }
 .home-desktop-doctor-portal-my-patients {
   width: 100%;
@@ -213,7 +215,7 @@
   flex-shrink: 1;
   background-color: rgba(48, 51, 107, 1);
 }
-.home-text18 {
+.doctor-text18 {
   top: 14px;
   left: 47px;
   color: rgba(255, 255, 255, 1);
@@ -268,7 +270,7 @@
   height: 24px;
   position: absolute;
 }
-.home-settings {
+.doctor-settings {
   top: 282px;
   left: 30px;
   width: 91px;
@@ -299,7 +301,7 @@
   height: 16px;
   position: absolute;
 }
-.home-messages {
+.doctor-messages {
   top: 223px;
   left: 30px;
   width: 105px;
@@ -323,14 +325,14 @@
   font-stretch: normal;
   text-decoration: none;
 }
-.home-iconmonstrspeechbubble191 {
+.-iconmonstrspeechbubble191 {
   top: 2px;
   left: 0px;
   width: 16px;
   height: 16px;
   position: absolute;
 }
-.home-my-doctors {
+.home-my-patients {
   top: 150px;
   left: 0px;
   width: 200px;
@@ -356,14 +358,14 @@
   font-stretch: normal;
   text-decoration: none;
 }
-.home-iconmonstruser311 {
+.doctor-iconmonstruser311 {
   top: 16px;
   left: 30px;
   width: 16px;
   height: 16px;
   position: absolute;
 }
-.home-line {
+.doctor-line {
   top: 0px;
   left: 0px;
   width: 6px;
@@ -440,7 +442,7 @@
   border-color: #1a1ab166;
   border-width: 7px;
   border-style: solid;
-  left: 89rem;
+  left: 100rem;
   width: 30rem;
   height: 11rem;
   border-radius: 5px;
@@ -483,3 +485,7 @@
   color: black;
 }
 
+.doctor-iconmonstrarrow65 {
+  right: 30px;
+  position: relative;
+}

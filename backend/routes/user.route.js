@@ -41,11 +41,25 @@ router.post('/doctors/request-patient-permission/:patientId', authMiddleware.req
 router.get('/doctors/patients', authMiddleware.requireRole('Doctor'), userController.getDoctorPatients);
 router.get('/doctors/patients/search', authMiddleware.isAuthenticated, userController.searchPatients);
 
+// Get user
+router.get('/me', (req, res) => {
+  console.log('req.user:', req.user);
+  if (req.isAuthenticated()) {
+    const { _id, username, role } = req.user;
+    res.json({ _id, username, role });
+  } else {
+    res.status(401).json({ message: 'Not authenticated' });
+  }
+});
+
 // CRUD operations
 router.post('/register', userController.create);
 router.get('/', authMiddleware.isAuthenticated, userController.getAll);
 router.get('/:id', authMiddleware.isAuthenticated, userController.getById);
 router.put('/:id', authMiddleware.isAuthenticated, userController.update);
 router.delete('/:id', authMiddleware.isAuthenticated, userController.delete);
+
+
+
 
 module.exports = router;
