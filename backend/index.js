@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const passport = require('./config/passport');
 const session = require('express-session');
 const userRoutes = require('./routes/user.route');
+const testResultRoutes = require('./routes/test-result.route');
 
 const authMiddleware = require('./middleware/auth.middleware');
 require('dotenv').config();
@@ -49,6 +50,7 @@ mongoose.connect(mongoUri)
 // Routes
 // all frontend requests to the user controller should start with /api/users
 app.use('/api/users', userRoutes);
+app.use('/api/test-results', testResultRoutes);
 app.use(authMiddleware.isAuthenticated);
 
 

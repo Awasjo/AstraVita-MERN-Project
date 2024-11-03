@@ -28,18 +28,17 @@ router.get('/doctors', authMiddleware.isAuthenticated, userController.getAllDoct
 router.get('/patients', authMiddleware.isAuthenticated, userController.getAllPatients);
 
 // Patient routes
-router.post('/patients/request-doctor-permission/:doctorId', authMiddleware.requireRole('Patient'), userController.patientRequestDoctorPermission);
-router.post('/patients/handle-doctor-permission', authMiddleware.requireRole('Patient'), userController.patientHandleDoctorPermission);
-router.get('/patients/doctor-requests', authMiddleware.requireRole('Patient'), userController.getPatientDoctorRequests);
 router.get('/patients/doctors', authMiddleware.requireRole('Patient'), userController.getPatientDoctors);
 
 // Doctor routes
-//Please update front end routes as these URL has been changed since commit f03c1fd1bcf11cb1f862c5d28280df993500a967
-router.get('/doctors/patient-permission-requests', authMiddleware.requireRole('Doctor'), userController.getDoctorPermissionRequests);
-router.post('/doctors/handle-permission-request', authMiddleware.requireRole('Doctor'), userController.handlePermissionRequest);
-router.post('/doctors/request-patient-permission/:patientId', authMiddleware.requireRole('Doctor'), userController.doctorRequestPatientPermission);
 router.get('/doctors/patients', authMiddleware.requireRole('Doctor'), userController.getDoctorPatients);
 router.get('/doctors/patients/search', authMiddleware.isAuthenticated, userController.searchPatients);
+
+
+//permission routes
+router.post('/request-permission/:targetId', authMiddleware.isAuthenticated, userController.requestPermission); //not implemented in frontend yet
+router.post('/handle-permission-request', authMiddleware.isAuthenticated, userController.handlePermissionRequest); //implemented in frontend
+router.get('/permission-requests', authMiddleware.isAuthenticated, userController.getPendingRequests); //not implemented in frontend yet
 
 // Get user
 router.get('/me', (req, res) => {

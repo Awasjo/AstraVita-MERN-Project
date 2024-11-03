@@ -143,14 +143,34 @@ exports.getAllPatients = async (req, res) => {
   }
 };
 
-exports.patientRequestDoctorPermission = async (req, res) => {
+exports.requestPermission = async (req, res) => {
   try {
-    const patient = await Patient.findById(req.user._id);
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
+    const requesterId = req.user._id;
+    const targetId = req.params.targetId;
+    
+    const requester = await User.findById(requesterId);
+    const target = await User.findById(targetId);
+
+    if (!requester || !target) {
+      return res.status(404).json({ message: 'User not found' });
     }
-    const doctorId = req.params.doctorId;
-    patient.requestDoctorPermission(doctorId);
+
+    // Validate that one is a doctor and one is a patient
+    const isValidRequest = (requester.role === 'Doctor' && target.role === 'Patient') || (requester.role === 'Patient' && target.role === 'Doctor');
+    
+    if (!isValidRequest) {
+      return res.status(400).json({ message: 'Invalid permission request combination' });
+    }
+
+    // Determine who is who
+    const doctor = requester.role === 'Doctor' ? requester : target;
+    const patient = requester.role === 'Patient' ? requester : target;
+
+    // Add to appropriate pending lists
+    if (!patient.doctorRequests.includes(doctor._id)) {
+      patient.doctorRequests.push(doctor._id);
+    }
+    
     await patient.save();
     res.status(200).json({ message: 'Permission request sent successfully' });
   } catch (error) {
@@ -158,102 +178,69 @@ exports.patientRequestDoctorPermission = async (req, res) => {
   }
 };
 
-exports.getDoctorPermissionRequests = async (req, res) => {
-  try {
-    const doctor = await Doctor.findById(req.user._id);
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
-    }
-    const patients = await Patient.find({ permissionRequests: doctor._id }, 'firstName lastName');
-    res.status(200).json(patients);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching permission requests', error: error.message });
-  }
-};
-
 exports.handlePermissionRequest = async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.user._id);
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+    const responderId = req.user._id;
+    const { requesterId, action } = req.body;
+
+    const responder = await User.findById(responderId);
+    const requester = await User.findById(requesterId);
+
+    if (!responder || !requester) {
+      return res.status(404).json({ message: 'User not found' });
     }
-    const { patientId, action } = req.body;
-    const patient = await Patient.findById(patientId);
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
-    }
+
+    // Determine who is who
+    const doctor = responder.role === 'Doctor' ? responder : requester;
+    const patient = responder.role === 'Patient' ? responder : requester;
+
     if (action === 'approve') {
-      patient.approveDoctor(doctor._id);
-      doctor.approvePatient(patient._id);
-    } else if (action === 'reject') {
-      patient.rejectDoctor(doctor._id);
+      // Add to approved lists
+      if (!patient.approvedDoctors.includes(doctor._id)) {
+        patient.approvedDoctors.push(doctor._id);
+      }
+      if (!doctor.approvedPatients.includes(patient._id)) {
+        doctor.approvedPatients.push(patient._id);
+      }
+    }
+
+    // Remove from pending requests
+    patient.doctorRequests = patient.doctorRequests.filter(
+      id => id.toString() !== doctor._id.toString()
+    );
+
+    await Promise.all([patient.save(), doctor.save()]);
+    res.status(200).json({ message: 'Permission request handled successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error handling permission request', error: error.message });
+  }
+};
+
+exports.getPendingRequests = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // for patients: doctors who have requested access
+    // for doctors: patients who they have requested access to
+    let requests;
+    if (user.role === 'Patient') {
+      requests = await User.find(
+        { _id: { $in: user.doctorRequests }},
+        'firstName lastName jobTitle'
+      );
     } else {
-      return res.status(400).json({ message: 'Invalid action' });
+      requests = await User.find(
+        { doctorRequests: user._id },
+        'firstName lastName'
+      );
     }
-    await Promise.all([patient.save(), doctor.save()]);
-    res.status(200).json({ message: 'Permission request handled successfully' });
+
+    res.status(200).json(requests);
   } catch (error) {
-    res.status(500).json({ message: 'Error handling permission request', error: error.message });
-  }
-};
-
-exports.doctorRequestPatientPermission = async (req, res) => {
-  try {
-    const doctor = await Doctor.findById(req.user._id);
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
-    }
-    
-    const patientId = req.params.patientId;
-    const patient = await Patient.findById(patientId);
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
-    }
-
-    doctor.requestPatientPermission(patientId);
-    patient.addDoctorRequest(doctor._id);
-    
-    await Promise.all([doctor.save(), patient.save()]);
-    res.status(200).json({ message: 'Permission request sent successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error requesting permission', error: error.message });
-  }
-};
-
-exports.patientHandleDoctorPermission = async (req, res) => {
-  try {
-    const patient = await Patient.findById(req.user._id);
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
-    }
-
-    const { doctorId, action } = req.body;
-    const doctor = await Doctor.findById(doctorId);
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
-    }
-
-    const approved = action === 'approve';
-    patient.handleDoctorRequest(doctorId, approved);
-    doctor.handlePatientResponse(patient._id, approved);
-
-    await Promise.all([patient.save(), doctor.save()]);
-    res.status(200).json({ message: 'Permission request handled successfully' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error handling permission request', error: error.message });
-  }
-};
-
-exports.getPatientDoctorRequests = async (req, res) => {
-  try {
-    const patient = await Patient.findById(req.user._id)
-      .populate('doctorRequests', 'firstName lastName jobTitle');
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
-    }
-    res.status(200).json(patient.doctorRequests);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching doctor requests', error: error.message });
+    res.status(500).json({ message: 'Error fetching requests', error: error.message });
   }
 };
 
