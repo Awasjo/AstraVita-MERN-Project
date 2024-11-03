@@ -8,7 +8,7 @@ import Register from './components/Register';
 import DoctorPortal from './components/DoctorPortal';
 import PatientPortal from './components/PatientPortal';
 import Layout from './components/Layout';
-
+import AddDoctor from './components/AddDoctor';
 import './App.css'
 
 const Home = () => {
@@ -218,7 +218,9 @@ const App = () => {
         <PatientPortal />
         </Layout>
         } /> {/* Patient portal route */}
+        <Route path="/add-doctor" element={<AddDoctor />} /> {/* Add doctor route */}
       </Routes>
+
     </Router>
   );
 };

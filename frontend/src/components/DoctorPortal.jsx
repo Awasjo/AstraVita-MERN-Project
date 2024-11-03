@@ -14,7 +14,9 @@ const DoctorPortal = () => {
   const location = useLocation();
   const doctor = location.state.doctor;
   const navigate = useNavigate();
-  
+  const [filterValue, setFilterValue] = useState('');
+  const [suggestedPatients, setSuggestedPatients] = useState(approvedPatients);
+
   const handleAddPatientButton = () => { 
     setShowPatientSearchBar(!showPatientSearchBar);
   }
@@ -71,7 +73,16 @@ const DoctorPortal = () => {
     }
   };
   /*Get logged in doctor data */
-  
+  const handleSuggestion = () => {
+    const filteredPatients = approvedPatients.filter(patient => 
+        patient.firstName.toLowerCase().includes(filterValue) || 
+        patient.lastName.toLowerCase().includes(filterValue)
+    );
+    setSuggestedPatients(filteredPatients);
+};
+const handleChange = (e) => {
+  setFilterValue(e.target.value.toLowerCase());
+};
   return (
     <div className="doctor-container">
       <Helmet>
@@ -94,9 +105,26 @@ const DoctorPortal = () => {
           </span>
         </div>
         <div className="home-search-bar">
-          <span className="home-text16">
-            <span>Filter patients by name</span>
-          </span>
+            <input
+                type="text"
+                className="home-text16"
+                placeholder="Filter patients by name"
+                value={filterValue}
+                onChange={handleChange}
+                onBlur={handleSuggestion} // Suggest on losing focus
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                        handleSuggestion(); // Suggest on Enter key
+                    }
+                }}
+            />
+            <div className="suggestions">
+                {suggestedPatients.map((patient, index) => (
+                    <div key={index} className="suggestion-item">
+                        {patient.firstName} {patient.lastName}
+                    </div>
+                ))}
+            </div>
           <img
             src="../public/external/iconmonstrmagnifier212522-8zfn.svg"
             alt="iconmonstrmagnifier212522"
