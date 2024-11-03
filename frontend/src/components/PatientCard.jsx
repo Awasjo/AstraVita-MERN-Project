@@ -1,9 +1,11 @@
 // PatientCard.jsx
 import React from 'react';
 
-const PatientCard = ({ patient }) => {
+const PatientCard = ({ patient, onClick }) => {
+  //console.log('Patient data:', patient);
+
   return (
-    <div className="home-patient-card">
+    <div className="home-patient-card" onClick={() => onClick(patient.id)}>
       <div className="home-remove-button">
         <img
           src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/d9334bea-dc97-4f8a-a689-99c3fee50b9b/3d9fdc48-8a45-43f8-a69b-4ef474674836?org_if_sml=1805&amp;force_format=original"
