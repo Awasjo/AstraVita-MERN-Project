@@ -2,19 +2,19 @@ const mongoose = require('mongoose');
 
 // ENUMS
 const AlleleFunction = Object.freeze({
-    INCREASED: 3,
-    NORMAL: 2,
-    DECREASED: 1,
-    NONE: 0
+    INCREASED: 'INCREASED_FUNCTION',
+    NORMAL: 'NORMAL_FUNCTION',
+    DECREASED: 'DECREASED_FUNCTION',
+    NONE: 'NO_FUNCTION'
 });
 module.exports.AlleleFunction = AlleleFunction;
 
 const AllelePhenotype = Object.freeze({
-    ULTRARAPID: 4,
-    RAPID: 3,
-    NORMAL: 2,
-    INTERMEDIATE: 1,
-    POOR: 0
+    ULTRARAPID: 'UM_ULTRARAPID',
+    RAPID: 'RM_RAPID',
+    NORMAL: 'NM_NORMAL',
+    INTERMEDIATE: 'IM_INTERMEDIATE',
+    POOR: 'PM_POOR'
 });
 module.exports.AllelePhenotype = AllelePhenotype;
 
@@ -36,6 +36,7 @@ const alleleSchema = new mongoose.Schema({
     },
     alleleFunction: {
         type: mongoose.Schema.Types.String,
+        enum: [AlleleFunction.INCREASED, AlleleFunction.NORMAL, AlleleFunction.DECREASED, AlleleFunction.NONE],
         required: true
     }
 });
