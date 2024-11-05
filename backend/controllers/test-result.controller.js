@@ -2,6 +2,7 @@ const TestResult = require("../models/test-result.model");
 const Patient = require("../models/patient.model");
 const Gene = require("../models/gene.model");
 const Allele = require("../models/allele.model").Allele;
+const ClinicalAnnotation = require("../models/clinical-annotation.model");
 
 exports.create = async (req, res) => {
   try {
@@ -71,7 +72,22 @@ exports.getPatientResults = async (req, res) => {
       .populate("paternalAllele")
       .populate("uploadedBy", "firstName lastName");
 
-    res.status(200).json(results);
+    const resultsWithPhenotypeAndDiplotype = await Promise.all(results.map(async result => {
+      const annotations = await ClinicalAnnotation.find({
+        associatedAllele: { $in: [result.maternalAllele._id, result.paternalAllele._id] }
+      }).populate("associatedDrug");
+
+      return {
+        ...result.toObject(),
+        phenotype: result.getPhenotype(),
+        diplotype: result.getDiplotype(),
+        maternalAlleleDisplayName: result.maternalAllele.getDisplayName(),
+        paternalAlleleDisplayName: result.paternalAllele.getDisplayName(),
+        affectedMedications: annotations.length > 0 ? annotations : [{ description: "No affected medications." }]
+      };
+    }));
+
+    res.status(200).json(resultsWithPhenotypeAndDiplotype);
   } catch (error) {
     res.status(500).json({
       message: "Error fetching test results",
