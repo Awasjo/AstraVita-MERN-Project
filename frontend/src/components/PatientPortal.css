@@ -11,11 +11,13 @@
     width: 100%;
     height: 100%;
     display: flex;
+    flex-direction: column;
     overflow: hidden;
     position: relative;
     align-items: flex-start;
     flex-shrink: 0;
     background-color: rgba(241, 241, 241, 1);
+    overflow-y: auto
   }
   .home-test-result1 {
     top: 298px;
@@ -23,11 +25,11 @@
     width: 1080px;
     height: 360px;
     display: flex;
-    position: absolute;
+    position: relative;
     align-items: flex-start;
     flex-shrink: 1;
     background-color: rgba(255, 255, 255, 1);
-
+    margin-bottom: 10px;
     cursor: pointer;
     transition: max-height 0.3s ease;
     overflow: hidden;

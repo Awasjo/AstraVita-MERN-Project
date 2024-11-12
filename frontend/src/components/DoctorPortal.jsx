@@ -51,9 +51,9 @@ const DoctorPortal = () => {
       const response = await axios.get(`http://localhost:3000/api/users/doctors/patients/search?firstName=${patientSearchFirstName}&lastName=${patientSearchLastName}`, { withCredentials: true });
       if (response.data) {
         console.log(response.data);
-        const permissionResponse = await axios.post('http://localhost:3000/api/users/doctors/handle-permission-request',
+        const permissionResponse = await axios.post('http://localhost:3000/api/users/handle-permission-request',
           {
-            patientId: response.data[0]._id, // <--- Use response instead of permissionResponse
+            requesterId: response.data[0]._id, // <--- Use response instead of permissionResponse
             action: 'approve'
           }, 
           { withCredentials: true }
