@@ -12,7 +12,7 @@ function AddDoctor() {
     useEffect(() => {
         const fetchDoctors = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/doctors');
+                const response = await axios.get('http://localhost:3000/api/users/doctors');
                 setDoctors(response.data);
             } catch (error) {
                 console.error('Error fetching doctors:', error);
@@ -36,7 +36,7 @@ function AddDoctor() {
         if (selectedDoctor) {
             try {
                 // Send request to add doctor
-                await axios.post('http://localhost:3000/api/request-permission/' + selectedDoctor.id);
+                await axios.post('http://localhost:3000/api/users/request-permission/' + selectedDoctor._id);
                 setSuccessMessage(`Successfully added ${selectedDoctor.firstName} ${selectedDoctor.lastName}`);
                 setTimeout(() => setSuccessMessage(''), 3000);
             } catch (error) {
