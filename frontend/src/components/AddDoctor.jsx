@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
 function AddDoctor() {
     const [searchTerm, setSearchTerm] = useState('');
-    const [doctors] = useState([
-        { id: 1, name: 'Dr. John Smith' },
-        { id: 2, name: 'Dr. Jane Doe' },
-        { id: 3, name: 'Dr. Emily Johnson' },
-        { id: 4, name: 'Dr. Michael Brown' },
-        { id: 5, name: 'Dr. Sarah Davis' },
-    ]);
+    const [doctors, setDoctors] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
     const [showSuggestions, setShowSuggestions] = useState(false);
+    const [successMessage, setSuccessMessage] = useState('');
+
+    // Fetch doctors from the backend
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/api/doctors');
+                setDoctors(response.data);
+            } catch (error) {
+                console.error('Error fetching doctors:', error);
+            }
+        };
+        fetchDoctors();
+    }, []);
 
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
@@ -18,16 +28,25 @@ function AddDoctor() {
 
     const handleDoctorSelect = (doctor) => {
         setSelectedDoctor(doctor);
-        setSearchTerm(doctor.name);
-        setShowSuggestions(false); // Hide suggestions after selection
+        setSearchTerm(doctor.firstName + ' ' + doctor.lastName);
+        setShowSuggestions(false);
     };
 
-    const handleAddDoctor = () => {
-        // Logic to add the selected doctor
+    const handleAddDoctor = async () => {
+        if (selectedDoctor) {
+            try {
+                // Send request to add doctor
+                await axios.post('http://localhost:3000/api/request-permission/' + selectedDoctor.id);
+                setSuccessMessage(`Successfully added ${selectedDoctor.firstName} ${selectedDoctor.lastName}`);
+                setTimeout(() => setSuccessMessage(''), 3000);
+            } catch (error) {
+                console.error('Error adding doctor:', error);
+            }
+        }
     };
 
-    const filteredDoctors = doctors.filter(doctor => 
-        doctor.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredDoctors = doctors.filter(doctor =>
+        (doctor.firstName + ' ' + doctor.lastName).toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
@@ -79,7 +98,7 @@ function AddDoctor() {
                                     color: selectedDoctor?.id === doctor.id ? 'white' : ''
                                 }}
                             >
-                                {doctor.name}
+                                {doctor.firstName} {doctor.lastName}
                             </li>
                         ))}
                         {filteredDoctors.length === 0 && (
@@ -93,7 +112,7 @@ function AddDoctor() {
             
             {selectedDoctor && (
                 <div style={{ marginTop: '10px', fontSize: '16px', color: '#007bff' }}>
-                    Selected Doctor: {selectedDoctor.name}
+                    Selected Doctor: {selectedDoctor.firstName} {selectedDoctor.lastName}
                 </div>
             )}
 
@@ -113,6 +132,33 @@ function AddDoctor() {
             >
                 Add Doctor
             </button>
+
+            {successMessage && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    zIndex: 1000,
+                }}>
+                    <div style={{
+                        backgroundColor: 'white',
+                        padding: '20px 40px',
+                        borderRadius: '8px',
+                        textAlign: 'center',
+                        fontSize: '18px',
+                        color: 'green',
+                        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)'
+                    }}>
+                        {successMessage}
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
