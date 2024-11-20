@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
@@ -9,18 +9,18 @@ const PatientPortal = (props) => {
     const patient = location.state.patient;
     const [expandedResults, setExpandedResults] = useState({});
     const [testResults, setTestResults] = useState([]);
+    const fileInputRef = useRef(null);
 
+    const fetchTestResults = async () => {
+      try {
+          const response = await axios.get(`http://localhost:3000/api/test-results/patient/${patient.id}`, { withCredentials: true });
+          setTestResults(response.data);
+          console.log('testResults:', response.data);
+      } catch (error) {
+          console.error('Error fetching test results:', error);
+      }
+  };
     useEffect(() => {
-        const fetchTestResults = async () => {
-            try {
-                const response = await axios.get(`http://localhost:3000/api/test-results/patient/${patient.id}`, { withCredentials: true });
-                setTestResults(response.data);
-                console.log('testResults:', response.data);
-            } catch (error) {
-                console.error('Error fetching test results:', error);
-            }
-        };
-
         fetchTestResults();
     }, [patient.id]);
 
@@ -31,8 +31,36 @@ const PatientPortal = (props) => {
         }));
     };
 
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          try {
+            const fileContents = e.target.result;
+            const jsonData = JSON.parse(fileContents);
+  
+            // Send the parsed JSON data to the backend
+            const response = await axios.post('http://localhost:3000/api/test-results', jsonData, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              withCredentials: true,
+            });
+  
+            console.log('Data uploaded successfully:', response.data);
+            // Optionally, fetch the updated test results
+            fetchTestResults();
+          } catch (error) {
+            console.error('Error uploading data:', error);
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+  
     const handleUploadTestResult = () => {
-      // Add code to upload test result
+      fileInputRef.current.click();
     };
 
   return (
@@ -85,10 +113,18 @@ const PatientPortal = (props) => {
                 {result.affectedMedications.map((annotation, index) => (
                   <div key={index} className="home-debrisoquine">
                     <span className="home-text18">
-                      {/*An example of annotation.description (from db) would be: CYP2D6*2 is associated with decreased likelihood of Breast Neoplasms when treated with tamoxifen in women. */}
-                  {annotation.description} 
-                  </span>
-                  <span className="patientPortal-text19">{annotation.associatedDrug}</span>
+                      {annotation.description}
+                    </span>
+                    {annotation.associatedDrug && (
+                      <>
+                        {/* <span className="patientPortal-text19">
+                          {annotation.associatedDrug.drugName} 
+                        </span> */}
+                        <span className="patientPortal-text19">
+                          {annotation.associatedDrug.description} 
+                        </span>
+                      </>
+                    )}
                   </div>
                 ))}
               {/* <div className="home-debrisoquine">
@@ -121,6 +157,13 @@ const PatientPortal = (props) => {
             className="home-iconmonstrmagnifier21"
           />
         </div>
+        <input
+          type="file"
+          accept=".json"
+          ref={fileInputRef}
+          style={{ display: 'none' }}
+          onChange={handleFileChange}
+        />
         <button className="home-upload-button" onClick={handleUploadTestResult}>
           <span className="home-text29">Upload Test</span>
           <img
