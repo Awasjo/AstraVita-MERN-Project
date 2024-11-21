@@ -1,6 +1,8 @@
 const User = require('../models/user.model');
 const Patient = require('../models/patient.model');
 const Doctor = require('../models/doctor.model');
+const Notification = require('../models/notification.model');
+const { createNotification } = require('../controllers/notification.controller');
 
 exports.create = async (req, res) => {
   try {
@@ -167,11 +169,29 @@ exports.requestPermission = async (req, res) => {
     const patient = requester.role === 'Patient' ? requester : target;
 
     // Add to appropriate pending lists
-    if (!patient.doctorRequests.includes(doctor._id)) {
-      patient.doctorRequests.push(doctor._id);
+    if (requester.role === 'Patient') {
+      if (!patient.doctorRequests.includes(doctor._id)) {
+        patient.doctorRequests.push(doctor._id);
+      }
+      await patient.save();
+
+      // Create notification for doctor
+      await createNotification(doctor._id, patient._id, 'requesting-permission', `${patient.getFullName()} has requested to add you as their doctor.`);
+
+      // Create info notification for patient
+      await createNotification(patient._id, patient._id, 'info', 'Request sent successfully.');
+    } else if (requester.role === 'Doctor') {
+      if (!doctor.approvedPatients.includes(patient._id)) {
+        doctor.approvedPatients.push(patient._id);
+      }
+      await doctor.save();
+
+      // Create notification for patient
+      await createNotification(patient._id, doctor._id, 'requesting-permission', `${doctor.getFullName()} has requested to add you as their patient.`);
+
+      // Create info notification for doctor
+      await createNotification(doctor._id, doctor._id, 'info', 'Request sent successfully.');
     }
-    
-    await patient.save();
     res.status(200).json({ message: 'Permission request sent successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error requesting permission', error: error.message });
@@ -202,6 +222,13 @@ exports.handlePermissionRequest = async (req, res) => {
       if (!doctor.approvedPatients.includes(patient._id)) {
         doctor.approvedPatients.push(patient._id);
       }
+
+      // Create info notifications
+      await createNotification(doctor._id, patient._id, 'info', `${patient.getFullName()} is now your patient.`);
+      await createNotification(patient._id, doctor._id, 'info', `${doctor.getFullName()} is now your doctor.`);
+    } else if (action === 'decline') {
+      // Create decline notification only for the requester
+      await createNotification(requester._id, responder._id, 'info', `${responder.getFullName()} has declined your request to be their ${responder.role === 'Doctor' ? 'patient' : 'doctor'}.`);
     }
 
     // Remove from pending requests
