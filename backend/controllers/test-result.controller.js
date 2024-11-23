@@ -5,6 +5,8 @@ const Gene = require("../models/gene.model");
 const Allele = require("../models/allele.model").Allele;
 const ClinicalAnnotation = require("../models/clinical-annotation.model");
 const Notification = require("../models/notification.model");
+const Drug = require("../models/drug.model");
+
 
 exports.create = async (req, res) => {
   try {
