@@ -7,18 +7,19 @@ import "./PatientPortal.css";
 const PatientPortal = () => {
   const location = useLocation();
   const patient = location.state.patient;
+  const patientId = patient._id;
   const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    fetchTestResults();
-  }, [patient.id]);
+    fetchTestResults(patientId);
+  }, [patientId]);
 
-  const fetchTestResults = async () => {
+  const fetchTestResults = async (patientId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/test-results/patient/${patient.id}`,
+        `http://localhost:3000/api/test-results/patient/${patientId}`,
         { withCredentials: true }
       );
       setTestResults(response.data);
@@ -54,7 +55,7 @@ const PatientPortal = () => {
               withCredentials: true,
             }
           );
-
+          
           console.log("Data uploaded successfully:", response.data);
           fetchTestResults();
         } catch (error) {
