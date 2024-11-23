@@ -1,17 +1,18 @@
 const User = require('../models/user.model');
 const Patient = require('../models/patient.model');
 const Doctor = require('../models/doctor.model');
+const Notification = require('../models/notification.model');
+const { createNotification } = require('../controllers/notification.controller');
 
 exports.create = async (req, res) => {
   try {
     const { username, password, firstName, lastName, email, role } = req.body;
 
     let newUser;
-
     if (role === 'Patient') {
-      newUser = new Patient({ username, firstName, lastName, email });
+      newUser = new Patient({ username, firstName, lastName, email, role: 'Patient' });
     } else if (role === 'Doctor') {
-      newUser = new Doctor({ username, firstName, lastName, email });
+      newUser = new Doctor({ username, firstName, lastName, email, role: 'Doctor' });
     } else {
       return res.status(400).json({ message: 'Invalid role' });
     }
@@ -71,12 +72,14 @@ exports.delete = async (req, res) => {
 };
 
 exports.getDoctorPatients = async (req, res) => {
+
   try {
     if (req.user.role !== 'Doctor') {
       return res.status(403).json({ message: 'Access denied. Only doctors can view patients.' });
     }
     
-    const doctor = await Doctor.findById(req.user._id).populate('approvedPatients', 'firstName lastName isOnline testResults');
+    const doctor = await Doctor.findById(req.user._id).populate('approvedPatients');
+
     if (!doctor) {
       return res.status(404).json({ message: 'Doctor not found' });
     }
@@ -85,6 +88,7 @@ exports.getDoctorPatients = async (req, res) => {
       id: patient._id,
       firstName: patient.firstName,
       lastName: patient.lastName,
+      username: patient.username,
       isOnline: patient.isOnline,
       testResults: patient.testResults
     }));
@@ -143,56 +147,127 @@ exports.getAllPatients = async (req, res) => {
 
 exports.requestPermission = async (req, res) => {
   try {
-    const patient = await Patient.findById(req.user._id);
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
+    const requesterId = req.user._id;
+    const targetId = req.params.targetId;
+    
+    const requester = await User.findById(requesterId);
+    const target = await User.findById(targetId);
+
+    if (!requester || !target) {
+      return res.status(404).json({ message: 'User not found' });
     }
-    const doctorId = req.params.doctorId;
-    patient.requestPermission(doctorId);
-    await patient.save();
+
+    // Validate that one is a doctor and one is a patient
+    const isValidRequest = (requester.role === 'Doctor' && target.role === 'Patient') || (requester.role === 'Patient' && target.role === 'Doctor');
+    
+    if (!isValidRequest) {
+      return res.status(400).json({ message: 'Invalid permission request combination' });
+    }
+
+    // Determine who is who
+    const doctor = requester.role === 'Doctor' ? requester : target;
+    const patient = requester.role === 'Patient' ? requester : target;
+
+    // Add to appropriate pending lists
+    if (requester.role === 'Patient') {
+      if (!patient.doctorRequests.includes(doctor._id)) {
+        patient.doctorRequests.push(doctor._id);
+      }
+      await patient.save();
+
+      // Create notification for doctor
+      await createNotification(doctor._id, patient._id, 'requesting-permission', `${patient.getFullName()} has requested to add you as their doctor.`);
+
+      // Create info notification for patient
+      await createNotification(patient._id, patient._id, 'info', 'Request sent successfully.');
+    } else if (requester.role === 'Doctor') {
+      if (!doctor.approvedPatients.includes(patient._id)) {
+        doctor.approvedPatients.push(patient._id);
+      }
+      await doctor.save();
+
+      // Create notification for patient
+      await createNotification(patient._id, doctor._id, 'requesting-permission', `${doctor.getFullName()} has requested to add you as their patient.`);
+
+      // Create info notification for doctor
+      await createNotification(doctor._id, doctor._id, 'info', 'Request sent successfully.');
+    }
     res.status(200).json({ message: 'Permission request sent successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error requesting permission', error: error.message });
   }
 };
 
-exports.getPermissionRequests = async (req, res) => {
-  try {
-    const doctor = await Doctor.findById(req.user._id);
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
-    }
-    const patients = await Patient.find({ permissionRequests: doctor._id }, 'firstName lastName');
-    res.status(200).json(patients);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching permission requests', error: error.message });
-  }
-};
-
 exports.handlePermissionRequest = async (req, res) => {
   try {
-    const doctor = await Doctor.findById(req.user._id);
-    if (!doctor) {
-      return res.status(404).json({ message: 'Doctor not found' });
+    const responderId = req.user._id;
+    const { requesterId, action } = req.body;
+
+    const responder = await User.findById(responderId);
+    const requester = await User.findById(requesterId);
+
+    if (!responder || !requester) {
+      return res.status(404).json({ message: 'User not found' });
     }
-    const { patientId, action } = req.body;
-    const patient = await Patient.findById(patientId);
-    if (!patient) {
-      return res.status(404).json({ message: 'Patient not found' });
-    }
+
+    // Determine who is who
+    const doctor = responder.role === 'Doctor' ? responder : requester;
+    const patient = responder.role === 'Patient' ? responder : requester;
+
     if (action === 'approve') {
-      patient.approvePermission(doctor._id);
-      doctor.approvePatient(patient._id);
-    } else if (action === 'reject') {
-      patient.rejectPermission(doctor._id);
-    } else {
-      return res.status(400).json({ message: 'Invalid action' });
+      // Add to approved lists
+      if (!patient.approvedDoctors.includes(doctor._id)) {
+        patient.approvedDoctors.push(doctor._id);
+      }
+      if (!doctor.approvedPatients.includes(patient._id)) {
+        doctor.approvedPatients.push(patient._id);
+      }
+
+      // Create info notifications
+      await createNotification(doctor._id, patient._id, 'info', `${patient.getFullName()} is now your patient.`);
+      await createNotification(patient._id, doctor._id, 'info', `${doctor.getFullName()} is now your doctor.`);
+    } else if (action === 'decline') {
+      // Create decline notification only for the requester
+      await createNotification(requester._id, responder._id, 'info', `${responder.getFullName()} has declined your request to be their ${responder.role === 'Doctor' ? 'patient' : 'doctor'}.`);
     }
-    await patient.save();
-    await doctor.save();
+
+    // Remove from pending requests
+    patient.doctorRequests = patient.doctorRequests.filter(
+      id => id.toString() !== doctor._id.toString()
+    );
+
+    await Promise.all([patient.save(), doctor.save()]);
     res.status(200).json({ message: 'Permission request handled successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error handling permission request', error: error.message });
+  }
+};
+
+exports.getPendingRequests = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // for patients: doctors who have requested access
+    // for doctors: patients who they have requested access to
+    let requests;
+    if (user.role === 'Patient') {
+      requests = await User.find(
+        { _id: { $in: user.doctorRequests }},
+        'firstName lastName jobTitle'
+      );
+    } else {
+      requests = await User.find(
+        { doctorRequests: user._id },
+        'firstName lastName'
+      );
+    }
+
+    res.status(200).json(requests);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching requests', error: error.message });
   }
 };
 
@@ -210,5 +285,21 @@ exports.setOnlineStatus = async (req, res) => {
     res.status(200).json({ message: 'Online status updated successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error updating online status', error: error.message });
+  }
+};
+
+exports.searchPatients = async (req, res) => {
+  console.log('Search patients request received:', req.query);
+  try {
+    const { firstName, lastName } = req.query;
+    const patients = await Patient.find({
+      firstName: { $regex: firstName, $options: 'i' },
+      lastName: { $regex: lastName, $options: 'i' },
+    });
+    console.log('Search results:', patients);
+    res.status(200).json(patients);
+  } catch (error) {
+    console.error('Error searching for patients:', error);
+    res.status(500).json({ message: 'Error searching for patients', error: error.message });
   }
 };

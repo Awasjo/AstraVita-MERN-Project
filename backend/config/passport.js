@@ -7,10 +7,10 @@ passport.use(new LocalStrategy(
     try {
       const user = await User.findOne({ username: username });
       if (!user) {
-        return done(null, false, { message: 'Incorrect username or password.' });
+        return done(null, false, { message: 'Incorrect username.' });
       }
       if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect username or password.' });
+        return done(null, false, { message: 'Incorrect password.' });
       }
       return done(null, user);
     } catch (err) {

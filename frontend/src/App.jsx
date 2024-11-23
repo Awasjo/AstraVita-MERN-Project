@@ -4,7 +4,11 @@ import { Helmet } from 'react-helmet'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Import the Navbar component
 import Login from './components/Login';
-
+import Register from './components/Register';
+import DoctorPortal from './components/DoctorPortal';
+import PatientPortal from './components/PatientPortal';
+import Layout from './components/Layout';
+import AddDoctor from './components/AddDoctor';
 import './App.css'
 
 const Home = () => {
@@ -88,10 +92,9 @@ const Home = () => {
                 reactions in 20 minutes.
               </span>
             </span>
-            <span className="home-text21">
+            <span className="home-text21">ProbeiT</span>
               <span className="home-text22">OneDrug</span>
-              <span> ProbeiT</span>
-            </span>
+              
           </div>
           <div className="home-placeholder-image">
             <img
@@ -202,7 +205,22 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} /> {/* Home route */}
         <Route path="/login" element={<Login />} /> {/* Login route */}
+        <Route path="/register" element={<Register />} /> {/* Register route */}
+        <Route path="/doctor" 
+        element={
+          <Layout>
+        <DoctorPortal />
+        </Layout>
+        } /> {/* Doctor portal route */}
+        <Route path="/patient" 
+        element={
+          <Layout>
+        <PatientPortal />
+        </Layout>
+        } /> {/* Patient portal route */}
+        <Route path="/add-doctor" element={<AddDoctor />} /> {/* Add doctor route */}
       </Routes>
+
     </Router>
   );
 };
