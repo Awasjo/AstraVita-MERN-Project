@@ -1,9 +1,12 @@
 const TestResult = require("../models/test-result.model");
 const Patient = require("../models/patient.model");
+const Doctor = require("../models/doctor.model");
 const Gene = require("../models/gene.model");
 const Allele = require("../models/allele.model").Allele;
 const ClinicalAnnotation = require("../models/clinical-annotation.model");
+const Notification = require("../models/notification.model");
 const Drug = require("../models/drug.model");
+
 
 exports.create = async (req, res) => {
   try {
@@ -38,6 +41,51 @@ exports.create = async (req, res) => {
     await Patient.findByIdAndUpdate(patientId, {
       $push: { testResults: testResult._id },
     });
+    // Create notifications
+    const patient = await Patient.findById(patientId);
+    const doctor = req.user.role === "Doctor" ? req.user : null;
+
+    if (doctor) {
+      // Notification for doctor
+      const doctorNotification = new Notification({
+        receiver: doctor._id,
+        sender: patient._id,
+        type: 'test-result',
+        message: `You uploaded a test result for your patient ${patient.getFullName()}.`
+      });
+      await doctorNotification.save();
+
+      // Notification for patient
+      const patientNotification = new Notification({
+        receiver: patient._id,
+        sender: doctor._id,
+        type: 'test-result',
+        message: `A new test result was uploaded by your doctor ${doctor.getFullName()}.`
+
+      });
+      await patientNotification.save();
+    } else {
+      // Notification for patient
+      const patientNotification = new Notification({
+        receiver: patient._id,
+        sender: patient._id,
+        type: 'test-result',
+        message: `You uploaded a test result.`
+      });
+      await patientNotification.save();
+
+      // Notifications for all approved doctors
+      const approvedDoctors = await Doctor.find({ approvedPatients: patient._id });
+      for (const doc of approvedDoctors) {
+        const doctorNotification = new Notification({
+          receiver: doc._id,
+          sender: patient._id,
+          type: 'test-result',
+          message: `A new test result was uploaded by your patient ${patient.getFullName()}.`
+        });
+        await doctorNotification.save();
+      }
+    }
     res.status(200).json({
       message: "Test result created successfully",
       testResult,
