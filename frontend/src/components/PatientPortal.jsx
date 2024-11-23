@@ -7,16 +7,16 @@ import "./PatientPortal.css";
 const PatientPortal = () => {
   const location = useLocation();
   const patient = location.state.patient;
-  const patientId = patient._id;
+
+  var patientId = patient._id || patient.id;
   const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    fetchTestResults(patientId);
-  }, [patientId]);
+ 
 
   const fetchTestResults = async (patientId) => {
+    setTestResults([]); // Clear current state
     try {
       const response = await axios.get(
         `http://localhost:3000/api/test-results/patient/${patientId}`,
@@ -28,6 +28,10 @@ const PatientPortal = () => {
       console.error("Error fetching test results:", error);
     }
   };
+
+  useEffect(() => {
+    fetchTestResults(patientId);
+  }, [patientId]);
 
   const toggleExpand = (id) => {
     setExpandedResults((prevState) => ({
