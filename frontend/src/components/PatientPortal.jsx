@@ -57,7 +57,7 @@ const PatientPortal = () => {
           );
           
           console.log("Data uploaded successfully:", response.data);
-          fetchTestResults();
+          fetchTestResults(patientId);
         } catch (error) {
           console.error("Error uploading data:", error);
         }
