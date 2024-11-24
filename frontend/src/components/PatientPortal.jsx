@@ -7,18 +7,19 @@ import "./PatientPortal.css";
 const PatientPortal = () => {
   const location = useLocation();
   const patient = location.state.patient;
+
+  var patientId = patient._id || patient.id;
   const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    fetchTestResults();
-  }, [patient.id]);
+ 
 
-  const fetchTestResults = async () => {
+  const fetchTestResults = async (patientId) => {
+    setTestResults([]); // Clear current state
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/test-results/patient/${patient.id}`,
+        `http://localhost:3000/api/test-results/patient/${patientId}`,
         { withCredentials: true }
       );
       setTestResults(response.data);
@@ -27,6 +28,10 @@ const PatientPortal = () => {
       console.error("Error fetching test results:", error);
     }
   };
+
+  useEffect(() => {
+    fetchTestResults(patientId);
+  }, [patientId]);
 
   const toggleExpand = (id) => {
     setExpandedResults((prevState) => ({
@@ -54,9 +59,9 @@ const PatientPortal = () => {
               withCredentials: true,
             }
           );
-
+          
           console.log("Data uploaded successfully:", response.data);
-          fetchTestResults();
+          fetchTestResults(patientId);
         } catch (error) {
           console.error("Error uploading data:", error);
         }
