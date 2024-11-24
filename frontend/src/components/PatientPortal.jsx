@@ -13,8 +13,6 @@ const PatientPortal = () => {
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
 
- 
-
   const fetchTestResults = async (patientId) => {
     setTestResults([]); // Clear current state
     try {
@@ -47,7 +45,16 @@ const PatientPortal = () => {
       reader.onload = async (e) => {
         try {
           const fileContents = e.target.result;
-          const jsonData = JSON.parse(fileContents);
+          
+          // The older mock datasets also contain a patientId property - ignore it
+          const rawJson = JSON.parse(fileContents);
+          const jsonData = {
+            patientId: patientId,
+            testedGene: rawJson.testedGene,
+            maternalAllele: rawJson.maternalAllele,
+            paternalAllele: rawJson.paternalAllele,
+            testDate: rawJson.testDate
+          }
 
           const response = await axios.post(
             "http://localhost:3000/api/test-results",
@@ -130,33 +137,18 @@ const PatientPortal = () => {
                 className="home-divider"
               />
               {result.affectedMedications.map((annotation, index) => (
-                <div key={index} className="home-debrisoquine">
-                  <span className="home-text18">{annotation.description}</span>
+                <div key={index} className="medication-list-item"> 
                   {annotation.associatedDrug && (
-                    <>
-                      <span className="patientPortal-text19">
-                        {annotation.associatedDrug.drugName}
-                      </span>
-                      <span className="patientPortal-text19">
-                        {annotation.associatedDrug.description}
-                      </span>
-                    </>
+                    <span className="patientPortal-text19">
+                      {annotation.associatedDrug.drugName}
+                    </span>
                   )}
+                  <span className="home-text18">{annotation.description}</span>
                 </div>
               ))}
-              <span className="home-text20">Affected Medications</span>
-              <div className="home-affected-medications"></div>
             </div>
           </div>
         ))}
-        <div className="home-sort-options">
-          <img
-            src="../public/external/iconmonstrarrow6512112-lajk.svg"
-            alt="iconmonstrarrow6512112"
-            className="home-iconmonstrarrow651"
-          />
-          <span className="home-text27">Sort by Test Date</span>
-        </div>
         <div className="home-search-bar">
           <input
             className="patientPortal-text28"
@@ -184,7 +176,7 @@ const PatientPortal = () => {
           />
         </button>
         <span className="patientPortal-text30">
-          {patient.username}'s Results
+          {patient.firstName} {patient.lastName}'s Results
         </span>
       </div>
     </div>

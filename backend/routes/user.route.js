@@ -8,7 +8,17 @@ const authMiddleware = require('../middleware/auth.middleware');
 router.post('/login', passport.authenticate('local'), (req, res) => {
   console.log('Session after login:', req.session);
   console.log('req.session.passport.user:', req.session.passport.user);
-  res.json({ message: 'Login successful', user: { id: req.user._id, username: req.user.username, role: req.user.role } });
+
+  res.json({
+    message: 'Login successful',
+    user: {
+      id: req.user._id,
+      username: req.user.username,
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      role: req.user.role
+    }
+  });
 });
 
 router.get('/logout', (req, res, next) => {
