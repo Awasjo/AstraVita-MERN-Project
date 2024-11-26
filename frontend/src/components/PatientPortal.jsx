@@ -12,6 +12,8 @@ const PatientPortal = () => {
   const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredResults, setFilteredResults] = useState([]);
 
   const fetchTestResults = async (patientId) => {
     setTestResults([]); // Clear current state
@@ -30,6 +32,32 @@ const PatientPortal = () => {
   useEffect(() => {
     fetchTestResults(patientId);
   }, [patientId]);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredResults(testResults);
+      return;
+    }
+
+    const query = searchQuery.toLowerCase();
+    const filtered = testResults.filter(result => {
+      // Search in test ID
+      const idMatch = result._id.toLowerCase().includes(query);
+      
+      // Search in gene name
+      const geneMatch = result.testedGene.geneName.toLowerCase().includes(query);
+      
+      // Search in affected medications
+      const medicationMatch = result.affectedMedications.some(annotation => 
+        annotation.associatedDrug && 
+        annotation.associatedDrug.drugName.toLowerCase().includes(query)
+      );
+
+      return idMatch || geneMatch || medicationMatch;
+    });
+
+    setFilteredResults(filtered);
+  }, [searchQuery, testResults]);
 
   const toggleExpand = (id) => {
     setExpandedResults((prevState) => ({
@@ -81,6 +109,10 @@ const PatientPortal = () => {
     fileInputRef.current.click();
   };
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
     <div className="patientPortal-container">
       <Helmet>
@@ -88,7 +120,25 @@ const PatientPortal = () => {
         <meta property="og:title" content="Patient Portal" />
       </Helmet>
       <div className="home-desktop-patient-portal-test-results">
-        {testResults.map((result) => (
+        <div className="home-search-bar">
+          <input
+            className="patientPortal-text28"
+            placeholder="Filter by test ID, gene, or medication"
+            value={searchQuery}
+            onChange={handleSearch}
+          />
+          <img
+            src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
+            alt="iconmonstrmagnifier212081"
+            className="home-iconmonstrmagnifier21"
+          />
+        </div>
+        
+        <div className="search-helper-text">
+          Tip: You can search by test ID, gene name, or medication name
+        </div>
+        
+        {filteredResults.map((result) => (
           <div
             key={result._id}
             className={`home-test-result1 ${
@@ -149,17 +199,13 @@ const PatientPortal = () => {
             </div>
           </div>
         ))}
-        <div className="home-search-bar">
-          <input
-            className="patientPortal-text28"
-            placeholder="Filter test results by gene or medication"
-          />
-          <img
-            src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
-            alt="iconmonstrmagnifier212081"
-            className="home-iconmonstrmagnifier21"
-          />
-        </div>
+
+        {filteredResults.length === 0 && searchQuery && (
+          <div className="no-results-message">
+            No test results found matching "{searchQuery}"
+          </div>
+        )}
+
         <input
           type="file"
           accept=".json"
