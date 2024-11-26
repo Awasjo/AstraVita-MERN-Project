@@ -1,3 +1,106 @@
+
+
+.view-button,
+.accept-button,
+.reject-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.view-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.accept-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.reject-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+/* PatientNotifications.css */
+
+.patient-container {
+  padding: 20px;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+}
+
+.notification-title {
+  margin-top: 150px; 
+  margin-left: 20px; 
+  font-size: 24px;
+  color: #13335a;
+  text-align: left; 
+}
+
+
+.notification-list {
+  width: 90%;
+  background-color: #ffffff; 
+  padding: 20px; 
+  margin-top: 20px; 
+  margin-left: auto; 
+  margin-right: auto; 
+  border-radius: 8px; 
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.notification-item:hover {
+  background-color: #f9f9f9;
+}
+
+.notification-message {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.notification-date {
+  font-size: 12px;
+  color: #888;
+  display: block;
+  margin-top: 5px;
+  text-align: right;
+}
+
+.patient-notifications {
+  top: 380px;
+  left: 30px;
+  width: 120px;
+  height: 19px;
+  display: flex;
+  position: absolute;
+  align-items: flex-start;
+}
+
+.patient-iconmonstrbell {
+  top: 2px;
+  left: 0px;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+}
+
+
+
+
 .patientPortal-container {
     width: 100%;
     display: flex;

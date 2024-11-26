@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from './AuthContext';
 import PatientSideNav from './patientSideNav';
-import DoctorSideNav from './doctorSideNav';
+import DoctorSideNav from './DoctorSideNav';
 
 const Layout = ({ children}) => {
     const navigate = useNavigate();

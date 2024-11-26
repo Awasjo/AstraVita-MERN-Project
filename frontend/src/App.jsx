@@ -9,7 +9,12 @@ import DoctorPortal from './components/DoctorPortal';
 import PatientPortal from './components/PatientPortal';
 import Layout from './components/Layout';
 import AddDoctor from './components/AddDoctor';
+import TestResult from './components/TestResult';
+import PatientNotifications from './components/PatientNotifications';
+
 import './App.css'
+import DoctorNotifications from './components/DoctorNotifications';
+
 
 const Home = () => {
   return (
@@ -207,20 +212,35 @@ const App = () => {
         <Route path="/login" element={<Login />} /> {/* Login route */}
         <Route path="/register" element={<Register />} /> {/* Register route */}
         <Route path="/doctor" 
-        element={
-          <Layout>
-        <DoctorPortal />
-        </Layout>
-        } /> {/* Doctor portal route */}
-        <Route path="/patient" 
-        element={
-          <Layout>
-        <PatientPortal />
-        </Layout>
-        } /> {/* Patient portal route */}
-        <Route path="/add-doctor" element={<AddDoctor />} /> {/* Add doctor route */}
+          element={
+            <Layout>
+              <DoctorPortal />
+            </Layout>
+          } 
+        /> {/* Doctor portal route */}
+        <Route path="/doctor/notifications" 
+          element={
+            <Layout>
+              <DoctorNotifications />
+            </Layout>
+          } 
+        /> {/* Doctor notifications route */}
+        <Route path="/patient/*" 
+          element={
+            <Layout>
+              <PatientPortal />
+            </Layout>
+          } 
+        /> {/* Patient portal route */}
+        <Route path="/patient/notifications" 
+          element={
+            <Layout>
+              <PatientNotifications />
+            </Layout>
+          } 
+        /> {/* Patient notifications route */}
+        <Route path="/add-doctor" element={<AddDoctor />} /> 
       </Routes>
-
     </Router>
   );
 };

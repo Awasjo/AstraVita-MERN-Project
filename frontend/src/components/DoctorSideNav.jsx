@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import  './DoctorPortal.css';
+import  './doctorPortal.css';
 
 const DoctorSideNav = () => {
     const navigate = useNavigate();
@@ -36,6 +36,16 @@ const DoctorSideNav = () => {
             alt="PlaceholderLogo2411"
             className="home-placeholder-logo"
           />
+          <div className="doctor-notifications">
+            <Link to="/doctor/notifications">
+            <span className="doctor-text24">Notifications</span>
+          </Link>
+        <img
+          src="../public/external/iconmonstrbell2411.svg"
+          alt="iconmonstrbell2411"
+          className="doctor-iconmonstrbell"
+        />
+        </div>
           <div className="doctor-settings">
             <span className="doctor-text22">
               <span>Settings</span>
