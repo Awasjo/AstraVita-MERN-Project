@@ -10,12 +10,13 @@ import PatientNotifications from "./PatientNotifications";
 const PatientPortal = () => {
   const location = useLocation();
   const patient = location.state.patient;
+  const testResultId = location.state.testResultId;
 
   var patientId = patient._id || patient.id;
   const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(testResultId ?? "");
   const [filteredResults, setFilteredResults] = useState([]);
 
   const fetchTestResults = async (patientId) => {
@@ -122,7 +123,7 @@ const PatientPortal = () => {
         <title>Patient Portal</title>
         <meta property="og:title" content="Patient Portal" />
       </Helmet>
-      <PatientSideNav /> {/* Include Sidebar Navigation */}
+      <PatientSideNav patient={patient} /> {/* Include Sidebar Navigation */}
       <Routes>
           <Route path="notifications" element={<PatientNotifications />} />
           <Route path="/" element={

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './patientPortal.css';
@@ -6,6 +7,9 @@ import './patientPortal.css';
 const PatientNotifications = () => {
   const [notifications, setNotifications] = useState([]);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  const patient = location.state.patient;
 
   useEffect(() => {
     const fetchNotifications = async () => {
@@ -22,9 +26,8 @@ const PatientNotifications = () => {
   }, []);
 
   const handleViewTestResult = (testResultId) => {
-    // Navigate to the test result page with the testResultId for the patient
-    //this does not work, please use similar logic to patient portal to get the test result of the patient
-    navigate(`/patient/test-result`, { state: { testResultId } });
+    console.log("ID: " + testResultId);
+    navigate('/patient', { state: { patient: patient, testResultId: testResultId } });
   };
 
   const handleAcceptDoctor = async (notificationId) => {
@@ -59,12 +62,12 @@ const PatientNotifications = () => {
           notifications.map((notification) => (
             <div key={notification._id} className="notification-item">
               <p>{notification.message}</p>
-              <span className="notification-date">{new Date(notification.date).toLocaleDateString()}</span>
+              <span className="notification-date">{ new Date(notification.date).toLocaleDateString() }</span>
               <div className="notification-actions">
                 {notification.type === 'test-result' && (
                   <button
                     className="view-button"
-                    onClick={() => handleViewTestResult(notification.testResultId)}
+                    onClick={ () => handleViewTestResult(notification.testResult) }
                   >
                     View
                   </button>
@@ -73,13 +76,13 @@ const PatientNotifications = () => {
                   <>
                     <button
                       className="accept-button"
-                      onClick={() => handleAcceptDoctor(notification._id)}
+                      onClick={ () => handleAcceptDoctor(notification._id) }
                     >
                       Accept
                     </button>
                     <button
                       className="reject-button"
-                      onClick={() => handleRejectDoctor(notification._id)}
+                      onClick={ () => handleRejectDoctor(notification._id) }
                     >
                       Reject
                     </button>

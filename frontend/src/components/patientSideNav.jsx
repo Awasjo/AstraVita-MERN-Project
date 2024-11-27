@@ -26,6 +26,10 @@ const PatientSideNav = (props) => {
     navigate('/');
   };
 
+  const handleNotifications = () => {
+    navigate('/patient/notifications', { state: { patient: props.patient } });
+  }
+
   return (
     <div className="home-side-navbar">
       <img
@@ -65,10 +69,8 @@ const PatientSideNav = (props) => {
           className="home-iconmonstrgear11"
         />
       </div>
-      <div className="patient-notifications">
-        <Link to="/patient/notifications">
-          <span className="patientPortal-text32">Notifications</span>
-        </Link>
+      <div className="patient-notifications" onClick={handleNotifications}>
+        <span className="patientPortal-text32">Notifications</span>
         <img
           src="../public/external/iconmonstrbell2411.svg"
           alt="iconmonstrbell2411"
