@@ -516,6 +516,7 @@
     align-items: flex-start;
     flex-shrink: 1;
     background-color: rgba(217, 217, 217, 1);
+    margin-bottom: 5px;
   }
   .patientPortal-text28 {
     top: 11px;
@@ -807,5 +808,35 @@
     width: 16px;
     height: 16px;
     position: absolute;
+  }
+  .no-results-message {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 16px;
+    margin-top: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+  }
+
+  .home-search-bar input {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+  }
+
+  .home-search-bar input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+
+  .search-helper-text {
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0 15px 15px;
+    font-style: italic;
   }
   
