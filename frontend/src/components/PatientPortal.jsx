@@ -9,7 +9,9 @@ import PatientNotifications from "./PatientNotifications";
 
 const PatientPortal = () => {
   const location = useLocation();
-  const patient = location.state?.patient;
+  const patient = location.state.patient;
+
+  var patientId = patient._id || patient.id;
   const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
@@ -123,7 +125,7 @@ const PatientPortal = () => {
       <PatientSideNav /> {/* Include Sidebar Navigation */}
       <Routes>
           <Route path="notifications" element={<PatientNotifications />} />
-          <Route path="test-results" element={
+          <Route path="/" element={
       <div className="home-desktop-patient-portal-test-results">
         <div className="home-search-bar">
           <input

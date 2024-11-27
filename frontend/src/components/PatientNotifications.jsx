@@ -11,7 +11,7 @@ const PatientNotifications = () => {
     const fetchNotifications = async () => {
       try {
         // Fetch notifications specifically for the patient
-        const response = await axios.get('http://localhost:3000/api/notifications/patient', { withCredentials: true });
+        const response = await axios.get('http://localhost:3000/api/notifications', { withCredentials: true });
         setNotifications(response.data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
@@ -23,11 +23,13 @@ const PatientNotifications = () => {
 
   const handleViewTestResult = (testResultId) => {
     // Navigate to the test result page with the testResultId for the patient
+    //this does not work, please use similar logic to patient portal to get the test result of the patient
     navigate(`/patient/test-result`, { state: { testResultId } });
   };
 
   const handleAcceptDoctor = async (notificationId) => {
     try {
+      //This route does not exist, please use the handle permission routes here
       await axios.post(`http://localhost:3000/api/notifications/${notificationId}/accept`);
       // Remove the accepted notification
       setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
@@ -38,6 +40,7 @@ const PatientNotifications = () => {
 
   const handleRejectDoctor = async (notificationId) => {
     try {
+      //This route does not exist, please use the handle permission routes here
       await axios.post(`http://localhost:3000/api/notifications/${notificationId}/reject`);
       // Remove the rejected notification
       setNotifications((prev) => prev.filter((n) => n._id !== notificationId));

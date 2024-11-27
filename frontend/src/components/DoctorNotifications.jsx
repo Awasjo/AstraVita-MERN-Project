@@ -10,7 +10,7 @@ const DoctorNotifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/notifications/doctor', { withCredentials: true });
+        const response = await axios.get('http://localhost:3000/api/notifications', { withCredentials: true });
         setNotifications(response.data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
@@ -22,11 +22,13 @@ const DoctorNotifications = () => {
 
   const handleViewTestResult = (patientId, testResultId) => {
     // Navigate to the test result page with the testResultId
+    //this does not work, please use similar logic to patient portal to get the test result of the patient
     navigate(`/patient/${patientId}/test-result`, { state: { testResultId } });
   };
 
   const handleAccept = async (notificationId) => {
     try {
+      //this route doesn't exist, please use the handle permission routes here
       await axios.post(`http://localhost:3000/api/notifications/${notificationId}/accept`);
       setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
     } catch (error) {
@@ -36,6 +38,7 @@ const DoctorNotifications = () => {
 
   const handleReject = async (notificationId) => {
     try {
+      //this route doesn't exist, please use the handle permission routes here
       await axios.post(`http://localhost:3000/api/notifications/${notificationId}/reject`);
       setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
     } catch (error) {
