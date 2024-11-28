@@ -22,13 +22,13 @@ const PatientSideNav = (props) => {
     }
   };
 
-  const handleHomepage = () => {
-    navigate('/');
-  };
-
   const handleNotifications = () => {
     navigate('/patient/notifications', { state: { patient: props.patient } });
   }
+
+  const handleHomepage = () => {
+    navigate('/');
+  };
 
   return (
     <div className="home-side-navbar">

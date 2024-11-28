@@ -26,7 +26,6 @@ const PatientNotifications = () => {
   }, []);
 
   const handleViewTestResult = (testResultId) => {
-    console.log("ID: " + testResultId);
     navigate('/patient', { state: { patient: patient, testResultId: testResultId } });
   };
 

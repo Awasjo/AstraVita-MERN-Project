@@ -24,6 +24,10 @@ const DoctorSideNav = () => {
     }
   };
 
+  const handleNotifications = () => {
+    navigate('/doctor/notifications');
+  }
+
   const handleHomepage = () => {
     navigate('/');
   };
@@ -36,16 +40,6 @@ const DoctorSideNav = () => {
             alt="PlaceholderLogo2411"
             className="home-placeholder-logo"
           />
-          <div className="doctor-notifications">
-            <Link to="/doctor/notifications">
-            <span className="doctor-text24">Notifications</span>
-          </Link>
-        <img
-          src="../public/external/iconmonstrbell2411.svg"
-          alt="iconmonstrbell2411"
-          className="doctor-iconmonstrbell"
-        />
-        </div>
           <div className="doctor-settings">
             <span className="doctor-text22">
               <span>Settings</span>
@@ -79,6 +73,14 @@ const DoctorSideNav = () => {
               src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/d9334bea-dc97-4f8a-a689-99c3fee50b9b/2e1899c5-de3c-460f-90d6-695ea0897e45?org_if_sml=1141&amp;force_format=original"
               alt="Line2411"
               className="doctor-line"
+            />
+          </div>
+          <div className="doctor-notifications" onClick={handleNotifications}>
+            <span className="doctor-text24">Notifications</span>
+            <img
+              src="../public/external/iconmonstrbell2411.svg"
+              alt="iconmonstrbell2411"
+              className="doctor-iconmonstrbell"
             />
           </div>
           <div className="doctor-log-out" onClick={handleLogout}>

@@ -21,9 +21,7 @@ const DoctorNotifications = () => {
   }, []);
 
   const handleViewTestResult = (patientId, testResultId) => {
-    // Navigate to the test result page with the testResultId
-    //this does not work, please use similar logic to patient portal to get the test result of the patient
-    navigate(`/patient/${patientId}/test-result`, { state: { testResultId } });
+    navigate(`/patient/${patientId}`, { state: { testResultId: testResultId } });
   };
 
   const handleAccept = async (notificationId) => {
@@ -56,12 +54,12 @@ const DoctorNotifications = () => {
           notifications.map((notification) => (
             <div key={notification._id} className="notification-item">
               <p>{notification.message}</p>
-              <span className="notification-date">{new Date(notification.date).toLocaleDateString()}</span>
+              <span className="notification-date">{ new Date(notification.date).toLocaleDateString() }</span>
               <div className="notification-actions">
                 {notification.type === 'test-result' && (
                   <button
                     className="view-button"
-                    onClick={() => handleViewTestResult(notification.patientId, notification.testResultId)}
+                    onClick={ () => handleViewTestResult(notification.patientId, notification.testResultId) }
                   >
                     View
                   </button>
@@ -70,13 +68,13 @@ const DoctorNotifications = () => {
                   <>
                     <button
                       className="accept-button"
-                      onClick={() => handleAccept(notification._id)}
+                      onClick={ () => handleAccept(notification._id) }
                     >
                       Accept
                     </button>
                     <button
                       className="reject-button"
-                      onClick={() => handleReject(notification._id)}
+                      onClick={ () => handleReject(notification._id) }
                     >
                       Reject
                     </button>
