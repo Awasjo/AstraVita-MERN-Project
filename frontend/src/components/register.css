@@ -1,56 +1,116 @@
 .register-container {
-    max-width: 400px;
-    margin: auto;
-    margin-top: 50px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+  width: 100%;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+.register-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.75rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.register-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.register-button:hover {
+  background-color: #155a9c;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .register-container {
+    margin: 1rem;
+    padding: 1.5rem;
+    max-width: none;
   }
-  
+
   .register-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
-  
+
   .register-form {
-    display: flex;
-    flex-direction: column;
+    gap: 1rem;
   }
-  
-  .form-group {
-    margin-bottom: 15px;
+}
+
+/* For tablets */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .register-container {
+    max-width: 600px;
+    margin: 3rem auto;
   }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
+}
+
+/* For larger screens */
+@media (min-width: 1200px) {
+  .register-container {
+    max-width: 700px;
   }
-  
-  .form-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+
+  .register-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
   }
-  
+
+  /* Make certain fields span full width */
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
   .register-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s;
+    grid-column: 1 / -1;
   }
-  
-  .register-button:hover {
-    background-color: #155a9c;
-  }
+}
