@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from "react-router-dom";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import './patientPortal.css';
 
 const PatientNotifications = () => {
   const [notifications, setNotifications] = useState([]);
-  const navigate = useNavigate();
-
-  const location = useLocation();
-  const patient = location.state.patient;
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        // Fetch notifications specifically for the patient
-        const response = await axios.get('http://localhost:3000/api/notifications', { withCredentials: true });
+        const response = await axios.get('/api/notifications', { withCredentials: true });
         setNotifications(response.data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
@@ -25,29 +18,21 @@ const PatientNotifications = () => {
     fetchNotifications();
   }, []);
 
-  const handleViewTestResult = (testResultId) => {
-    navigate('/patient', { state: { patient: patient, testResultId: testResultId } });
-  };
-
-  const handleAcceptDoctor = async (notificationId) => {
+  const handlePermission = async (notificationId, requesterId, action) => {
     try {
-      //This route does not exist, please use the handle permission routes here
-      await axios.post(`http://localhost:3000/api/notifications/${notificationId}/accept`);
-      // Remove the accepted notification
+      // Use the handle-permission-request route to approve or decline the request
+      await axios.post(
+        '/api/users/handle-permission-request',
+        {
+          requesterId,
+          action
+        },
+        { withCredentials: true }
+      );
+      // Remove the notification from the state after handling
       setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
     } catch (error) {
-      console.error('Error accepting doctor:', error);
-    }
-  };
-
-  const handleRejectDoctor = async (notificationId) => {
-    try {
-      //This route does not exist, please use the handle permission routes here
-      await axios.post(`http://localhost:3000/api/notifications/${notificationId}/reject`);
-      // Remove the rejected notification
-      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
-    } catch (error) {
-      console.error('Error rejecting doctor:', error);
+      console.error('Error handling permission request:', error);
     }
   };
 
@@ -61,27 +46,19 @@ const PatientNotifications = () => {
           notifications.map((notification) => (
             <div key={notification._id} className="notification-item">
               <p>{notification.message}</p>
-              <span className="notification-date">{ new Date(notification.date).toLocaleDateString() }</span>
+              <span className="notification-date">{new Date(notification.createdDate).toLocaleDateString()}</span>
               <div className="notification-actions">
-                {notification.type === 'test-result' && (
-                  <button
-                    className="view-button"
-                    onClick={ () => handleViewTestResult(notification.testResult) }
-                  >
-                    View
-                  </button>
-                )}
                 {notification.type === 'requesting-permission' && (
                   <>
                     <button
                       className="accept-button"
-                      onClick={ () => handleAcceptDoctor(notification._id) }
+                      onClick={() => handlePermission(notification._id, notification.sender, 'approve')}
                     >
                       Accept
                     </button>
                     <button
                       className="reject-button"
-                      onClick={ () => handleRejectDoctor(notification._id) }
+                      onClick={() => handlePermission(notification._id, notification.sender, 'decline')}
                     >
                       Reject
                     </button>

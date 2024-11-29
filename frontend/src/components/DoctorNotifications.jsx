@@ -10,7 +10,7 @@ const DoctorNotifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/notifications', { withCredentials: true });
+        const response = await axios.get('/api/notifications', { withCredentials: true });
         setNotifications(response.data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
@@ -20,27 +20,21 @@ const DoctorNotifications = () => {
     fetchNotifications();
   }, []);
 
-  const handleViewTestResult = (patientId, testResultId) => {
-    navigate(`/patient/${patientId}`, { state: { testResultId: testResultId } });
-  };
-
-  const handleAccept = async (notificationId) => {
+  const handlePermission = async (notificationId, requesterId, action) => {
     try {
-      //this route doesn't exist, please use the handle permission routes here
-      await axios.post(`http://localhost:3000/api/notifications/${notificationId}/accept`);
+      // Use the handle-permission-request route to approve or decline the request
+      await axios.post(
+        '/api/users/handle-permission-request',
+        {
+          requesterId,
+          action
+        },
+        { withCredentials: true }
+      );
+      // Remove the notification from the state after handling
       setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
     } catch (error) {
-      console.error('Error accepting request:', error);
-    }
-  };
-
-  const handleReject = async (notificationId) => {
-    try {
-      //this route doesn't exist, please use the handle permission routes here
-      await axios.post(`http://localhost:3000/api/notifications/${notificationId}/reject`);
-      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
-    } catch (error) {
-      console.error('Error rejecting request:', error);
+      console.error('Error handling permission request:', error);
     }
   };
 
@@ -54,27 +48,19 @@ const DoctorNotifications = () => {
           notifications.map((notification) => (
             <div key={notification._id} className="notification-item">
               <p>{notification.message}</p>
-              <span className="notification-date">{ new Date(notification.date).toLocaleDateString() }</span>
+              <span className="notification-date">{new Date(notification.createdDate).toLocaleDateString()}</span>
               <div className="notification-actions">
-                {notification.type === 'test-result' && (
-                  <button
-                    className="view-button"
-                    onClick={ () => handleViewTestResult(notification.patientId, notification.testResultId) }
-                  >
-                    View
-                  </button>
-                )}
                 {notification.type === 'requesting-permission' && (
                   <>
                     <button
                       className="accept-button"
-                      onClick={ () => handleAccept(notification._id) }
+                      onClick={() => handlePermission(notification._id, notification.sender, 'approve')}
                     >
                       Accept
                     </button>
                     <button
                       className="reject-button"
-                      onClick={ () => handleReject(notification._id) }
+                      onClick={() => handlePermission(notification._id, notification.sender, 'decline')}
                     >
                       Reject
                     </button>
