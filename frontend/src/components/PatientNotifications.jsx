@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './patientPortal.css';
 
 const PatientNotifications = () => {
   const [notifications, setNotifications] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get('/api/notifications', { withCredentials: true });
+        console.log('Notifications:', response.data);
         setNotifications(response.data);
       } catch (error) {
         console.error('Error fetching notifications:', error);
@@ -17,6 +20,27 @@ const PatientNotifications = () => {
 
     fetchNotifications();
   }, []);
+
+  const handleViewTestResult = async (notification) => {
+    try {
+      const receiverResponse = await axios.get(`/api/users/${notification.receiver}`);
+      const senderResponse = await axios.get(`/api/users/${notification.sender}`);
+      
+      const receiver = receiverResponse.data;
+      const sender = senderResponse.data;
+
+      const patient = receiver.role === 'Patient' ? receiver : sender.role === 'Patient' ? sender : null;
+      if (!patient) {
+        console.error('Neither receiver nor sender is a patient');
+        return;
+      }
+
+      const testResultId = notification.testResult;
+      navigate(`/patient`, { state: { patient: patient, testResultId: testResultId } });
+    } catch (error) {
+      console.error('Error determining patient ID:', error);
+    }
+  };
 
   const handlePermission = async (notificationId, requesterId, action) => {
     try {
@@ -29,10 +53,21 @@ const PatientNotifications = () => {
         },
         { withCredentials: true }
       );
+      await axios.delete(`/api/notifications/${notificationId}`, { withCredentials: true });
       // Remove the notification from the state after handling
       setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
+      console.log('Notification handled successfully');
     } catch (error) {
       console.error('Error handling permission request:', error);
+    }
+  };
+
+  const handleDelete = async (notificationId) => {
+    try {
+      await axios.delete(`/api/notifications/${notificationId}`, { withCredentials: true });
+      setNotifications((prev) => prev.filter((n) => n._id !== notificationId));
+    } catch (error) {
+      console.error('Error deleting notification:', error);
     }
   };
 
@@ -48,6 +83,14 @@ const PatientNotifications = () => {
               <p>{notification.message}</p>
               <span className="notification-date">{new Date(notification.createdDate).toLocaleDateString()}</span>
               <div className="notification-actions">
+              {notification.type === 'test-result' && (
+                  <button
+                    className="view-button"
+                    onClick={ () => handleViewTestResult(notification) }
+                  >
+                    View
+                  </button>
+                )}
                 {notification.type === 'requesting-permission' && (
                   <>
                     <button
@@ -63,6 +106,14 @@ const PatientNotifications = () => {
                       Reject
                     </button>
                   </>
+                )}
+                {notification.type !== 'requesting-permission' && (
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(notification._id)}
+                  >
+                    Delete
+                  </button>
                 )}
               </div>
             </div>
