@@ -9,7 +9,6 @@ import DoctorPortal from './components/DoctorPortal';
 import PatientPortal from './components/PatientPortal';
 import Layout from './components/Layout';
 import AddDoctor from './components/AddDoctor';
-import TestResult from './components/TestResult';
 import PatientNotifications from './components/PatientNotifications';
 
 import './App.css'
