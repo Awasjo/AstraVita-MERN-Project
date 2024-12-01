@@ -1,12 +1,15 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './login.css';
 import { AuthContext } from './AuthContext';
+import heroImage from '/external/hero-image-medicine.jpg';
+import logo from '/external/placeholderlogo1805-9za8-200h.png';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
   const { setUser } = useContext(AuthContext);
 
@@ -16,25 +19,18 @@ function Login() {
       const response = await axios.post(
         'http://localhost:3000/api/users/login',
         { username, password },
-        { withCredentials: true } // Include credentials
+        { withCredentials: true }
       );
       
-      console.log('Login response:', response);
-      console.log('Response data:', response.data); // Check the full response data
-
       if (response.data.message === 'Login successful') {
-        console.log('User data:', response.data.user); // Check the user data specifically
-        // Ensure that response.data.user exists and has role defined
         if (response.data.user && response.data.user.role) {
-          setUser(response.data.user); // Set user after confirming it exists
+          setUser(response.data.user);
 
           if (response.data.user.role === 'Doctor') { 
             navigate('/doctor', { state: { doctor: response.data.user } });
           } else if (response.data.user.role === 'Patient') {
             navigate('/patient', { state: { patient: response.data.user } });
           }
-        } else {
-          console.error('User role is undefined in response:', response.data.user);
         }
       }
     } catch (error) {
@@ -43,33 +39,75 @@ function Login() {
     }
   };
 
-
   return (
     <div className="login-page">
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div className="form-group">
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+      <section className="hero-section" style={{ backgroundImage: `url(${heroImage})` }}>
+        <div className="hero-content">
+          <h1 className="hero-title">
+            Start building your comprehensive genomic profile today.
+          </h1>
+          <p className="hero-subtitle">
+            Log in or create an account to view your OneDrug ProbeiT results
+          </p>
         </div>
-        <div className="form-group">
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
+        <img src={logo} alt="OneDrug Logo" className="hero-logo" />
+      </section>
+
+      <div className="login-form-container">
+        <form className="login-form" onSubmit={handleLogin}>
+          <h2 className="login-title">Log in to OneDrug</h2>
+          
+          <div className="form-group">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          <div className="form-options">
+            <label className="remember-me">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              />
+              Remember me
+            </label>
+            <Link to="/forgot-password" className="forgot-password">
+              Forgot your password?
+            </Link>
+          </div>
+
+          <div className="button-group">
+            <button type="submit" className="login-button">
+              Log in
+            </button>
+
+            <Link to="/register" style={{ width: '100%' }}>
+              <button type="button" className="signup-button">
+                Create an account
+              </button>
+            </Link>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
