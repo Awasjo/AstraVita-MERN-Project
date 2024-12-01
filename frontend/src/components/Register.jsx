@@ -14,11 +14,21 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [role, setRole] = useState('Patient');
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [emailError, setEmailError] = useState('');
 
   const navigate = useNavigate();
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateEmail(email)) {
+      setEmailError('Invalid email address');
+      return;
+    }
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
@@ -65,10 +75,14 @@ const Register = () => {
               name="email"
               required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value); 
+                setEmailError('');
+              }}
               className="form-input"
               placeholder="Enter your email"
             />
+            {emailError && <p className="error-message">{emailError}</p>}
           </div>
           <div className="form-group">
             <label htmlFor="username">Username</label>

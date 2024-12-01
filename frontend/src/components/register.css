@@ -105,6 +105,7 @@
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   transition: border-color 0.2s ease;
+  color: #444444;
 }
 
 .form-group input:focus,
@@ -201,6 +202,13 @@
 
 .login-button:hover {
   background-color: #b8b8c9;
+}
+
+.error-message {
+  color: #ff0000;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  margin-top: 0.5rem;
 }
 
 /* Responsive Design */
