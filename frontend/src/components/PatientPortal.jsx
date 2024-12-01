@@ -7,12 +7,13 @@ import "./PatientPortal.css";
 const PatientPortal = () => {
   const location = useLocation();
   const patient = location.state.patient;
+  const testResultId = location.state.testResultId;
 
   var patientId = patient._id || patient.id;
   const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(testResultId ?? "");
   const [filteredResults, setFilteredResults] = useState([]);
 
   const fetchTestResults = async (patientId) => {
@@ -223,7 +224,7 @@ const PatientPortal = () => {
         </button>
         <span className="patientPortal-text30">
           {patient.firstName} {patient.lastName}'s Results
-        </span>
+        </span> 
       </div>
     </div>
   );

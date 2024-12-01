@@ -1,3 +1,76 @@
+.notification-title {
+  color: #30336b;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.notification-list {
+  width: 100%;
+  max-width: 45%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.notification-item {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.notification-date {
+  font-size: 12px;
+  color: #888;
+  display: block;
+  margin-top: 5px;
+}
+
+
+.doctor-notifications {
+  top: 350px;
+  left: 30px;
+  width: 120px;
+  height: 19px;
+  display: flex;
+  position: absolute;
+  align-items: flex-start;
+}
+
+.doctor-iconmonstrbell {
+  top: 2px;
+  left: 0px;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+}
+
+.view-button, .accept-button, .reject-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.view-button {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.accept-button {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.reject-button {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+
 
 .doctor-container {
   width: 100%;

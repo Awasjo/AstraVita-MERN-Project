@@ -11,17 +11,22 @@ require('dotenv').config();
 const app = express();
 
 
-  //set headers for cords
-  app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Set to front-end origin
+const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
+
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin); // Dynamically set allowed origin
+    }
     res.header('Access-Control-Allow-Credentials', 'true'); // Allow credentials
-    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     if (req.method === 'OPTIONS') {
         return res.sendStatus(200); // Handle preflight requests
-      }
-      next();
-    });
+    }
+    next();
+});
+
 
 const port = process.env.PORT || 3000;
 const mongoUri = process.env.MONGODB_URI;

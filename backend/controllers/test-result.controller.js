@@ -87,7 +87,8 @@ exports.create = async (req, res) => {
         receiver: doctor._id,
         sender: patient._id,
         type: 'test-result',
-        message: `You uploaded a test result for your patient ${patient.getFullName()}.`
+        message: `You uploaded a test result for your patient ${patient.getFullName()}.`,
+        testResult: testResult._id
       });
       await doctorNotification.save();
 
@@ -96,8 +97,8 @@ exports.create = async (req, res) => {
         receiver: patient._id,
         sender: doctor._id,
         type: 'test-result',
-        message: `A new test result was uploaded by your doctor ${doctor.getFullName()}.`
-
+        message: `A new test result was uploaded by your doctor ${doctor.getFullName()}.`,
+        testResult: testResult._id
       });
       await patientNotification.save();
     } else {
@@ -106,7 +107,8 @@ exports.create = async (req, res) => {
         receiver: patient._id,
         sender: patient._id,
         type: 'test-result',
-        message: `You uploaded a test result.`
+        message: `You uploaded a test result.`,
+        testResult: testResult._id
       });
       await patientNotification.save();
 
@@ -117,7 +119,8 @@ exports.create = async (req, res) => {
           receiver: doc._id,
           sender: patient._id,
           type: 'test-result',
-          message: `A new test result was uploaded by your patient ${patient.getFullName()}.`
+          message: `A new test result was uploaded by your patient ${patient.getFullName()}.`,
+          testResult: testResult._id
         });
         await doctorNotification.save();
       }
