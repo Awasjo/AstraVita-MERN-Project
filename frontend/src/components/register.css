@@ -1,18 +1,20 @@
+/* General Page Layout */
 .register-page {
   display: grid;
   grid-template-columns: 1fr 1fr;
   min-height: 100vh;
   width: 100%;
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
+/* Hero Section */
 .hero-section {
   display: none;
   position: relative;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  color: #FFFFFF;
+  color: #ffffff;
   overflow: hidden;
 }
 
@@ -29,7 +31,7 @@
   line-height: 1.3;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .hero-subtitle {
@@ -37,15 +39,25 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
+.hero-logo {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  width: 145.52px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* Form Section */
 .register-form-container {
   display: grid;
   place-items: center;
   padding: 2rem;
   position: relative;
-  background: #FFFFFF;
+  background: #ffffff;
   min-height: 100vh;
 }
 
@@ -56,7 +68,7 @@
   width: 100%;
   max-width: 400px;
   padding: 2rem;
-  background: #FFFFFF;
+  background: #ffffff;
   border-radius: 8px;
 }
 
@@ -66,8 +78,10 @@
   font-size: 24px;
   color: #222222;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
+/* Form Group Styling */
 .form-group {
   display: grid;
   gap: 0.5rem;
@@ -80,10 +94,11 @@
   color: #444444;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
   height: 40px;
-  background: #F6F7FB;
+  background: #f6f7fb;
   border: 1px solid #888888;
   border-radius: 2px;
   padding: 0 1rem;
@@ -92,12 +107,40 @@
   transition: border-color 0.2s ease;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   outline: none;
-  border-color: #0066CC;
+  border-color: #0066cc;
   box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
 }
 
+/* Password Visibility Toggle */
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-wrapper input {
+  flex: 1;
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 1rem;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888888;
+  outline: none;
+}
+
+.toggle-password:hover {
+  color: #0066cc;
+}
+
+/* Terms and Conditions Checkbox */
 .terms-group {
   margin: 1rem 0;
 }
@@ -117,6 +160,7 @@
   margin-top: 2px;
 }
 
+/* Buttons */
 .button-group {
   display: grid;
   gap: 1rem;
@@ -126,9 +170,9 @@
 .register-button {
   width: 100%;
   height: 48px;
-  background: #30336B;
+  background: #30336b;
   border-radius: 4px;
-  color: #FFFFFF;
+  color: #ffffff;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 16px;
@@ -144,9 +188,9 @@
 .login-button {
   width: 100%;
   height: 48px;
-  background: #C7C7D7;
+  background: #c7c7d7;
   border-radius: 4px;
-  color: #30336B;
+  color: #30336b;
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 16px;
@@ -157,15 +201,6 @@
 
 .login-button:hover {
   background-color: #b8b8c9;
-}
-
-.hero-logo {
-  position: absolute;
-  bottom: 40px;
-  left: 40px;
-  width: 145.52px;
-  height: 32px;
-  object-fit: contain;
 }
 
 /* Responsive Design */
