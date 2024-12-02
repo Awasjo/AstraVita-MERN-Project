@@ -1,52 +1,44 @@
 // Navbar.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import './navbar.css';
+import logo from '/external/logo-placeholder-primary.png';
 
 const Navbar = () => {
+  const location = useLocation();
+
   return (
-    <div className="home-top-navbar">
-      <img
-        alt="Background"
-        src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/64b188d9-a472-4b5a-9158-d52f2ed82634/10117492-4e85-46ac-833a-a3dca704d08c?org_if_sml=13615&force_format=original"
-        className="home-background"
-      />
-      <div className="home-login-button">
-        <span className="home-text46">
-        <Link to="/login">
-          <span>Log In</span>
+    <nav className="navbar">
+      <div className="navbar-container">
+        <Link to="/" className="navbar-logo">
+          <img src={logo} alt="OneDrug" />
+        </Link>
+
+        <div className="nav-links">
+          <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
+            Home
           </Link>
-        </span>
-      </div>
-      <div className="home-register-button">
-      <span className="home-text46">
-        <Link to="/register">
-          <span>Register</span>
+          <Link to="/about" className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`}>
+            About Us
           </Link>
-      </span>
+          <Link to="/products" className={`nav-link ${location.pathname === '/products' ? 'active' : ''}`}>
+            Products
+          </Link>
+          <Link to="/contact" className={`nav-link ${location.pathname === '/contact' ? 'active' : ''}`}>
+            Contact
+          </Link>
+        </div>
+
+        <div className="nav-auth">
+          <Link to="/login" className="login-link">
+            Log in
+          </Link>
+          <Link to="/register" className="register-link">
+            Register
+          </Link>
+        </div>
       </div>
-      <span className="home-text48">
-        <span>Contact</span>
-      </span>
-      <span className="home-text50">
-        <span>Products</span>
-      </span>
-      <span className="home-text52">
-        <span>About Us</span>
-      </span>
-      <img
-        alt="Underline"
-        src="/external/underline2837-mixq.svg"
-        className="home-underline"
-      />
-      <Link to="/" className="home-text54">
-        <span>Home</span>
-      </Link>
-      <img
-        alt="Placeholder Logo"
-        src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/64b188d9-a472-4b5a-9158-d52f2ed82634/55e55fee-aab2-4bd6-93ae-8d46157a65dd?org_if_sml=13364&force_format=original"
-        className="home-placeholder-logo"
-      />
-    </div>
+    </nav>
   );
 };
 

@@ -61,10 +61,25 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+
+    // Remove user from approved lists of doctors and patients
+    if (user.role === 'Patient') {
+      await Doctor.updateMany(
+        { approvedPatients: user._id },
+        { $pull: { approvedPatients: user._id } }
+      );
+    } else if (user.role === 'Doctor') {
+      await Patient.updateMany(
+        { approvedDoctors: user._id },
+        { $pull: { approvedDoctors: user._id } }
+      );
+    }
+    await User.findByIdAndDelete(req.params.id);
+
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting user', error: error.message });

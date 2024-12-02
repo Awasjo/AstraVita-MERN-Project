@@ -1,56 +1,248 @@
-.register-container {
-    max-width: 400px;
-    margin: auto;
-    margin-top: 50px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
-  }
-  
-  .register-title {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .register-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
+/* General Page Layout */
+.register-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  width: 100%;
+  background: #ffffff;
+}
+
+/* Hero Section */
+.hero-section {
+  display: none;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 360px;
+  padding: 80px 40px;
+}
+
+.hero-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 28px;
+  line-height: 1.3;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.hero-subtitle {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #ffffff;
+}
+
+.hero-logo {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  width: 145.52px;
+  height: 32px;
+  object-fit: contain;
+}
+
+/* Form Section */
+.register-form-container {
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  position: relative;
+  background: #ffffff;
+  min-height: 100vh;
+}
+
+.register-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.register-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: #222222;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Form Group Styling */
+.form-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #444444;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  height: 40px;
+  background: #f6f7fb;
+  border: 1px solid #888888;
+  border-radius: 2px;
+  padding: 0 1rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  color: #444444;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+}
+
+/* Password Visibility Toggle */
+.password-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-wrapper input {
+  flex: 1;
+}
+
+.toggle-password {
+  background: none;
+  border: none;
+  position: absolute;
+  right: 1rem;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888888;
+  outline: none;
+}
+
+.toggle-password:hover {
+  color: #0066cc;
+}
+
+/* Terms and Conditions Checkbox */
+.terms-group {
+  margin: 1rem 0;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #666666;
+}
+
+.terms-checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+/* Buttons */
+.button-group {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.register-button {
+  width: 100%;
+  height: 48px;
+  background: #30336b;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.register-button:hover {
+  background-color: #252857;
+}
+
+.login-button {
+  width: 100%;
+  height: 48px;
+  background: #c7c7d7;
+  border-radius: 4px;
+  color: #30336b;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: #b8b8c9;
+}
+
+.error-message {
+  color: #ff0000;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  margin-top: 0.5rem;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+  .hero-section {
     display: block;
-    margin-bottom: 5px;
-    color: #555;
   }
-  
-  .form-input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+  .register-page {
+    grid-template-columns: 1fr;
   }
-  
-  .register-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: background-color 0.3s;
+
+  .register-form-container {
+    padding: 1rem;
   }
-  
-  .register-button:hover {
-    background-color: #155a9c;
+
+  .register-form {
+    padding: 1.5rem;
+    gap: 1rem;
   }
+}
+
+/* For tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .register-form {
+    max-width: 500px;
+  }
+}
+
+/* For larger screens */
+@media (min-width: 1200px) {
+  .register-form {
+    max-width: 400px;
+  }
+}
