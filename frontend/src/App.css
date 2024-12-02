@@ -1,10 +1,8 @@
 .home-container {
-  padding-top: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 100vh;
   margin: 0;
   background-color: skyblue;
 }
@@ -12,13 +10,14 @@
 .home-desktop-home {
   margin-top: 0;
   width: 100%;
-  max-width: 1200px;
-  padding: 0 20px;
+  display:flex;
+  flex-direction: column;
+
   box-sizing: border-box;
+
 }
 .home-footer {
-
-  width: 1440px;
+  width: 100%;
   height: 125px;
   display: flex;
   position: relative;
@@ -27,39 +26,48 @@
   grid-row:5;
   flex-direction: column;
     justify-content: center;
-    background-color: rgba(236, 236, 242, 1);
+    background-color: rgba(38, 38, 38);
 }
 .home-frame4 {
   left: 0px;
-  width: 1440px;
+  width: 100%;
   height: 260px;
   display: flex;
   position: relative;
-  align-items: flex-start;
+  align-items: center;
   flex-shrink: 0;
   background-color: rgba(48, 51, 107, 1);
+  justify-content: center;
 }
 .home-frame3 {
   left: 0px;
-  width: 1440px;
+  width: 100%;
   height: 430px;
   display: flex;
   position: relative;
-  align-items: flex-start;
+  flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
   flex-shrink: 0;
   background-color: rgba(241, 241, 241, 1);
-  grid-row:3;
+  flex-direction: row-reverse;
+  
 }
 .home-frame2 {
 
-  width: 1440px;
+  width: 100%;
   height: 600px;
   display: flex;
   position: relative;
-  align-items: flex-start;
+  align-items: center;
   flex-shrink: 0;
   background-color: rgba(236, 236, 242, 1);
   grid-row:2;
+  justify-content: center;
+  flex-direction: column-reverse;
+  flex-wrap: wrap;
+  align-content: center;
 }
 .home-frame1 {
   width: 100%;
@@ -88,7 +96,7 @@
 }
 .home-text10 {
   top: 62px;
-  color: rgba(68, 68, 68, 1);
+  color: rgba(211, 211, 211);
   height: auto;
   position: relative;
   font-size: 14px;
@@ -139,12 +147,10 @@
 }
 
 .home-partners {
-  top: 40px;
-  left: 260px;
   width: 920px;
   height: 197px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
 }
@@ -162,42 +168,41 @@
   font-stretch: normal;
   text-decoration: none;
 }
+
 .home-grey-sloan {
   top: 37px;
-  left: 720px;
   width: 200px;
   height: 160px;
-  position: absolute;
+  position: relative;
+  margin-right: 2rem;
 }
 .home-princeton-plainsboro {
   top: 37px;
-  left: 480px;
   width: 200px;
   height: 160px;
-  position: absolute;
+  position: relative;
+  margin-left: 2rem;
 }
 .home-uhn {
   top: 37px;
-  left: 240px;
   width: 200px;
   height: 160px;
-  position: absolute;
+  position: relative;
+  margin-left: 2rem;
 }
 .home-uof-t {
   top: 37px;
-  left: 0px;
   width: 200px;
   height: 160px;
-  position: absolute;
+  position: relative;
+  margin-left: 2rem;
 }
 
 .home-text14 {
-  top: 112px;
-  left: 720px;
   width: 480px;
   height: 207px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
 }
@@ -289,15 +294,15 @@
   font-weight: 800;
 }
 .home-placeholder-image {
-  top: 80px;
-  left: 380px;
+
   width: 200px;
   height: 270.1612854003906px;
   display: flex;
   overflow: hidden;
-  position: absolute;
+  position:  relative;
   align-items: flex-start;
   flex-shrink: 0;
+  margin-right: 5rem;
 }
 .home-rectangle {
   top: 0px;
@@ -308,22 +313,22 @@
 }
 
 .home-adr-statistics {
-  top: 262px;
-  left: 390px;
+  top: 1rem;
   width: 660px;
   height: 247px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
+  justify-content: space-between;
+  flex-direction: row-reverse;
 }
 .home-statistic3 {
   top: 67px;
-  left: 480px;
   width: 180px;
   height: 180px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
 }
@@ -367,11 +372,11 @@
 }
 .home-statistic2 {
   top: 67px;
-  left: 240px;
+
   width: 180px;
   height: 180px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
 }
@@ -415,11 +420,10 @@
 }
 .home-statistic1 {
   top: 67px;
-  left: 0px;
   width: 180px;
   height: 180px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
 }
@@ -476,12 +480,11 @@
   text-decoration: none;
 }
 .home-intro {
-  top: 80px;
-  left: 240px;
+
   width: 960px;
   height: 102px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
 }
@@ -504,12 +507,12 @@
   left: 296px;
   color: rgba(48, 51, 107, 1);
   height: auto;
-  position: absolute;
+  position: relative;
   font-size: 32px;
   font-style: Regular;
   text-align: left;
   font-family: DM Serif Display;
-  font-weight: 400;
+  font-weight: 600;
   line-height: normal;
   font-stretch: normal;
   text-decoration: none;
@@ -518,44 +521,42 @@
 .home-hero-image {
   top: 0px;
   left: 0px;
-  width: 1440px;
+  width: 100%;
   height: 560px;
   display: flex;
   position: absolute;
-  align-items: flex-start;
   flex-shrink: 1;
 }
 .home-gray {
-  top: 0px;
-  left: 720px;
+
   width: 50%;
   height: 560px;
-  position: absolute;
+
 }
 .home-blue {
-  top: 0px;
-  left: 0px;
+
   width: 50%;
   height: 560px;
-  position: absolute;
+
 }
 .home-nurse {
   top: 160px;
-  left: 539px;
+  left: 40%;
   width: 302px;
   height: 400px;
   position: absolute;
 }
 .home-findout-button {
-  top: 376px;
-  left: 240px;
+  top: 61%;
+  left: 25%;
   width: 140px;
   height: 48px;
   display: flex;
-  position: absolute;
+  position: relative;
   align-items: flex-start;
   flex-shrink: 1;
   background-color: rgba(255, 255, 255, 1);
+  border-radius: 5px;
 }
 .home-text42 {
   top: 14px;
@@ -574,19 +575,20 @@
 }
 .home-text44 {
   top: 180px;
-  left: 240px;
+  left: 25%;
   color: rgba(255, 255, 255, 1);
   width: 360px;
   height: auto;
   position: absolute;
-  font-size: 32px;
+  font-size: 2.15rem;
   font-style: Regular;
   text-align: left;
   font-family: DM Serif Display;
-  font-weight: 400;
+  font-weight: 500;
   line-height: normal;
   font-stretch: normal;
   text-decoration: none;
+  background-color: #30336bc2;
 }
 
 .home-background {
