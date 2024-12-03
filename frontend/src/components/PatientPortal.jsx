@@ -121,6 +121,17 @@ const PatientPortal = () => {
         <meta property="og:title" content="Patient Portal" />
       </Helmet>
       <div className="home-desktop-patient-portal-test-results">
+      <span className="patientPortal-text30">
+          {patient.firstName} {patient.lastName}'s Results
+        </span> 
+        <button className="home-upload-button" onClick={handleUploadTestResult}>
+          <span className="home-text29">Upload Test</span>
+          <img
+            src="../public/external/iconmonstrupload1812081-46t.svg"
+            alt="iconmonstrupload1812081"
+            className="home-iconmonstrupload181"
+          />
+        </button>
         <div className="home-search-bar">
           <input
             className="patientPortal-text28"
@@ -214,17 +225,8 @@ const PatientPortal = () => {
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-        <button className="home-upload-button" onClick={handleUploadTestResult}>
-          <span className="home-text29">Upload Test</span>
-          <img
-            src="../public/external/iconmonstrupload1812081-46t.svg"
-            alt="iconmonstrupload1812081"
-            className="home-iconmonstrupload181"
-          />
-        </button>
-        <span className="patientPortal-text30">
-          {patient.firstName} {patient.lastName}'s Results
-        </span> 
+        
+        
       </div>
     </div>
   );

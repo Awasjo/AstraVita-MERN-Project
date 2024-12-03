@@ -82,7 +82,7 @@
 }
 
 .patient-notifications {
-  top: 380px;
+  top: 25rem;
   left: 30px;
   width: 120px;
   height: 19px;
@@ -100,7 +100,9 @@
 }
 
 
-
+#root {
+  background-color: #181a36;
+}
 
 .patientPortal-container {
     width: 100%;
@@ -124,21 +126,22 @@
     overflow-y: auto
   }
   .home-test-result1 {
-    top: 298px;
-    left: 280px;
-    width: 1080px;
+    top: 20%;
+    left: 5%;
+    width: 70%;
     height: 360px;
     display: flex;
     position: relative;
     align-items: flex-start;
     flex-shrink: 1;
     background-color: rgba(255, 255, 255, 1);
-    margin-bottom: 10px;
+    margin-bottom: 1.5rem;
     cursor: pointer;
     transition: max-height 0.3s ease;
     overflow: hidden;
     padding: 10px;
     max-height: 80px;
+    filter: drop-shadow(2px 2px 2px lightgrey);
   }
 
   .home-test-result1.expanded {
@@ -153,7 +156,7 @@
 
   .home-uploadedby {
     top: 178px;
-    left: 890px;
+    left: 83%;
     width: 100px;
     height: 44px;
     display: flex;
@@ -190,7 +193,7 @@
   }
   .home-upload-date {
     top: 104px;
-    left: 890px;
+    left: 83%;
     width: 84px;
     height: 44px;
     display: flex;
@@ -227,7 +230,7 @@
   }
   .home-test-date {
     top: 30px;
-    left: 890px;
+    left: 83%;
     width: 78px;
     height: 44px;
     display: flex;
@@ -313,7 +316,7 @@
   .medication-list-item {
     top: 141px;
     left: 30px;
-    width: 800px;
+    width: 75%;
     height: 84px;
     display: flex;
     position: absolute;
@@ -368,7 +371,7 @@
   }
   .home-phenotype {
     top: 30px;
-    left: 363px;
+    left: 30%;
     width: 148px;
     height: 44px;
     display: flex;
@@ -405,7 +408,7 @@
   }
   .home-diplotype {
     top: 30px;
-    left: 208px;
+    left: 17%;
     width: 66px;
     height: 44px;
     display: flex;
@@ -442,7 +445,7 @@
   }
   .home-tested-gene {
     top: 30px;
-    left: 30px;
+    left: 3%;
     width: 90px;
     height: 44px;
     display: flex;
@@ -494,6 +497,13 @@
     height: 16px;
     position: absolute;
   }
+  .home-iconmonstrmagnifier21 {
+    top: 1rem;
+    left: 1rem;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+}
   .home-text27 {
     color: rgba(68, 68, 68, 1);
     height: auto;
@@ -508,16 +518,17 @@
     text-decoration: none;
   }
   .home-search-bar {
-    top: 188px;
-    left: 280px;
-    width: 1080px;
-    height: 40px;
+    top: 12rem;
+    left: 5%;
+    width: 71%;
+    height: 3rem;
     display: flex;
     position: absolute;
     align-items: flex-start;
     flex-shrink: 1;
     background-color: rgba(217, 217, 217, 1);
     margin-bottom: 5px;
+    border-radius: 5px;
   }
   .patientPortal-text28 {
     top: 11px;
@@ -537,18 +548,12 @@
     border-style: hidden;
     width:94%
   }
-  .home-iconmonstrmagnifier21 {
-    top: 12px;
-    left: 16px;
-    width: 16px;
-    height: 16px;
-    position: absolute;
-  }
+
   .home-upload-button {
-    top: 100px;
-    left: 1200px;
+    top: 5rem;
+    left: 66%;
     width: 160px;
-    height: 48px;
+    height: 3.5rem;
     display: flex;
     position: absolute;
     align-items: flex-start;
@@ -558,7 +563,7 @@
   }
   
   .home-text29 {
-    top: 14px;
+    top: 1rem;
     left: 48px;
     color: rgba(255, 255, 255, 1);
     height: auto;
@@ -573,18 +578,18 @@
     text-decoration: none;
   }
   .home-iconmonstrupload181 {
-    top: 14px;
+    top: 1rem;
     left: 18px;
     width: 20px;
     height: 20px;
     position: absolute;
   }
   .patientPortal-text30 {
-    top: 107px;
-    left: 280px;
+    top: 7rem;
+    left: 6rem;
     color: rgba(48, 51, 107, 1);
     height: auto;
-    position: absolute;
+    position: relative;
     font-size: 28px;
     font-style: Bold;
     text-align: left;
@@ -818,20 +823,25 @@
     margin-top: 20px;
     background: #f5f5f5;
     border-radius: 8px;
+    
   }
 
   .home-search-bar input {
-    width: 100%;
-    padding: 10px 40px 10px 15px;
+    width: 95%;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
     transition: border-color 0.2s;
+    position: relative;
+    padding:0;
+    height: 2rem;
+    box-sizing: border-box;
+    padding-bottom: 5px;
   }
 
   .home-search-bar input:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #007bff18;
   }
 
   .search-helper-text {
@@ -839,5 +849,8 @@
     color: #666;
     margin: 5px 0 15px 15px;
     font-style: italic;
+    position: relative;
+    top:6.5rem;
+    left:5%;
   }
   

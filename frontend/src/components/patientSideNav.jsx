@@ -72,7 +72,7 @@ const PatientSideNav = (props) => {
       <div className="patient-notifications" onClick={handleNotifications}>
         <span className="patientPortal-text32">Notifications</span>
         <img
-          src="../public/external/iconmonstrbell2411.svg"
+          src="../public/external/iconmonstrbell2411.png"
           alt="iconmonstrbell2411"
           className="patient-iconmonstrbell"
         />
