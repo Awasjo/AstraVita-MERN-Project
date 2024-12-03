@@ -198,6 +198,7 @@ const PatientPortal = () => {
                 alt="Divider1973"
                 className="home-divider"
               />
+            </div>
               {result.affectedMedications.map((annotation, index) => (
                 <div key={index} className="medication-list-item"> 
                   {annotation.associatedDrug && (
@@ -208,7 +209,6 @@ const PatientPortal = () => {
                   <span className="home-text18">{annotation.description}</span>
                 </div>
               ))}
-            </div>
           </div>
         ))}
 

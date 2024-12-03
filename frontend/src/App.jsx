@@ -1,7 +1,6 @@
-import React from 'react'
-
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar'; // Import the Navbar component
 import Login from './components/Login';
 import Register from './components/Register';
@@ -16,8 +15,10 @@ import DoctorNotifications from './components/DoctorNotifications';
 
 
 const Home = () => {
+  
   return (
     <div className="home-container">
+    <Navbar />
       <Helmet>
         <title>OneDrug homepage</title>
         <meta property="og:title" content="OneDrug homepage" />
@@ -203,9 +204,10 @@ const Home = () => {
 }
 
 const App = () => {
+
   return (
     <Router>
-      <Navbar /> {/* Reusable Navbar */}
+
       <Routes>
         <Route path="/" element={<Home />} /> {/* Home route */}
         <Route path="/login" element={<Login />} /> {/* Login route */}

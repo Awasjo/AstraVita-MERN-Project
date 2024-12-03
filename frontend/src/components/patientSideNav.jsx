@@ -31,26 +31,26 @@ const PatientSideNav = (props) => {
   };
 
   return (
-    <div className="home-side-navbar">
+    <div className="patient-side-navbar">
       <img
         src="../public/external/placeholderlogo1805-9za8-200h.png"
         alt="PlaceholderLogo1805"
-        className="home-placeholder-logo"
+        className="patient-placeholder-logo"
       />
-      <div className="home-test-results">
+      <div className="patient-test-results">
         <span className="patientPortal-text34">Test Results</span>
         <img
           src="../public/external/iconmonstrclipboard112192-hxc9.svg"
           alt="iconmonstrclipboard112192"
-          className="home-iconmonstrclipboard11"
+          className="patient-iconmonstrclipboard11"
         />
       </div>
       <div className="home-my-doctors">
-        <span className="home-text33">My Doctors</span>
+        <span className="patient-text33">My Doctors</span>
         <img
           src="../public/external/iconmonstruser3112193-o16o.svg"
           alt="iconmonstruser3112193"
-          className="home-iconmonstruser311"
+          className="patient-iconmonstruser311"
         />
       </div>
       <div className="patient-messages">

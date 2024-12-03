@@ -5,6 +5,7 @@ import './login.css';
 import { AuthContext } from './AuthContext';
 import heroImage from '/external/hero-image-medicine.jpg';
 import logo from '/external/placeholderlogo1805-9za8-200h.png';
+import Navbar from './Navbar';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -41,6 +42,7 @@ function Login() {
 
   return (
     <div className="login-page">
+    <Navbar />
       <section className="hero-section" style={{ backgroundImage: `url(${heroImage})` }}>
         <div className="hero-content">
           <h1 className="hero-title">
@@ -58,13 +60,13 @@ function Login() {
           <h2 className="login-title">Log in to OneDrug</h2>
           
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="username">Username</label>
             <input
-              id="email"
+              id="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter your email"
+              placeholder="Enter your username"
               required
             />
           </div>

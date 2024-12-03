@@ -4,6 +4,7 @@ import axios from 'axios';
 import './register.css';
 import heroImage from '/external/hero-image-medicine.jpg';
 import logo from '/external/placeholderlogo1805-9za8-200h.png';
+import Navbar from './Navbar';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -55,6 +56,7 @@ const Register = () => {
 
   return (
     <div className="register-page">
+    <Navbar />
       <section className="hero-section" style={{ backgroundImage: `url(${heroImage})` }}>
         <div className="hero-content">
           <h1 className="hero-title">Start building your comprehensive genomic profile today.</h1>
