@@ -21,6 +21,7 @@ const Home = () => {
       <Helmet>
         <title>OneDrug homepage</title>
         <meta property="og:title" content="OneDrug homepage" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       </Helmet>
       <div className="home-desktop-home">
         
@@ -57,19 +58,38 @@ const Home = () => {
         </div>
 
         <div className="home-frame2">
+        <div className="home-intro">            
+            <span className="home-text40">
+              <span>Why pharmacogenomics?</span>
+            </span>
+            <span className="home-text38">
+              <span>
+                What makes us unique <br/> 
+                makes our medication needs unique.
+                Variations in specific genes <br/>
+                can influence drug metabolism and response,<br/>  
+                resulting in diminished clinical safety 
+                <br/>and efficacy.
+              </span>
+            </span>
+          </div>
           <div className="home-adr-statistics">
+          <span className="home-text36">
+              <span>Adverse drug reactions are responsible for...</span>
+            </span>
             <div className="home-statistic3">
               <img
                 alt="Ellipse4649"
                 src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/64b188d9-a472-4b5a-9158-d52f2ed82634/de310ab7-c9c2-4c37-9a6e-29f1833810f3?org_if_sml=13135&amp;force_format=original"
                 className="home-ellipse1"
               />
-              <span className="home-text24">
-                <span>in annual healthcare spending</span>
-              </span>
               <span className="home-text26">
                 <span>$30 billion</span>
               </span>
+              <span className="home-text24">
+                <span>in annual healthcare spending</span>
+              </span>
+              
             </div>
             <div className="home-statistic2">
               <img
@@ -97,22 +117,9 @@ const Home = () => {
                 <span>5%</span>
               </span>
             </div>
-            <span className="home-text36">
-              <span>Adverse drug reactions are responsible for...</span>
-            </span>
+            
           </div>
-          <div className="home-intro">
-            <span className="home-text38">
-              <span>
-                What makes us unique also makes our medication needs unique.
-                Variations in specific genes can influence drug metabolism and
-                response, resulting in diminished clinical safety and efficacy.
-              </span>
-            </span>
-            <span className="home-text40">
-              <span>Why pharmacogenomics?</span>
-            </span>
-          </div>
+          
         </div>
         
         <div className="home-frame3">
@@ -134,8 +141,9 @@ const Home = () => {
                 reactions in 20 minutes.
               </span>
             </span>
+            <span className="home-text22">OneDrug</span>
             <span className="home-text21">ProbeiT</span>
-              <span className="home-text22">OneDrug</span>
+              
               
           </div>
           <div className="home-placeholder-image">
