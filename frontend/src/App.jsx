@@ -10,7 +10,7 @@ import PatientPortal from './components/PatientPortal';
 import Layout from './components/Layout';
 import AddDoctor from './components/AddDoctor';
 import PatientNotifications from './components/PatientNotifications';
-
+import Contact from './components/Contact';
 import './App.css'
 import DoctorNotifications from './components/DoctorNotifications';
 
@@ -224,6 +224,7 @@ const App = () => {
         <Route path="/" element={<Home />} /> {/* Home route */}
         <Route path="/login" element={<Login />} /> {/* Login route */}
         <Route path="/register" element={<Register />} /> {/* Register route */}
+        <Route path="/contact" element={<Contact />} />
         <Route path="/doctor" 
           element={
             <Layout>
