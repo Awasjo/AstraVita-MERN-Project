@@ -723,7 +723,7 @@
     flex-shrink: 1;
     background-color: rgba(40, 43, 89, 1);
   }
-  text34.patientPortal- {
+  .patientPortal-text34 {
     top: 14px;
     left: 56px;
     color: rgba(255, 255, 255, 1);
@@ -1060,5 +1060,37 @@
       background-color: #d9dae4;
       width: 100%;
       left:0px !important;
+    }
+  }
+
+  @media screen and (min-width: 480px) and (max-width: 900px) {
+    patientPortal-text34 {
+      left: 53px;
+      top:12px;
+      position: absolute;
+    }
+    .home-upload-button {
+      top: 6.3rem !important;
+      left:55% !important;
+    }
+    .home-test-result1 {
+      width: 64% !important;
+      top:17% !important;
+    }
+    .home-diplotype {
+      left:25% !important;
+    }
+    .home-phenotype {
+      left: 45% !important;
+    }
+    .medication-list-item{
+      height:10rem !important;
+    }
+    .home-desktop-patient-portal-test-results {
+      top:-4rem !important;
+      height:106% !important;
+    }
+    .home-test-date{
+      width:100% !important;
     }
   }
