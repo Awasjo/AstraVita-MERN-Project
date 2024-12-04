@@ -11,7 +11,6 @@ import Layout from './components/Layout';
 import AddDoctor from './components/AddDoctor';
 import PatientNotifications from './components/PatientNotifications';
 import Contact from './components/Contact';
-import './App.css'
 import DoctorNotifications from './components/DoctorNotifications';
 
 
