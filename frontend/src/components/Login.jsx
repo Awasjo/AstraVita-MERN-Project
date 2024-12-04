@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './login.css';
 import { AuthContext } from './AuthContext';
 import heroImage from '/external/hero-image-medicine.jpg';
 import logo from '/external/placeholderlogo1805-9za8-200h.png';
@@ -40,24 +39,24 @@ function Login() {
   };
 
   return (
-    <div className="login-page">
-      <section className="hero-section" style={{ backgroundImage: `url(${heroImage})` }}>
-        <div className="hero-content">
-          <h1 className="hero-title">
+    <div>
+      <section style={{ backgroundImage: `url(${heroImage})` }}>
+        <div>
+          <h1>
             Start building your comprehensive genomic profile today.
           </h1>
-          <p className="hero-subtitle">
+          <p>
             Log in or create an account to view your OneDrug ProbeiT results
           </p>
         </div>
-        <img src={logo} alt="OneDrug Logo" className="hero-logo" />
+        <img src={logo} alt="OneDrug Logo" />
       </section>
 
-      <div className="login-form-container">
-        <form className="login-form" onSubmit={handleLogin}>
-          <h2 className="login-title">Log in to OneDrug</h2>
+      <div>
+        <form  onSubmit={handleLogin}>
+          <h2 >Log in to OneDrug</h2>
           
-          <div className="form-group">
+          <div >
             <label htmlFor="email">Email</label>
             <input
               id="email"
@@ -69,7 +68,7 @@ function Login() {
             />
           </div>
 
-          <div className="form-group">
+          <div>
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -81,8 +80,8 @@ function Login() {
             />
           </div>
 
-          <div className="form-options">
-            <label className="remember-me">
+          <div>
+            <label>
               <input
                 type="checkbox"
                 checked={rememberMe}
@@ -90,18 +89,18 @@ function Login() {
               />
               Remember me
             </label>
-            <Link to="/forgot-password" className="forgot-password">
+            <Link to="/forgot-password">
               Forgot your password?
             </Link>
           </div>
 
-          <div className="button-group">
-            <button type="submit" className="login-button">
+          <div >
+            <button type="submit">
               Log in
             </button>
 
             <Link to="/register" style={{ width: '100%' }}>
-              <button type="button" className="signup-button">
+              <button type="button">
                 Create an account
               </button>
             </Link>

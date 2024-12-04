@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import './patientPortal.css';
 
 const PatientNotifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -72,20 +71,19 @@ const PatientNotifications = () => {
   };
 
   return (
-    <div className="patient-container">
-      <h2 className="notification-title">Notifications</h2>
-      <div className="notification-list">
+    <div>
+      <h2>Notifications</h2>
+      <div>
         {notifications.length === 0 ? (
           <p>No new notifications.</p>
         ) : (
           notifications.map((notification) => (
-            <div key={notification._id} className="notification-item">
+            <div key={notification._id} >
               <p>{notification.message}</p>
-              <span className="notification-date">{new Date(notification.createdDate).toLocaleDateString()}</span>
-              <div className="notification-actions">
+              <span >{new Date(notification.createdDate).toLocaleDateString()}</span>
+              <div >
               {notification.type === 'test-result' && (
                   <button
-                    className="view-button"
                     onClick={ () => handleViewTestResult(notification) }
                   >
                     View
@@ -94,13 +92,11 @@ const PatientNotifications = () => {
                 {notification.type === 'requesting-permission' && (
                   <>
                     <button
-                      className="accept-button"
                       onClick={() => handlePermission(notification._id, notification.sender, 'approve')}
                     >
                       Accept
                     </button>
                     <button
-                      className="reject-button"
                       onClick={() => handlePermission(notification._id, notification.sender, 'decline')}
                     >
                       Reject
@@ -109,7 +105,6 @@ const PatientNotifications = () => {
                 )}
                 {notification.type !== 'requesting-permission' && (
                   <button
-                    className="delete-button"
                     onClick={() => handleDelete(notification._id)}
                   >
                     Delete

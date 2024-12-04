@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './register.css';
 import heroImage from '/external/hero-image-medicine.jpg';
 import logo from '/external/placeholderlogo1805-9za8-200h.png';
 
@@ -54,20 +53,20 @@ const Register = () => {
   };
 
   return (
-    <div className="register-page">
-      <section className="hero-section" style={{ backgroundImage: `url(${heroImage})` }}>
-        <div className="hero-content">
-          <h1 className="hero-title">Start building your comprehensive genomic profile today.</h1>
-          <p className="hero-subtitle">Create an account to access OneDrug ProbeiT results</p>
+    <div>
+      <section style={{ backgroundImage: `url(${heroImage})` }}>
+        <div>
+          <h1>Start building your comprehensive genomic profile today.</h1>
+          <p>Create an account to access OneDrug ProbeiT results</p>
         </div>
-        <img src={logo} alt="OneDrug Logo" className="hero-logo" />
+        <img src={logo} alt="OneDrug Logo"/>
       </section>
 
-      <div className="register-form-container">
-        <form onSubmit={handleSubmit} noValidate className="register-form">
-          <h2 className="register-title">Create a OneDrug account</h2>
+      <div>
+        <form onSubmit={handleSubmit} noValidate>
+          <h2>Create a OneDrug account</h2>
 
-          <div className="form-group">
+          <div>
             <label htmlFor="email">Email Address</label>
             <input
               type="email"
@@ -79,12 +78,11 @@ const Register = () => {
                 setEmail(e.target.value); 
                 setEmailError('');
               }}
-              className="form-input"
               placeholder="Enter your email"
             />
-            {emailError && <p className="error-message">{emailError}</p>}
+            {emailError && <p>{emailError}</p>}
           </div>
-          <div className="form-group">
+          <div>
             <label htmlFor="username">Username</label>
             <input
               type="text"
@@ -93,11 +91,10 @@ const Register = () => {
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="form-input"
               placeholder="Choose a username"
             />
           </div>
-          <div className="form-group">
+          <div>
             <label htmlFor="firstName">First Name</label>
             <input
               type="text"
@@ -106,11 +103,10 @@ const Register = () => {
               required
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
-              className="form-input"
               placeholder="Enter your first name"
             />
           </div>
-          <div className="form-group">
+          <div>
             <label htmlFor="lastName">Last Name</label>
             <input
               type="text"
@@ -119,11 +115,10 @@ const Register = () => {
               required
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
-              className="form-input"
               placeholder="Enter your last name"
             />
           </div>
-          <div className="form-group">
+          <div>
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -132,11 +127,10 @@ const Register = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
               placeholder="Create a password"
             />
           </div>
-          <div className="form-group">
+          <div>
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               type="password"
@@ -145,25 +139,23 @@ const Register = () => {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="form-input"
               placeholder="Confirm your password"
             />
           </div>
-          <div className="form-group">
+          <div>
             <label htmlFor="role">Role</label>
             <select
               id="role"
               name="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="form-input"
             >
               <option value="Patient">Patient</option>
               <option value="Doctor">Doctor</option>
             </select>
           </div>
-          <div className="terms-group">
-            <label className="terms-checkbox">
+          <div>
+            <label>
               <input
                 type="checkbox"
                 name="termsAccepted"
@@ -173,13 +165,13 @@ const Register = () => {
               <span>I have read and agreed to OneDrug's User Agreement and Privacy Policy</span>
             </label>
           </div>
-          <div className="button-group">
-            <button type="submit" className="register-button">
+          <div>
+            <button type="submit">
               Sign up
             </button>
 
             <Link to="/login" style={{ width: '100%' }}>
-              <button type="button" className="login-button">
+              <button type="button">
                 I already have an account
               </button>
             </Link>

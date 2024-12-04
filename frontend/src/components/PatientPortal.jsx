@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import axios from "axios";
-import "./PatientPortal.css";
 
 const PatientPortal = () => {
   const location = useLocation();
@@ -115,15 +114,14 @@ const PatientPortal = () => {
   };
 
   return (
-    <div className="patientPortal-container">
+    <div>
       <Helmet>
         <title>Patient Portal</title>
         <meta property="og:title" content="Patient Portal" />
       </Helmet>
-      <div className="home-desktop-patient-portal-test-results">
-        <div className="home-search-bar">
+      <div>
+        <div>
           <input
-            className="patientPortal-text28"
             placeholder="Filter by test ID, gene, or medication"
             value={searchQuery}
             onChange={handleSearch}
@@ -131,11 +129,10 @@ const PatientPortal = () => {
           <img
             src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
             alt="iconmonstrmagnifier212081"
-            className="home-iconmonstrmagnifier21"
           />
         </div>
         
-        <div className="search-helper-text">
+        <div>
           Tip: You can search by test ID, gene name, or medication name
         </div>
         
@@ -147,54 +144,53 @@ const PatientPortal = () => {
             }`}
             onClick={() => toggleExpand(result._id)}
           >
-            <div className="test-header">
-              <div className="home-phenotype">
-                <span className="patientPortal-text21">{result.phenotype}</span>
-                <span className="patientPortal-text22">Phenotype</span>
+            <div>
+              <div>
+                <span>{result.phenotype}</span>
+                <span>Phenotype</span>
               </div>
-              <div className="home-diplotype">
-                <span className="home-text23">{result.diplotype}</span>
-                <span className="patientPortal-text24">Diplotype</span>
+              <div>
+                <span>{result.diplotype}</span>
+                <span>Diplotype</span>
               </div>
-              <div className="home-tested-gene">
-                <span className="patientPortal-text25">
+              <div>
+                <span>
                   {result.testedGene.geneName}
                 </span>
-                <span className="patientPortal-text26">Tested Gene</span>
+                <span>Tested Gene</span>
               </div>
-              <div className="home-test-date">
-                <span className="patientPortal-text14">
+              <div>
+                <span>
                   {new Date(result.testDate).toLocaleDateString()}
                 </span>
-                <span className="patientPortal-text15">Test Date</span>
+                <span>Test Date</span>
               </div>
             </div>
-            <div className="test-content">
-              <div className="home-uploadedby">
-                <span className="patientPortal-text10">
+            <div>
+              <div>
+                <span>
                   {result.uploadedBy.firstName} {result.uploadedBy.lastName}
                 </span>
-                <span className="home-text11">Uploaded by</span>
+                <span>Uploaded by</span>
               </div>
-              <div className="home-upload-date">
-                <span className="patientPortal-text12">
+              <div>
+                <span>
                   {new Date(result.uploadDate).toLocaleDateString()}
                 </span>
-                <span className="home-text13">Upload Date</span>
+                <span>Upload Date</span>
               </div>
               <img
                 src="../public/external/divider1973-rc7m.svg"
                 alt="Divider1973"
-                className="home-divider"
               />
               {result.affectedMedications.map((annotation, index) => (
-                <div key={index} className="medication-list-item"> 
+                <div key={index} > 
                   {annotation.associatedDrug && (
-                    <span className="patientPortal-text19">
+                    <span>
                       {annotation.associatedDrug.drugName}
                     </span>
                   )}
-                  <span className="home-text18">{annotation.description}</span>
+                  <span>{annotation.description}</span>
                 </div>
               ))}
             </div>
@@ -202,7 +198,7 @@ const PatientPortal = () => {
         ))}
 
         {filteredResults.length === 0 && searchQuery && (
-          <div className="no-results-message">
+          <div>
             No test results found matching "{searchQuery}"
           </div>
         )}
@@ -214,15 +210,14 @@ const PatientPortal = () => {
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-        <button className="home-upload-button" onClick={handleUploadTestResult}>
-          <span className="home-text29">Upload Test</span>
+        <button onClick={handleUploadTestResult}>
+          <span>Upload Test</span>
           <img
             src="../public/external/iconmonstrupload1812081-46t.svg"
             alt="iconmonstrupload1812081"
-            className="home-iconmonstrupload181"
           />
         </button>
-        <span className="patientPortal-text30">
+        <span>
           {patient.firstName} {patient.lastName}'s Results
         </span> 
       </div>

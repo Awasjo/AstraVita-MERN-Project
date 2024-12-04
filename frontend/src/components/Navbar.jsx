@@ -1,20 +1,18 @@
-// Navbar.jsx
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './navbar.css';
 import logo from '/external/logo-placeholder-primary.png';
 
 const Navbar = () => {
   const location = useLocation();
 
   return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        <Link to="/" className="navbar-logo">
+    <nav>
+      <div>
+        <Link to="/" >
           <img src={logo} alt="OneDrug" />
         </Link>
 
-        <div className="nav-links">
+        <div >
           <Link to="/" className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}>
             Home
           </Link>
@@ -29,11 +27,11 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="nav-auth">
-          <Link to="/login" className="login-link">
+        <div >
+          <Link to="/login">
             Log in
           </Link>
-          <Link to="/register" className="register-link">
+          <Link to="/register">
             Register
           </Link>
         </div>

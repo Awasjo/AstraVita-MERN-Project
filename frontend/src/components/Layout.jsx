@@ -23,9 +23,9 @@ const Layout = ({ children}) => {
     }
 
     return (
-        <div className="layout" key={user?.role}>
+        <div key={user?.role}>
             {user.role === 'Patient'? <PatientSideNav /> : <DoctorSideNav />}
-            <div className="main-content">
+            <div>
                 {children}
             </div>
         </div>

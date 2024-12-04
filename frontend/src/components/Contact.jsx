@@ -1,5 +1,4 @@
 import React from 'react';
-import './contact.css';
 
 const Contact = () => {
   const handleEmailClick = () => {
@@ -7,7 +6,7 @@ const Contact = () => {
   };
 
   return (
-      <div className="contact-page">
+      <div >
           <h1>Contact Us</h1>
           <p>If you have any questions or need further assistance, please reach out to us via email.</p>
           <button onClick={handleEmailClick}>
