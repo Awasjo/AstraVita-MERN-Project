@@ -145,6 +145,35 @@ const Register = () => {
             </button>
           </div>
 
+          <div className="mb-4 relative">
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Confirm Password
+            </label>
+            <input
+              id="confirmPassword"
+              type={showPassword ? "text" : "password"}
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm your password"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-dark-blue focus:border-dark-blue sm:text-sm"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-8 md:inset-y-7 right-0 pr-3"
+            >
+              <img
+                src={eye}
+                className="h-auto w-6 md:h-auto md:w-8"
+                alt="Toggle Password Visibility"
+              />
+            </button>
+          </div>
+
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">First Name</label>

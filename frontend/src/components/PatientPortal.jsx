@@ -114,112 +114,118 @@ const PatientPortal = () => {
   };
 
   return (
-    <div>
-      <Helmet>
-        <title>Patient Portal</title>
-        <meta property="og:title" content="Patient Portal" />
-      </Helmet>
-      <div>
-        <div>
+    <div className="min-h-screen bg-[#F0F2F5]">
+      <div className="ml-[200px] p-8"> {/* Container with sidebar offset */}
+        {/* Search Section */}
+        <div className="relative mb-6">
           <input
             placeholder="Filter by test ID, gene, or medication"
             value={searchQuery}
             onChange={handleSearch}
+            className="w-full px-12 py-3 bg-[#D9D9D9] rounded-md text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <img
             src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
-            alt="iconmonstrmagnifier212081"
+            alt="Search"
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
           />
+          <p className="mt-2 text-sm text-gray-600 italic">
+            Tip: You can search by test ID, gene name, or medication name
+          </p>
         </div>
-        
-        <div>
-          Tip: You can search by test ID, gene name, or medication name
-        </div>
-        
+
+        {/* Upload Button */}
+        <button 
+          onClick={handleUploadTestResult}
+          className="flex items-center gap-3 px-6 py-3 bg-[#30336B] text-white rounded-md hover:bg-[#282B59] transition-colors"
+        >
+          <img
+            src="../public/external/iconmonstrupload1812081-46t.svg"
+            alt="Upload"
+            className="w-5 h-5 brightness-0 invert"
+          />
+          <span className="font-semibold">Upload Test</span>
+        </button>
+
+        {/* Test Results List */}
         {filteredResults.map((result) => (
           <div
             key={result._id}
-            className={`home-test-result1 ${
-              expandedResults[result._id] ? "expanded" : ""
-            }`}
             onClick={() => toggleExpand(result._id)}
+            className={`
+              bg-white rounded-lg shadow-md p-6 mb-4 cursor-pointer
+              transition-all duration-300 ease-in-out
+              hover:border-2 hover:border-[#171775] hover:border-opacity-35
+              ${expandedResults[result._id] ? 'max-h-[500px]' : 'max-h-20'}
+              overflow-hidden
+            `}
           >
-            <div>
+            <div className="grid grid-cols-3 gap-6">
+              {/* Test Info */}
               <div>
-                <span>{result.phenotype}</span>
-                <span>Phenotype</span>
-              </div>
-              <div>
-                <span>{result.diplotype}</span>
-                <span>Diplotype</span>
-              </div>
-              <div>
-                <span>
-                  {result.testedGene.geneName}
-                </span>
-                <span>Tested Gene</span>
-              </div>
-              <div>
-                <span>
-                  {new Date(result.testDate).toLocaleDateString()}
-                </span>
-                <span>Test Date</span>
-              </div>
-            </div>
-            <div>
-              <div>
-                <span>
-                  {result.uploadedBy.firstName} {result.uploadedBy.lastName}
-                </span>
-                <span>Uploaded by</span>
-              </div>
-              <div>
-                <span>
-                  {new Date(result.uploadDate).toLocaleDateString()}
-                </span>
-                <span>Upload Date</span>
-              </div>
-              <img
-                src="../public/external/divider1973-rc7m.svg"
-                alt="Divider1973"
-              />
-              {result.affectedMedications.map((annotation, index) => (
-                <div key={index} > 
-                  {annotation.associatedDrug && (
-                    <span>
-                      {annotation.associatedDrug.drugName}
-                    </span>
-                  )}
-                  <span>{annotation.description}</span>
+                <div className="mb-4">
+                  <span className="text-sm font-bold text-gray-800">Gene</span>
+                  <p className="text-gray-600">{result.testedGene.geneName}</p>
                 </div>
-              ))}
+                <div className="mb-4">
+                  <span className="text-sm font-bold text-gray-800">Phenotype</span>
+                  <p className="text-gray-600">{result.phenotype}</p>
+                </div>
+                <div className="mb-4">
+                  <span className="text-sm font-bold text-gray-800">Diplotype</span>
+                  <p className="text-gray-600">{result.diplotype}</p>
+                </div>
+              </div>
+
+              {/* Dates and Uploader Info */}
+              <div>
+                <div className="mb-4">
+                  <span className="text-sm font-bold text-gray-800">Test Date</span>
+                  <p className="text-gray-600">
+                    {new Date(result.testDate).toLocaleDateString()}
+                  </p>
+                </div>
+                <div className="mb-4">
+                  <span className="text-sm font-bold text-gray-800">Uploaded by</span>
+                  <p className="text-gray-600">
+                    {result.uploadedBy.firstName} {result.uploadedBy.lastName}
+                  </p>
+                </div>
+              </div>
+
+              {/* Medications */}
+              <div className="border-l pl-6">
+                {result.affectedMedications.map((annotation, index) => (
+                  <div 
+                    key={index}
+                    className="mb-4 p-4 bg-[#D9DAE4] rounded-md"
+                  >
+                    {annotation.associatedDrug && (
+                      <p className="font-bold mb-2">{annotation.associatedDrug.drugName}</p>
+                    )}
+                    <p className="text-sm text-gray-700">{annotation.description}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ))}
 
+        {/* No Results Message */}
         {filteredResults.length === 0 && searchQuery && (
-          <div>
+          <div className="text-center p-6 bg-gray-100 rounded-lg text-gray-600">
             No test results found matching "{searchQuery}"
           </div>
         )}
 
+        {/* Hidden File Input */}
         <input
           type="file"
           accept=".json"
           ref={fileInputRef}
-          style={{ display: "none" }}
+          className="hidden"
           onChange={handleFileChange}
         />
-        <button onClick={handleUploadTestResult}>
-          <span>Upload Test</span>
-          <img
-            src="../public/external/iconmonstrupload1812081-46t.svg"
-            alt="iconmonstrupload1812081"
-          />
-        </button>
-        <span>
-          {patient.firstName} {patient.lastName}'s Results
-        </span> 
       </div>
     </div>
   );

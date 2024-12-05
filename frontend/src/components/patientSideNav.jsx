@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 const PatientSideNav = (props) => {
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -23,67 +24,151 @@ const PatientSideNav = (props) => {
 
   const handleNotifications = () => {
     navigate('/patient/notifications', { state: { patient: props.patient } });
+    setIsMobileMenuOpen(false);
   }
 
   const handleHomepage = () => {
     navigate('/');
+    setIsMobileMenuOpen(false);
+  };
+
+  const navItemClass = "flex items-center space-x-6 px-8 py-4 hover:bg-[#282B59] transition-colors duration-200";
+  const navTextClass = "font-inter text-base font-semibold text-[#D9DAE4]";
+  const navIconClass = "w-4 h-4 md:w-4 md:h-4 brightness-0 invert";
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
-    <div>
-      <img
-        src="../public/external/placeholderlogo1805-9za8-200h.png"
-        alt="PlaceholderLogo1805"
-      />
-      <div>
-        <span>Test Results</span>
-        <img
-          src="../public/external/iconmonstrclipboard112192-hxc9.svg"
-          alt="iconmonstrclipboard112192"
+    <>
+      {/* Mobile Menu Button */}
+      <button 
+        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-[#181A36]"
+        onClick={toggleMobileMenu}
+      >
+        <svg 
+          className="w-6 h-6 text-white"
+          fill="none" 
+          strokeLinecap="round" 
+          strokeLinejoin="round" 
+          strokeWidth="2" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          {isMobileMenuOpen ? (
+            <path d="M6 18L18 6M6 6l12 12" />
+          ) : (
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          )}
+        </svg>
+      </button>
+
+      {/* Sidebar */}
+      <div className={`
+        fixed top-0 left-0 h-screen bg-[#181A36] flex flex-col
+        transform transition-transform duration-300 ease-in-out
+        md:translate-x-0 md:w-[200px]
+        ${isMobileMenuOpen ? 'w-64 translate-x-0' : '-translate-x-full'}
+        z-40
+      `}>
+        {/* Logo */}
+        <div className="mt-10 mb-12 mx-auto">
+          <img
+            src="../public/external/placeholderlogo1805-9za8-200h.png"
+            alt="PlaceholderLogo1805"
+            className="w-[109px] h-6"
+          />
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 flex flex-col">
+          {/* Test Results - Active State */}
+          <div className="relative bg-[#282B59] py-4">
+            <div className="absolute left-0 top-0 w-1.5 h-12 bg-white" />
+            <div className={navItemClass}>
+              <img
+                src="../public/external/iconmonstrclipboard112192-hxc9.svg"
+                alt="Test Results"
+                className={navIconClass}
+              />
+              <span className="font-inter text-base font-semibold text-white">Test Results</span>
+            </div>
+          </div>
+
+          {/* My Doctors */}
+          <div className={navItemClass}>
+            <img
+              src="../public/external/iconmonstruser3112193-o16o.svg"
+              alt="My Doctors"
+              className={navIconClass}
+            />
+            <span className={navTextClass}>My Doctors</span>
+          </div>
+
+          {/* Messages */}
+          <div className={navItemClass}>
+            <img
+              src="../public/external/iconmonstrspeechbubble1912234-e9s.svg"
+              alt="Messages"
+              className={navIconClass}
+            />
+            <span className={navTextClass}>Messages</span>
+          </div>
+
+          {/* Notifications - Moved before Settings */}
+          <div className={navItemClass} onClick={handleNotifications}>
+            <img
+              src="../public/external/iconmonstrbell2411.svg"
+              alt="Notifications"
+              className="w-4 h-4 md:w-4 md:h-4" // Keep original color
+            />
+            <span className={navTextClass}>Notifications</span>
+          </div>
+
+          {/* Settings - Moved after Notifications */}
+          <div className={navItemClass}>
+            <img
+              src="../public/external/iconmonstrgear112234-1lyt.svg"
+              alt="Settings"
+              className={navIconClass}
+            />
+            <span className={navTextClass}>Settings</span>
+          </div>
+
+          {/* Bottom Navigation Items */}
+          <div className="mt-auto mb-8">
+            {/* Homepage */}
+            <div className={navItemClass} onClick={handleHomepage}>
+              <img
+                src="../public/external/iconmonstrhome112223-3zd.svg"
+                alt="Homepage"
+                className={navIconClass}
+              />
+              <span className={navTextClass}>Homepage</span>
+            </div>
+
+            {/* Sign Out */}
+            <div className={navItemClass} onClick={handleLogout}>
+              <img
+                src="../public/external/iconmonstrlogout1812213-0hv9.svg"
+                alt="Sign Out"
+                className={navIconClass}
+              />
+              <span className={navTextClass}>Sign Out</span>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      {/* Overlay for mobile */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+          onClick={toggleMobileMenu}
         />
-      </div>
-      <div>
-        <span>My Doctors</span>
-        <img
-          src="../public/external/iconmonstruser3112193-o16o.svg"
-          alt="iconmonstruser3112193"
-        />
-      </div>
-      <div>
-        <span>Messages</span>
-        <img
-          src="../public/external/iconmonstrspeechbubble1912234-e9s.svg"
-          alt="iconmonstrspeechbubble1912234"
-        />
-      </div>
-      <div>
-        <span>Settings</span>
-        <img
-          src="../public/external/iconmonstrgear112234-1lyt.svg"
-          alt="iconmonstrgear112234"
-        />
-      </div>
-      <div onClick={handleNotifications}>
-        <span>Notifications</span>
-        <img
-          src="../public/external/iconmonstrbell2411.svg"
-          alt="iconmonstrbell2411"        />
-      </div>
-      <div onClick={handleLogout}>
-        <span>Sign Out</span>
-        <img
-          src="../public/external/iconmonstrlogout1812213-0hv9.svg"
-          alt="iconmonstrlogout1812213"
-        />
-      </div>
-      <div onClick={handleHomepage}>
-        <span>Homepage</span>
-        <img
-          src="../public/external/iconmonstrhome112223-3zd.svg"
-          alt="iconmonstrhome112223"
-        />
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 
