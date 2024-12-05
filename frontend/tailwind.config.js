@@ -13,6 +13,7 @@ export default {
         'dark-theme': '#222222',
         'gray-color': '#C7C7D7',
         'gray-color-2': '#333333',
+        'strong-blue': '#0071BC',
       },
       fontFamily: {
         serif: ['DM Serif Display', 'serif'],
