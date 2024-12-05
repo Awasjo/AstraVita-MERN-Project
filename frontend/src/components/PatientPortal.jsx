@@ -14,6 +14,7 @@ const PatientPortal = () => {
   const fileInputRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState(testResultId ?? "");
   const [filteredResults, setFilteredResults] = useState([]);
+  const [isSortAscending, setSortAscending] = useState(true);
 
   const fetchTestResults = async (patientId) => {
     setTestResults([]); // Clear current state
@@ -22,7 +23,9 @@ const PatientPortal = () => {
         `http://localhost:3000/api/test-results/patient/${patientId}`,
         { withCredentials: true }
       );
+      const sortedResults = sortByTestDate(response.data);
       setTestResults(response.data);
+      setFilteredResults(sortedResults);
       console.log("testResults:", response.data);
     } catch (error) {
       console.error("Error fetching test results:", error);
@@ -35,7 +38,7 @@ const PatientPortal = () => {
 
   useEffect(() => {
     if (!searchQuery.trim()) {
-      setFilteredResults(testResults);
+      setFilteredResults(sortByTestDate(testResults));
       return;
     }
 
@@ -56,8 +59,8 @@ const PatientPortal = () => {
       return idMatch || geneMatch || medicationMatch;
     });
 
-    setFilteredResults(filtered);
-  }, [searchQuery, testResults]);
+    setFilteredResults(sortByTestDate(filtered));
+  }, [searchQuery, testResults, isSortAscending]);
 
   const toggleExpand = (id) => {
     setExpandedResults((prevState) => ({
@@ -128,119 +131,180 @@ const PatientPortal = () => {
     setSearchQuery(e.target.value);
   };
 
+  const sortByTestDate = (results) => {
+    return [...results].sort((a, b) => {
+      const dateA = new Date(a.testDate);
+      const dateB = new Date(b.testDate);
+      return isSortAscending ? dateA - dateB : dateB - dateA;
+    });
+  };
+
+  const handleSortToggle = () => {
+    setSortAscending(!isSortAscending);
+    setFilteredResults(prevResults => sortByTestDate(prevResults));
+  };
+
   return (
     <div className="min-h-screen bg-[#F0F2F5]">
-      <div className="ml-[200px] p-8"> {/* Container with sidebar offset */}
-        {/* Search Section */}
-        <div className="relative mb-6">
-          <input
-            placeholder="Filter by test ID, gene, or medication"
-            value={searchQuery}
-            onChange={handleSearch}
-            className="w-full px-12 py-3 bg-[#D9D9D9] rounded-md text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <img
-            src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
-            alt="Search"
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
-          />
-          <p className="mt-2 text-sm text-gray-600 italic">
-            Tip: You can search by test ID, gene name, or medication name
-          </p>
-        </div>
-
-        {/* Upload Button */}
-        <button 
-          onClick={handleUploadTestResult}
-          className="flex items-center gap-3 px-6 py-3 bg-[#30336B] text-white rounded-md hover:bg-[#282B59] transition-colors"
-        >
-          <img
-            src="../public/external/iconmonstrupload1812081-46t.svg"
-            alt="Upload"
-            className="w-5 h-5 brightness-0 invert"
-          />
-          <span className="font-semibold">Upload Test</span>
-        </button>
-
-        {/* Test Results List */}
-        {filteredResults.map((result) => (
-          <div
-            key={result._id}
-            onClick={() => toggleExpand(result._id)}
-            className={`
-              bg-white rounded-lg shadow-md p-6 mb-4 cursor-pointer
-              transition-all duration-300 ease-in-out
-              hover:border-2 hover:border-[#171775] hover:border-opacity-35
-              ${expandedResults[result._id] ? 'max-h-[500px]' : 'max-h-20'}
-              overflow-hidden
-            `}
+      <div className="ml-0 md:ml-[80px] relative p-4 md:p-0">
+        <div className="max-w-[1440px] mx-auto relative">
+          {/* Header Section with Title and Upload Button */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center 
+            md:absolute md:left-[80px] md:right-[280px] md:top-[107px]"
           >
-            <div className="grid grid-cols-3 gap-6">
-              {/* Test Info */}
-              <div>
-                <div className="mb-4">
-                  <span className="text-sm font-bold text-gray-800">Gene</span>
-                  <p className="text-gray-600">{result.testedGene.geneName}</p>
-                </div>
-                <div className="mb-4">
-                  <span className="text-sm font-bold text-gray-800">Phenotype</span>
-                  <p className="text-gray-600">{result.phenotype}</p>
-                </div>
-                <div className="mb-4">
-                  <span className="text-sm font-bold text-gray-800">Diplotype</span>
-                  <p className="text-gray-600">{result.diplotype}</p>
-                </div>
-              </div>
+            <h1 className="text-[28px] font-bold text-[#30336B] font-inter leading-[34px]">
+              My Test Results
+            </h1>
 
-              {/* Dates and Uploader Info */}
-              <div>
-                <div className="mb-4">
-                  <span className="text-sm font-bold text-gray-800">Test Date</span>
-                  <p className="text-gray-600">
-                    {new Date(result.testDate).toLocaleDateString()}
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <span className="text-sm font-bold text-gray-800">Uploaded by</span>
-                  <p className="text-gray-600">
-                    {result.uploadedBy.firstName} {result.uploadedBy.lastName}
-                  </p>
-                </div>
-              </div>
+            <button 
+              onClick={handleUploadTestResult}
+              className="mt-4 md:mt-0 w-full md:w-[160px] h-[40px] flex items-center justify-center 
+                gap-2 bg-[#30336B] text-white rounded-md hover:bg-[#282B59] transition-colors"
+            >
+              <img
+                src="../public/external/iconmonstrupload1812081-46t.svg"
+                alt="Upload"
+                className="w-5 h-5 brightness-0 invert"
+              />
+              <span className="font-semibold">Upload Test</span>
+            </button>
+          </div>
 
-              {/* Medications */}
-              <div className="border-l pl-6">
-                {result.affectedMedications.map((annotation, index) => (
-                  <div 
-                    key={index}
-                    className="mb-4 p-4 bg-[#D9DAE4] rounded-md"
-                  >
-                    {annotation.associatedDrug && (
-                      <p className="font-bold mb-2">{annotation.associatedDrug.drugName}</p>
-                    )}
-                    <p className="text-sm text-gray-700">{annotation.description}</p>
-                  </div>
-                ))}
-              </div>
+          {/* Search Bar Section */}
+          <div className="md:absolute md:left-[80px] md:top-[188px] md:w-[1080px]">
+            <div className="relative w-full">
+              <input
+                placeholder="Filter test results by gene or medication"
+                value={searchQuery}
+                onChange={handleSearch}
+                className="w-full h-[40px] px-12 bg-[#D9D9D9] rounded-md text-[#888888] 
+                  placeholder-[#888888] focus:outline-none"
+              />
+              <img
+                src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
+                alt="Search"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
+              />
             </div>
           </div>
-        ))}
 
-        {/* No Results Message */}
-        {filteredResults.length === 0 && searchQuery && (
-          <div className="text-center p-6 bg-gray-100 rounded-lg text-gray-600">
-            No test results found matching "{searchQuery}"
+          {/* Sort Options - Separate div aligned right */}
+          <div className="flex justify-end md:absolute md:right-[280px] md:top-[240px]">
+            <button 
+              onClick={handleSortToggle}
+              className="flex items-center gap-2 text-[#444444] hover:text-[#30336B] transition-colors"
+            >
+              <span className="font-semibold text-sm">Sort by Test Date</span>
+              <img
+                src="../external/iconmonstrarrow6512112-lajk.svg"
+                alt="Sort"
+                className={`w-4 h-4 transition-transform duration-200 ${
+                  isSortAscending ? 'rotate-0' : 'rotate-180'
+                }`}
+              />
+            </button>
           </div>
-        )}
 
-        {/* Hidden File Input */}
-        <input
-          type="file"
-          accept=".json"
-          ref={fileInputRef}
-          className="hidden"
-          onChange={handleFileChange}
-        />
+          {/* Test Results List */}
+          <div className="mt-8 space-y-6 md:absolute md:left-[80px] md:top-[280px] md:w-[1080px]">
+            {filteredResults.map((result) => (
+              <div key={result._id} className="flex flex-col md:flex-row">
+                {/* Main Content */}
+                <div className="flex-1 bg-white rounded-t-md md:rounded-l-md md:rounded-tr-none 
+                  shadow-sm p-4 md:p-8"
+                >
+                  {/* Gene Info Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-x-16 mb-8">
+                    <div>
+                      <h3 className="font-semibold text-[#222222] text-sm mb-1">Tested Gene</h3>
+                      <p className="text-[#222222] text-sm">{result.testedGene.geneName}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-[#222222] text-sm mb-1">Diplotype</h3>
+                      <p className="text-[#222222] text-sm">{result.diplotype}</p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-[#222222] text-sm mb-1">Phenotype</h3>
+                      <p className="text-[#222222] text-sm">{result.phenotype}</p>
+                    </div>
+                  </div>
+
+                  {/* Middle Section - Affected Medications */}
+                  <div>
+                    <h3 className="font-semibold text-[#222222] text-sm mb-4">Affected Medications</h3>
+                    <div className="space-y-4">
+                      {result.affectedMedications.map((annotation, index) => (
+                        <div 
+                          key={index}
+                          className="bg-[#D9DAE4] rounded-lg p-4 max-w-[800px]"
+                        >
+                          {annotation.associatedDrug && (
+                            <p className="font-semibold text-[#222222] text-sm mb-2">
+                              {annotation.associatedDrug.drugName}
+                            </p>
+                          )}
+                          <p className="text-[#222222] text-sm">{annotation.description}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Side Panel */}
+                <div className="w-full md:w-[200px] bg-white rounded-b-md md:rounded-r-md md:rounded-bl-none 
+                  shadow-sm p-4 md:p-6 border-t md:border-l md:border-t-0 border-[#D9DAE4] flex flex-col"
+                >
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="font-semibold text-[#222222] text-sm">Test Date</h3>
+                      <p className="text-[#222222] text-sm">
+                        {new Date(result.testDate).toLocaleDateString('en-GB')}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-[#222222] text-sm">Upload Date</h3>
+                      <p className="text-[#222222] text-sm">
+                        {new Date(result.uploadDate).toLocaleDateString('en-GB')}
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-[#222222] text-sm">Uploaded by</h3>
+                      <p className="text-[#222222] text-sm">
+                        {result.uploadedBy.firstName} {result.uploadedBy.lastName}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Delete Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(result._id);
+                    }}
+                    className="flex items-center justify-center gap-2 w-full md:w-[100px] h-[40px] 
+                      bg-[#C0392B] text-white rounded-md hover:bg-red-700 transition-colors mt-6"
+                  >
+                    <img
+                      src="../public/external/iconmonstrtrash1812081-46t.svg"
+                      alt="Delete"
+                      className="w-4 h-4 brightness-0 invert"
+                    />
+                    <span className="text-sm font-semibold">Delete</span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Hidden File Input */}
+          <input
+            type="file"
+            accept=".json"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileChange}
+          />
+        </div>
       </div>
     </div>
   );

@@ -32,9 +32,14 @@ const PatientSideNav = (props) => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleTestResults = () => {
+    navigate('/patient/portal', { state: { patient: props.patient } });
+    setIsMobileMenuOpen(false);
+  };
+
   const navItemClass = "flex items-center space-x-6 px-8 py-4 hover:bg-[#282B59] transition-colors duration-200";
   const navTextClass = "font-inter text-base font-semibold text-[#D9DAE4]";
-  const navIconClass = "w-4 h-4 md:w-4 md:h-4 brightness-0 invert";
+  const navIconClass = "w-4 h-4 brightness-0 invert";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -84,9 +89,12 @@ const PatientSideNav = (props) => {
         {/* Navigation */}
         <nav className="flex-1 flex flex-col">
           {/* Test Results - Active State */}
-          <div className="relative bg-[#282B59] py-4">
-            <div className="absolute left-0 top-0 w-1.5 h-12 bg-white" />
-            <div className={navItemClass}>
+          <div 
+            className="relative cursor-pointer"
+            onClick={handleTestResults}
+          >
+            <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            <div className={`${navItemClass} bg-[#282B59]`}>
               <img
                 src="../public/external/iconmonstrclipboard112192-hxc9.svg"
                 alt="Test Results"
@@ -121,7 +129,7 @@ const PatientSideNav = (props) => {
             <img
               src="../public/external/iconmonstrbell2411.svg"
               alt="Notifications"
-              className="w-4 h-4 md:w-4 md:h-4" // Keep original color
+              className={navIconClass}
             />
             <span className={navTextClass}>Notifications</span>
           </div>

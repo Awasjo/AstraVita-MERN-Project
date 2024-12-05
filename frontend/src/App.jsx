@@ -11,6 +11,7 @@ import PatientNotifications from "./components/PatientNotifications";
 import Contact from "./components/Contact";
 import DoctorNotifications from "./components/DoctorNotifications";
 import { Home } from "./components/Home";
+import PrivateRoute from "./components/PrivateRoute";
 
 const App = () => {
   const location = useLocation();
@@ -65,6 +66,16 @@ const App = () => {
         />{" "}
         {/* Patient notifications route */}
         <Route path="/add-doctor" element={<AddDoctor />} />
+        <Route 
+          path="/patient/portal" 
+          element={
+            <Layout>
+              <PrivateRoute>
+                <PatientPortal />
+              </PrivateRoute>
+            </Layout>
+          } 
+        />
       </Routes>
     </>
   );
