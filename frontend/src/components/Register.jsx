@@ -3,19 +3,31 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import heroImage from '/external/hero-image-medicine.jpg';
 import logo from '/external/placeholderlogo1805-9za8-200h.png';
+import xMark from '/external/iconmonstr-x-mark-9.svg';
+import eye from '/external/iconmonstr-eye-filled.svg';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [role, setRole] = useState('Patient');
-  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    firstName: '',
+    lastName: '',
+    role: 'Patient',
+  });
+  const [showPassword, setShowPassword] = useState(false);
   const [emailError, setEmailError] = useState('');
-
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (name === 'email') setEmailError('');
+  };
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -24,26 +36,18 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateEmail(email)) {
+    if (!validateEmail(formData.email)) {
       setEmailError('Invalid email address');
       return;
     }
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match");
       return;
     }
-    if (!termsAccepted) {
-      alert('Please accept the terms and conditions');
-      return;
-    }
+
     try {
       await axios.post('http://localhost:3000/api/users/register', {
-        username,
-        firstName,
-        lastName,
-        email,
-        password,
-        role,
+        ...formData
       });
       navigate('/login');
     } catch (error) {
@@ -53,127 +57,144 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <section style={{ backgroundImage: `url(${heroImage})` }}>
-        <div>
-          <h1>Start building your comprehensive genomic profile today.</h1>
-          <p>Create an account to access OneDrug ProbeiT results</p>
+    <div className="flex flex-col md:flex-row h-screen">
+      <section
+        className="flex-1 bg-cover bg-center p-8 text-white relative hidden md:block"
+        style={{ backgroundImage: `url(${heroImage})` }}
+      >
+        <div className="absolute top-20 left-10 max-w-96 xl:left-40">
+          <h1 className="font-serif text-4xl font-semibold mb-4">
+            Start building your comprehensive genomic profile today.
+          </h1>
+          <p className="font-sans text-lg leading-none">
+            Log in or create an account to view your{" "}
+            <span className="font-bold">OneDrug ProbeiT</span> results
+          </p>
         </div>
-        <img src={logo} alt="OneDrug Logo"/>
+        <img
+          className="absolute bottom-10 left-10 h-10 xl:left-40"
+          src={logo}
+          alt="OneDrug Logo"
+        />
       </section>
 
-      <div>
-        <form onSubmit={handleSubmit} noValidate>
-          <h2>Create a OneDrug account</h2>
+      <div className="flex-1 bg-light-theme flex flex-col justify-start pt-24 items-center p-8 relative">
+        <button
+          onClick={() => navigate("/")}
+          className="absolute top-4 right-4 text-2xl font-bold"
+        >
+          <img src={xMark} alt="Close" />
+        </button>
 
-          <div>
-            <label htmlFor="email">Email Address</label>
+        <form onSubmit={handleSubmit} className="w-full max-w-md" noValidate>
+          <h2 className="font-sans text-2xl font-bold mb-8 text-black">
+            Create a OneDrug account
+          </h2>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              id="email"
               name="email"
-              required
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value); 
-                setEmailError('');
-              }}
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-light-blue focus:border-light-blue sm:text-sm"
             />
-            {emailError && <p>{emailError}</p>}
+            {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
           </div>
-          <div>
-            <label htmlFor="username">Username</label>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Username</label>
             <input
               type="text"
-              id="username"
               name="username"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={formData.username}
+              onChange={handleChange}
               placeholder="Choose a username"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-light-blue focus:border-light-blue sm:text-sm"
             />
           </div>
-          <div>
-            <label htmlFor="firstName">First Name</label>
+
+          <div className="mb-4 relative">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Password
+            </label>
             <input
-              type="text"
-              id="firstName"
-              name="firstName"
-              required
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              placeholder="Enter your first name"
-            />
-          </div>
-          <div>
-            <label htmlFor="lastName">Last Name</label>
-            <input
-              type="text"
-              id="lastName"
-              name="lastName"
-              required
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              placeholder="Enter your last name"
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
               id="password"
+              type={showPassword ? "text" : "password"}
               name="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Create a password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-dark-blue focus:border-dark-blue sm:text-sm"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute inset-y-8 md:inset-y-7 right-0 pr-3"
+            >
+              <img
+                src={eye}
+                className="h-auto w-6 md:h-auto md:w-8"
+                alt="Toggle Password Visibility"
+              />
+            </button>
           </div>
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm your password"
-            />
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">First Name</label>
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="First name"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-light-blue focus:border-light-blue sm:text-sm"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Last Name</label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last name"
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-light-blue focus:border-light-blue sm:text-sm"
+              />
+            </div>
           </div>
-          <div>
-            <label htmlFor="role">Role</label>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">I am a...</label>
             <select
-              id="role"
               name="role"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
+              value={formData.role}
+              onChange={handleChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-light-blue focus:border-light-blue sm:text-sm"
             >
               <option value="Patient">Patient</option>
               <option value="Doctor">Doctor</option>
             </select>
           </div>
-          <div>
-            <label>
-              <input
-                type="checkbox"
-                name="termsAccepted"
-                checked={termsAccepted}
-                onChange={(e) => setTermsAccepted(e.target.checked)}
-              />
-              <span>I have read and agreed to OneDrug's User Agreement and Privacy Policy</span>
-            </label>
-          </div>
-          <div>
-            <button type="submit">
+
+          <div className="flex flex-col space-y-4 mt-6">
+            <button
+              type="submit"
+              className="bg-dark-blue text-light-theme px-6 py-3 rounded-md font-bold"
+            >
               Sign up
             </button>
-
-            <Link to="/login" style={{ width: '100%' }}>
-              <button type="button">
-                I already have an account
-              </button>
+            <Link
+              to="/login"
+              className="bg-gray-color text-dark-blue px-6 py-3 rounded-md font-bold text-center"
+            >
+              I already have an account
             </Link>
           </div>
         </form>
