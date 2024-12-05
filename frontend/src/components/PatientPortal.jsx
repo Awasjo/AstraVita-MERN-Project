@@ -76,27 +76,16 @@ const PatientPortal = () => {
           
           // The older mock datasets also contain a patientId property - ignore it
           const rawJson = JSON.parse(fileContents);
-          const jsonData = {
+          var jsonData = {
             patientId: patientId,
             testedGene: rawJson.testedGene,
             maternalAllele: rawJson.maternalAllele,
             paternalAllele: rawJson.paternalAllele,
-            testDate: rawJson.testDate
+            testDate: rawJson.testDate,
+            replace: false
           }
-
-          const response = await axios.post(
-            "http://localhost:3000/api/test-results",
-            jsonData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-              withCredentials: true,
-            }
-          );
           
-          console.log("Data uploaded successfully:", response.data);
-          fetchTestResults(patientId);
+          postToApi(jsonData);
         } catch (error) {
           console.error("Error uploading data:", error);
         }
@@ -104,6 +93,32 @@ const PatientPortal = () => {
       reader.readAsText(file);
     }
   };
+
+  const postToApi = async (jsonData) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/test-results",
+        jsonData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log("Data uploaded successfully:", response.data);
+      fetchTestResults(patientId);
+    } catch (error) {
+      if (error.status === 409) {
+        if (confirm("A test result for this gene already exists. Replace existing test?")) {
+          jsonData.replace = true;
+          postToApi(jsonData); // https://www.reddit.com/media?url=https%3A%2F%2Fi.redd.it%2Fegq7k2ewwwb91.png
+          return;
+        }
+      }
+      throw error; // Defer to parent catch block
+    }
+  }
 
   const handleUploadTestResult = () => {
     fileInputRef.current.click();
