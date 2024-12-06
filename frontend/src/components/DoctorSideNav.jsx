@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const DoctorSideNav = () => {
+const DoctorSideNav = ({doctor}) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -20,7 +20,6 @@ const DoctorSideNav = () => {
     try {
       const response = await axios.get('http://localhost:3000/api/users/logout');
       if (response.data.message === 'Logout successful') {
-        alert('Logout successful!');
         localStorage.removeItem('authToken');
         navigate('/');
       } else {
@@ -30,6 +29,15 @@ const DoctorSideNav = () => {
       console.error('Logout failed:', error.response.data.message);
       alert('Logout failed: ' + error.response.data.message);
     }
+  };
+
+  const handleMyPations = () => {
+    if (doctor) {
+      navigate('/doctor', { state: { doctor: doctor } });
+    } else {
+      navigate('/login');
+    }
+    setIsMobileMenuOpen(false);
   };
 
   const handleNotifications = () => {
@@ -88,7 +96,7 @@ const DoctorSideNav = () => {
           {/* My Patients - Active State */}
           <div className="relative">
             <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
-            <div className={`${navItemClass} bg-[#282B59]`}>
+            <div className={`${navItemClass} bg-[#282B59]`} onClick={handleMyPations}>
               <img
                 src="../public/external/iconmonstruser3112411-vi2f.svg"
                 alt="My Patients"
