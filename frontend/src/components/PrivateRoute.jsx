@@ -1,17 +1,20 @@
-import React from 'react';
+// PrivateRoute.jsx
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 
-const PrivateRoute = ({ children }) => {
-  // Check if user is logged in
-  const isAuthenticated = localStorage.getItem('user') !== null;
+const PrivateRoute = ({ children, allowedRoles }) => {
+  const { user } = useContext(AuthContext);
 
-  if (!isAuthenticated) {
-    // Redirect to login if not authenticated
+  if (!user) {
     return <Navigate to="/login" />;
   }
 
-  // If authenticated, render the protected component
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
+    return <Navigate to="/404" />;
+  }
+
   return children;
 };
 
-export default PrivateRoute; 
+export default PrivateRoute;

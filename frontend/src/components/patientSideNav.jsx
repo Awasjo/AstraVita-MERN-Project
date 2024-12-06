@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
-const PatientSideNav = (props) => {
+const PatientSideNav = ({patient}) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -11,7 +12,7 @@ const PatientSideNav = (props) => {
     try {
       const response = await axios.get('http://localhost:3000/api/users/logout');
       if (response.data.message === 'Logout successful') {
-        alert('Logout successful!');
+        localStorage.removeItem('authToken');
         navigate('/');
       } else {
         console.error('Logout failed:', response.data.message);
@@ -23,7 +24,7 @@ const PatientSideNav = (props) => {
   };
 
   const handleNotifications = () => {
-    navigate('/patient/notifications', { state: { patient: props.patient } });
+    navigate('/patient/notifications', { state: { patient: patient } });
     setIsMobileMenuOpen(false);
   }
 
@@ -33,7 +34,11 @@ const PatientSideNav = (props) => {
   };
 
   const handleTestResults = () => {
-    navigate('/patient/portal', { state: { patient: props.patient } });
+    if (patient) {
+      navigate('/patient', { state: { patient: patient } });
+    } else {
+      navigate('/login');
+    }
     setIsMobileMenuOpen(false);
   };
 
@@ -178,6 +183,9 @@ const PatientSideNav = (props) => {
       )}
     </>
   );
+};
+PatientSideNav.propTypes = {
+  patient: PropTypes.object.isRequired,
 };
 
 export default PatientSideNav;

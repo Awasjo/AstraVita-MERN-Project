@@ -20,7 +20,6 @@ const DoctorSideNav = () => {
     try {
       const response = await axios.get('http://localhost:3000/api/users/logout');
       if (response.data.message === 'Logout successful') {
-        alert('Logout successful!');
         localStorage.removeItem('authToken');
         navigate('/');
       } else {

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import axios from "axios";
 
 const PatientPortal = () => {
@@ -9,7 +8,6 @@ const PatientPortal = () => {
   const testResultId = location.state.testResultId;
 
   var patientId = patient._id || patient.id;
-  const [expandedResults, setExpandedResults] = useState({});
   const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState(testResultId ?? "");

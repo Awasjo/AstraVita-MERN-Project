@@ -12,6 +12,7 @@ import Contact from "./components/Contact";
 import DoctorNotifications from "./components/DoctorNotifications";
 import { Home } from "./components/Home";
 import PrivateRoute from "./components/PrivateRoute";
+import NotFound from "./components/NotFound";
 
 const App = () => {
   const location = useLocation();
@@ -33,7 +34,9 @@ const App = () => {
           path="/doctor/*"
           element={
             <Layout>
-              <DoctorPortal />
+              <PrivateRoute allowedRoles={['Doctor']}>
+                <DoctorPortal />
+              </PrivateRoute>
             </Layout>
           }
         />{" "}
@@ -42,7 +45,9 @@ const App = () => {
           path="/doctor/notifications"
           element={
             <Layout>
-              <DoctorNotifications />
+              <PrivateRoute allowedRoles={['Doctor']}>
+                <DoctorNotifications />
+              </PrivateRoute>
             </Layout>
           }
         />{" "}
@@ -51,7 +56,9 @@ const App = () => {
           path="/patient/*"
           element={
             <Layout>
-              <PatientPortal />
+              <PrivateRoute allowedRoles={['Patient']}>
+                <PatientPortal />
+              </PrivateRoute>
             </Layout>
           }
         />{" "}
@@ -60,22 +67,15 @@ const App = () => {
           path="/patient/notifications"
           element={
             <Layout>
-              <PatientNotifications />
+              <PrivateRoute allowedRoles={['Patient']}>
+                <PatientNotifications />
+              </PrivateRoute>
             </Layout>
           }
         />{" "}
         {/* Patient notifications route */}
         <Route path="/add-doctor" element={<AddDoctor />} />
-        <Route 
-          path="/patient/portal" 
-          element={
-            <Layout>
-              <PrivateRoute>
-                <PatientPortal />
-              </PrivateRoute>
-            </Layout>
-          } 
-        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

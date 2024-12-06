@@ -25,7 +25,7 @@ const Layout = ({ children}) => {
     return (
         <div className="flex">
         <div className="fixed md:relative z-40">
-          {user.role === 'Patient' ? <PatientSideNav /> : <DoctorSideNav />}
+          {user.role === 'Patient' ? <PatientSideNav patient={user} /> : <DoctorSideNav />}
         </div>
         <div className="flex-1 ml-0 md:ml-[200px] p-4">
           {children}
