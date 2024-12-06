@@ -9,9 +9,8 @@ import DoctorPortal from "./components/DoctorPortal";
 import PatientPortal from "./components/PatientPortal";
 import Layout from "./components/Layout";
 import AddDoctor from "./components/AddDoctor";
-import PatientNotifications from "./components/PatientNotifications";
+import Notifications from "./components/Notifications";
 import Contact from "./components/Contact";
-import DoctorNotifications from "./components/DoctorNotifications";
 import { Home } from "./components/Home";
 import PrivateRoute from "./components/PrivateRoute";
 import NotFound from "./components/NotFound";
@@ -28,6 +27,7 @@ const App = () => {
   return (
     <>
       {!shouldHideNavbar && <Navbar />}
+      {/* Global toast configuration for the app */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -44,7 +44,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/contact" element={<Contact />} />``
         <Route
           path="/doctor/*"
           element={
@@ -60,7 +60,7 @@ const App = () => {
           element={
             <Layout>
               <PrivateRoute allowedRoles={['Doctor']}>
-                <DoctorNotifications />
+                <Notifications />
               </PrivateRoute>
             </Layout>
           }
@@ -80,7 +80,7 @@ const App = () => {
           element={
             <Layout>
               <PrivateRoute allowedRoles={['Patient']}>
-                <PatientNotifications />
+                <Notifications />
               </PrivateRoute>
             </Layout>
           }
