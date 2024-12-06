@@ -2,50 +2,89 @@
 import React from 'react';
 
 const PatientCard = ({ patient, onClick }) => {
-  //console.log('Patient data:', patient);
-
   return (
-    <div onClick={() => onClick(patient.id)}>
-      <div>
-        <img
-          src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/d9334bea-dc97-4f8a-a689-99c3fee50b9b/3d9fdc48-8a45-43f8-a69b-4ef474674836?org_if_sml=1805&amp;force_format=original"
-          alt="Ellipse"
-        />
-        <img
-          src="/external/iconmonstrxmark912522-0v6q.svg"
-          alt="Remove"
-        />
+    <div 
+      className="relative w-[1080px] h-[80px] bg-white shadow-sm rounded-md flex items-center px-5 mb-4 cursor-pointer"
+      onClick={() => onClick(patient._id)}
+    >
+      {/* Profile Picture */}
+      <div className="w-[48px] h-[48px] rounded-full bg-[#D9DAE4] overflow-hidden flex items-center justify-center group">
+        {patient.profilePicture ? (
+          <img
+            src={patient.profilePicture}
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <>
+            <img
+              src="/external/iconmonstruser3112411-vi2f.svg"
+              alt="Profile"
+              className="w-6 h-6 text-[#565886] group-hover:hidden"
+            />
+            <img
+              src="/external/iconmonstruser3112193-o16o.svg"
+              alt="Profile"
+              className="w-6 h-6 text-[#565886] hidden group-hover:block brightness-0 invert"
+            />
+          </>
+        )}
       </div>
-      <div>
-        <img
-          src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/d9334bea-dc97-4f8a-a689-99c3fee50b9b/57d3ea6f-9e29-4c20-92a7-8c61aa58e593?org_if_sml=1805&amp;force_format=original"
-          alt="Message"
-        />
-        <img
-          src="/external/iconmonstrspeechbubble1922522-dzz4.svg"
-          alt="Message Icon"
-        />
+
+      {/* Patient Info */}
+      <div className="ml-5">
+        <h3 className="text-[16px] font-semibold text-[#222222] leading-[19px]">
+          {patient.firstName} {patient.lastName}
+        </h3>
+        <p className="text-[14px] font-medium text-[#666666] leading-[17px] mt-1">
+          @{patient.username}
+        </p>
       </div>
-      <div>
-        <img
-          src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/d9334bea-dc97-4f8a-a689-99c3fee50b9b/803af295-2a92-4b4a-bea5-48df09d65134?org_if_sml=1805&amp;force_format=original"
-          alt="Test Results"
-        />
-        <img
-          src="/external/iconmonstrclipboard122522-7uj8.svg"
-          alt="Test Results Icon"
-        />
+
+      {/* Action Buttons */}
+      <div className="ml-auto flex items-center space-x-4">
+        {/* Test Results Button */}
+        <button className="w-[40px] h-[40px] rounded-full bg-[#D9DAE4] flex items-center justify-center group hover:bg-[#565886] transition-colors">
+          <img
+            src="/external/iconmonstrclipboard122522-7uj8.svg"
+            alt="Test Results"
+            className="w-5 h-5 text-[#565886] group-hover:hidden"
+          />
+          <img
+            src="/external/iconmonstrclipboard112192-hxc9.svg"
+            alt="Test Results"
+            className="w-5 h-5 text-[#565886] hidden group-hover:block brightness-0 invert"
+          />
+        </button>
+
+        {/* Message Button */}
+        <button className="w-[40px] h-[40px] rounded-full bg-[#D9DAE4] flex items-center justify-center group hover:bg-[#565886] transition-colors">
+          <img
+            src="/external/iconmonstrspeechbubble1922522-dzz4.svg"
+            alt="Message"
+            className="w-5 h-5 text-[#565886] group-hover:hidden"
+          />
+          <img
+            src="/external/iconmonstrspeechbubble1912234-e9s.svg"
+            alt="Message"
+            className="w-5 h-5 text-[#565886] hidden group-hover:block brightness-0 invert"
+          />
+        </button>
+
+        {/* Remove Button */}
+        <button className="w-[40px] h-[40px] rounded-full bg-[#D9DAE4] flex items-center justify-center group hover:bg-[#565886] transition-colors">
+          <img
+            src="/external/iconmonstrxmark912522-0v6q.svg"
+            alt="Remove"
+            className="w-5 h-5 text-[#565886] group-hover:hidden"
+          />
+          <img
+            src="/external/iconmonstr-x-mark-9.svg"
+            alt="Remove"
+            className="w-5 h-5 text-[#565886] hidden group-hover:block brightness-0 invert"
+          />
+        </button>
       </div>
-      <span>
-        <span>@{patient.username}</span>
-      </span>
-      <span>
-        <span>{patient.firstName} {patient.lastName}</span>
-      </span>
-      <img
-        src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/d9334bea-dc97-4f8a-a689-99c3fee50b9b/36e4b167-df3d-43ef-b848-7805ba251127?org_if_sml=11663&amp;force_format=original"
-        alt="Profile"
-      />
     </div>
   );
 };

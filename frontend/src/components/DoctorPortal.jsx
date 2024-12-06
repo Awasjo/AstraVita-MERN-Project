@@ -1,8 +1,6 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet'
 import PatientCard from './PatientCard';
 
 const DoctorPortal = () => {
@@ -15,6 +13,8 @@ const DoctorPortal = () => {
   const navigate = useNavigate();
   const [filterValue, setFilterValue] = useState('');
   const [suggestedPatients, setSuggestedPatients] = useState(approvedPatients);
+  const [sortDirection, setSortDirection] = useState('asc');
+  const [filteredPatients, setFilteredPatients] = useState([]);
 
   const handleAddPatientButton = () => { 
     setShowPatientSearchBar(!showPatientSearchBar);
@@ -23,13 +23,16 @@ const DoctorPortal = () => {
     try {
       const response = await axios.get('http://localhost:3000/api/users/doctors/patients', { withCredentials: true });
       if (response.data) {
-        setApprovedPatients(response.data);  // Update state with patient data          
+        setApprovedPatients(response.data);
+        setFilteredPatients(response.data);
       } else {
-        setApprovedPatients([]);  // Ensure it's an array if data is missing
+        setApprovedPatients([]);
+        setFilteredPatients([]);
       }
     } catch (error) {
       console.error('Error fetching doctors patients:', error);
-      setApprovedPatients([]);  // Ensure it's an array even on error
+      setApprovedPatients([]);
+      setFilteredPatients([]);
     }
   };
   
@@ -73,102 +76,171 @@ const DoctorPortal = () => {
   };
   /*Get logged in doctor data */
   const handleSuggestion = () => {
-    const filteredPatients = approvedPatients.filter(patient => 
-        patient.firstName.toLowerCase().includes(filterValue) || 
-        patient.lastName.toLowerCase().includes(filterValue)
+    if (!filterValue.trim()) {
+      setSuggestedPatients(approvedPatients);
+      return;
+    }
+
+    const filtered = approvedPatients.filter(patient => 
+      patient.firstName.toLowerCase().includes(filterValue) || 
+      patient.lastName.toLowerCase().includes(filterValue)
     );
-    setSuggestedPatients(filteredPatients);
-};
-const handleChange = (e) => {
-  setFilterValue(e.target.value.toLowerCase());
-};
+
+    // Sort the filtered results
+    const sorted = [...filtered].sort((a, b) => {
+      const nameA = a.firstName.toLowerCase();
+      const nameB = b.firstName.toLowerCase();
+      const comparison = nameA.localeCompare(nameB);
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+
+    setSuggestedPatients(sorted);
+  };
+  const handleChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setFilterValue(value);
+    
+    if (!value.trim()) {
+      setFilteredPatients(approvedPatients);
+      return;
+    }
+
+    const filtered = approvedPatients.filter(patient => 
+      patient.firstName.toLowerCase().includes(value) || 
+      patient.lastName.toLowerCase().includes(value) ||
+      patient.username.toLowerCase().includes(value)
+    );
+
+    setFilteredPatients(filtered);
+  };
+  const handleSort = () => {
+    const sorted = [...filteredPatients].sort((a, b) => {
+      const nameA = a.firstName.toLowerCase();
+      const nameB = b.firstName.toLowerCase();
+      
+      const comparison = nameA.localeCompare(nameB);
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+
+    setFilteredPatients(sorted);
+    setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
-    <div >
-      <Helmet>
-        <title>Doctor Portal</title>
-        <meta property="og:title" content="Doctor Portal" />
-      </Helmet>
-      <div >
-      {approvedPatients.map((patient) => (
-        <PatientCard key={patient._id} patient={patient} onClick={handleCardClick}/>
-      ))}
-        
-        <div >
-          <img
-            src="../public/external/iconmonstrarrow6512522-vjys.svg"
-            alt="iconmonstrarrow6512522"
-          />
-          <span >
-            <span>Sort by First Name</span>
-          </span>
-        </div>
-        <div >
-            <input
+    <div className="min-h-screen bg-[#F0F2F5]">
+      <div className="ml-0 md:ml-[80px] relative p-4 md:p-0">
+        <div className="max-w-[1440px] mx-auto relative">
+          {/* Title and Add Patient Button */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center 
+            md:absolute md:left-[80px] md:right-[280px] md:top-[107px]"
+          >
+            <h1 className="text-[28px] font-bold text-[#30336B] font-inter leading-[34px]">
+              {doctor.username}'s Patients
+            </h1>
+
+            <button 
+              onClick={handleAddPatientButton}
+              className="mt-4 md:mt-0 w-full md:w-[160px] h-[40px] flex items-center justify-center 
+                gap-2 bg-[#30336B] text-white rounded-md hover:bg-[#282B59] transition-colors"
+            >
+              <img
+                src="/external/iconmonstrplus212522-vrqd.svg"
+                alt="Add"
+                className="w-5 h-5 brightness-0 invert"
+              />
+              <span className="font-semibold">Add Patient</span>
+            </button>
+          </div>
+
+          {/* Search Bar Section */}
+          <div className="md:absolute md:left-[80px] md:top-[188px] md:w-[1080px]">
+            <div className="relative w-full">
+              <input
                 type="text"
-                placeholder="Filter patients by name"
+                placeholder="Filter patients by name or username"
                 value={filterValue}
                 onChange={handleChange}
-                onBlur={handleSuggestion} // Suggest on losing focus
-                onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                        handleSuggestion(); // Suggest on Enter key
-                    }
-                }}
-            />
-            <div >
-                {suggestedPatients.map((patient, index) => (
-                    <div key={index} >
-                        {patient.firstName} {patient.lastName}
-                    </div>
-                ))}
+                className="w-full h-[40px] px-12 bg-[#D9D9D9] rounded-md text-[#888888] 
+                  placeholder-[#888888] focus:outline-none"
+              />
+              <img
+                src="/external/iconmonstrmagnifier212522-8zfn.svg"
+                alt="Search"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
+              />
             </div>
-          <img
-            src="../public/external/iconmonstrmagnifier212522-8zfn.svg"
-            alt="iconmonstrmagnifier212522"
-          />
-        </div>
-        <button  onClick={handleAddPatientButton}>
-          <span >
-            <span>Add Patient</span>
-          </span>
-          <img
-            src="..\public\external\iconmonstrplus212522-vrqd.svg"
-            alt="iconmonstrplus212522"
-          />
-        </button>
-        <span >
-          <span>{doctor.username}'s Patients</span>
-        </span>
+          </div>
 
-        
-        
+          {/* Sort Options */}
+          <div className="flex justify-end md:absolute md:right-[280px] md:top-[240px]">
+            <button 
+              onClick={handleSort}
+              className="flex items-center gap-2 text-[#444444] hover:text-[#30336B] transition-colors"
+            >
+              <span className="font-semibold text-sm">Sort by First Name</span>
+              <img
+                src="/external/iconmonstrarrow6512522-vjys.svg"
+                alt="Sort"
+                className={`w-4 h-4 transition-transform duration-200 ${
+                  sortDirection === 'desc' ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* Patient List */}
+          <div className="mt-8 space-y-6 md:absolute md:left-[80px] md:top-[280px] md:w-[1080px]">
+            {filteredPatients.length > 0 ? (
+              filteredPatients.map((patient) => (
+                <PatientCard key={patient._id} patient={patient} onClick={handleCardClick}/>
+              ))
+            ) : (
+              <div className="bg-white rounded-md p-6 text-center text-gray-500">
+                No patients found matching your search.
+              </div>
+            )}
+          </div>
+
+          {/* Patient Search Modal */}
+          {showPatientSearchBar && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+              <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[400px] m-4">
+                <div className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    onChange={(e) => setPatientSearchFirstName(e.target.value)}
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#30336B]"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    onChange={(e) => setPatientSearchLastName(e.target.value)}
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-[#30336B]"
+                  />
+                </div>
+                <div className="mt-6 flex flex-col md:flex-row justify-end gap-4">
+                  <button 
+                    onClick={() => setShowPatientSearchBar(false)}
+                    className="px-4 py-2 text-gray-600 hover:text-gray-800 order-2 md:order-1"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAddPatientRequest}
+                    className="px-4 py-2 bg-[#30336B] text-white rounded-md hover:bg-[#282B59] 
+                      transition-colors order-1 md:order-2"
+                  >
+                    Request Patient Permission
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      {showPatientSearchBar && 
-        <div >
-          <div >
-          <input
-            type="text"
-            placeholder="First Name"
-            onChange={(e) => setPatientSearchFirstName(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Last Name"
-            onChange={(e) => setPatientSearchLastName(e.target.value)}
-          />
-        </div>
-          <button onClick={handleAddPatientRequest}>
-            <span >
-              <span>Request Patient Permission</span>
-            </span>
-            <img
-              src="../public/external/iconmonstrmagnifier212522-8zfn.svg"
-              alt="iconmonstrmagnifier212522"
-            />
-          </button>
-        </div>
-      }
     </div>
-  )
-}
+  );
+};
+
 export default DoctorPortal;
