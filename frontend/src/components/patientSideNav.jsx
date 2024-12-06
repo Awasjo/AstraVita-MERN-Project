@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const PatientSideNav = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = async (e) => {
@@ -36,6 +37,13 @@ const PatientSideNav = (props) => {
     navigate('/patient/portal', { state: { patient: props.patient } });
     setIsMobileMenuOpen(false);
   };
+
+  const handleMyDoctors = () => {
+    navigate('/patient/my-doctors');
+    setIsMobileMenuOpen(false);
+  };
+
+  const isActive = (path) => location.pathname === path;
 
   const navItemClass = "flex items-center space-x-6 px-8 py-4 hover:bg-[#282B59] transition-colors duration-200";
   const navTextClass = "font-inter text-base font-semibold text-[#D9DAE4]";
@@ -88,30 +96,44 @@ const PatientSideNav = (props) => {
 
         {/* Navigation */}
         <nav className="flex-1 flex flex-col">
-          {/* Test Results - Active State */}
+          {/* Test Results */}
           <div 
             className="relative cursor-pointer"
             onClick={handleTestResults}
           >
-            <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
-            <div className={`${navItemClass} bg-[#282B59]`}>
+            {isActive('/patient/portal') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div className={`${navItemClass} ${isActive('/patient/portal') ? 'bg-[#282B59]' : ''}`}>
               <img
                 src="../public/external/iconmonstrclipboard112192-hxc9.svg"
                 alt="Test Results"
                 className={navIconClass}
               />
-              <span className="font-inter text-base font-semibold text-white">Test Results</span>
+              <span className={`${navTextClass} ${isActive('/patient/portal') ? 'text-white' : ''}`}>
+                Test Results
+              </span>
             </div>
           </div>
 
           {/* My Doctors */}
-          <div className={navItemClass}>
-            <img
-              src="../public/external/iconmonstruser3112193-o16o.svg"
-              alt="My Doctors"
-              className={navIconClass}
-            />
-            <span className={navTextClass}>My Doctors</span>
+          <div 
+            className="relative cursor-pointer"
+            onClick={handleMyDoctors}
+          >
+            {isActive('/patient/my-doctors') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div className={`${navItemClass} ${isActive('/patient/my-doctors') ? 'bg-[#282B59]' : ''}`}>
+              <img
+                src="../public/external/iconmonstruser3112193-o16o.svg"
+                alt="My Doctors"
+                className={navIconClass}
+              />
+              <span className={`${navTextClass} ${isActive('/patient/my-doctors') ? 'text-white' : ''}`}>
+                My Doctors
+              </span>
+            </div>
           </div>
 
           {/* Messages */}
@@ -124,17 +146,27 @@ const PatientSideNav = (props) => {
             <span className={navTextClass}>Messages</span>
           </div>
 
-          {/* Notifications - Moved before Settings */}
-          <div className={navItemClass} onClick={handleNotifications}>
-            <img
-              src="../public/external/iconmonstrbell2411.svg"
-              alt="Notifications"
-              className={navIconClass}
-            />
-            <span className={navTextClass}>Notifications</span>
+          {/* Notifications */}
+          <div 
+            className="relative cursor-pointer"
+            onClick={handleNotifications}
+          >
+            {isActive('/patient/notifications') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div className={`${navItemClass} ${isActive('/patient/notifications') ? 'bg-[#282B59]' : ''}`}>
+              <img
+                src="../public/external/iconmonstrbell2411.svg"
+                alt="Notifications"
+                className={navIconClass}
+              />
+              <span className={`${navTextClass} ${isActive('/patient/notifications') ? 'text-white' : ''}`}>
+                Notifications
+              </span>
+            </div>
           </div>
 
-          {/* Settings - Moved after Notifications */}
+          {/* Settings */}
           <div className={navItemClass}>
             <img
               src="../public/external/iconmonstrgear112234-1lyt.svg"
@@ -147,13 +179,23 @@ const PatientSideNav = (props) => {
           {/* Bottom Navigation Items */}
           <div className="mt-auto mb-8">
             {/* Homepage */}
-            <div className={navItemClass} onClick={handleHomepage}>
-              <img
-                src="../public/external/iconmonstrhome112223-3zd.svg"
-                alt="Homepage"
-                className={navIconClass}
-              />
-              <span className={navTextClass}>Homepage</span>
+            <div 
+              className="relative cursor-pointer"
+              onClick={handleHomepage}
+            >
+              {isActive('/') && (
+                <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+              )}
+              <div className={`${navItemClass} ${isActive('/') ? 'bg-[#282B59]' : ''}`}>
+                <img
+                  src="../public/external/iconmonstrhome112223-3zd.svg"
+                  alt="Homepage"
+                  className={navIconClass}
+                />
+                <span className={`${navTextClass} ${isActive('/') ? 'text-white' : ''}`}>
+                  Homepage
+                </span>
+              </div>
             </div>
 
             {/* Sign Out */}

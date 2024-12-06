@@ -1,6 +1,8 @@
 import React from "react";
 import { useLocation, Route, Routes } from "react-router-dom";
-import Navbar from "./components/Navbar"; // Import the Navbar component
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import DoctorPortal from "./components/DoctorPortal";
@@ -12,6 +14,7 @@ import Contact from "./components/Contact";
 import DoctorNotifications from "./components/DoctorNotifications";
 import { Home } from "./components/Home";
 import PrivateRoute from "./components/PrivateRoute";
+import MyDoctor from "./components/MyDoctor";
 
 const App = () => {
   const location = useLocation();
@@ -23,11 +26,23 @@ const App = () => {
 
   return (
     <>
-      {!shouldHideNavbar && <Navbar />} {/* Conditionally render Navbar */}
+      {!shouldHideNavbar && <Navbar />}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <Routes>
-        <Route path="/" element={<Home />} /> {/* Home route */}
-        <Route path="/login" element={<Login />} /> {/* Login route */}
-        <Route path="/register" element={<Register />} /> {/* Register route */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<Contact />} />
         <Route
           path="/doctor/*"
@@ -36,8 +51,7 @@ const App = () => {
               <DoctorPortal />
             </Layout>
           }
-        />{" "}
-        {/* Doctor portal route */}
+        />
         <Route
           path="/doctor/notifications"
           element={
@@ -45,8 +59,7 @@ const App = () => {
               <DoctorNotifications />
             </Layout>
           }
-        />{" "}
-        {/* Doctor notifications route */}
+        />
         <Route
           path="/patient/*"
           element={
@@ -54,8 +67,7 @@ const App = () => {
               <PatientPortal />
             </Layout>
           }
-        />{" "}
-        {/* Patient portal route */}
+        />
         <Route
           path="/patient/notifications"
           element={
@@ -63,8 +75,7 @@ const App = () => {
               <PatientNotifications />
             </Layout>
           }
-        />{" "}
-        {/* Patient notifications route */}
+        />
         <Route path="/add-doctor" element={<AddDoctor />} />
         <Route 
           path="/patient/portal" 
@@ -75,6 +86,16 @@ const App = () => {
               </PrivateRoute>
             </Layout>
           } 
+        />
+        <Route
+          path="/patient/my-doctors"
+          element={
+            <Layout>
+              <PrivateRoute>
+                <MyDoctor />
+              </PrivateRoute>
+            </Layout>
+          }
         />
       </Routes>
     </>
