@@ -12,7 +12,6 @@ const DoctorPortal = () => {
   const doctor = location.state.doctor;
   const navigate = useNavigate();
   const [filterValue, setFilterValue] = useState('');
-  const [suggestedPatients, setSuggestedPatients] = useState(approvedPatients);
   const [sortDirection, setSortDirection] = useState('asc');
   const [filteredPatients, setFilteredPatients] = useState([]);
 
