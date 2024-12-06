@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
 import logo from "/external/logo-placeholder-primary.png";
 
 const Navbar = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useContext(AuthContext);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = async () => {
+    await logout();
   };
 
   return (
@@ -59,22 +65,46 @@ const Navbar = () => {
           </div>
         </div>
         <div className="hidden md:flex space-x-2">
-          <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
-            <Link
-              to="/login"
-              className="nav-link font-bold text-dark-blue block px-4 py-2"
-            >
-              Log in
-            </Link>
-          </div>
-          <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
-            <Link
-              to="/register"
-              className="nav-link font-bold text-dark-blue block px-4 py-2"
-            >
-              Register
-            </Link>
-          </div>
+        {user ? (
+            <>
+              <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
+                <Link
+                  to={user.role === "Patient" ? "/patient" : "/doctor"}
+                  state={user.role === "Patient" ? {patient:user} : {doctor:user}}
+                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                >
+                  Dashboard
+                </Link>
+              </div>
+              <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
+                <button
+                  onClick={handleLogout}
+                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
+                <Link
+                  to="/login"
+                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                >
+                  Log in
+                </Link>
+              </div>
+              <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
+                <Link
+                  to="/register"
+                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                >
+                  Register
+                </Link>
+              </div>
+            </>
+          )}
         </div>
         <button 
           className="md:hidden flex items-center text-dark-blue hover:text-strong-blue transition-colors duration-300" 
@@ -149,22 +179,46 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="border-t border-gray-100 mt-2">
-              <div className="hover:bg-light-theme transition-colors duration-300">
-                <Link
-                  to="/login"
-                  className="block px-6 py-2 font-bold text-dark-blue"
-                >
-                  Log in
-                </Link>
-              </div>
-              <div className="hover:bg-light-theme transition-colors duration-300">
-                <Link
-                  to="/register"
-                  className="block px-6 py-2 font-bold text-dark-blue"
-                >
-                  Register
-                </Link>
-              </div>
+            {user ? (
+                <>
+                  <div className="hover:bg-light-theme transition-colors duration-300">
+                    <Link
+                      to={user.role === "Patient" ? "/patient" : "/doctor"}
+                      state={{ user }}
+                      className="block px-6 py-2 font-bold text-dark-blue"
+                    >
+                      Dashboard
+                    </Link>
+                  </div>
+                  <div className="hover:bg-light-theme transition-colors duration-300">
+                    <button
+                      onClick={handleLogout}
+                      className="block px-6 py-2 font-bold text-dark-blue"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="hover:bg-light-theme transition-colors duration-300">
+                    <Link
+                      to="/login"
+                      className="block px-6 py-2 font-bold text-dark-blue"
+                    >
+                      Log in
+                    </Link>
+                  </div>
+                  <div className="hover:bg-light-theme transition-colors duration-300">
+                    <Link
+                      to="/register"
+                      className="block px-6 py-2 font-bold text-dark-blue"
+                    >
+                      Register
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

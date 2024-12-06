@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from './AuthContext';
 
 const DoctorSideNav = ({doctor}) => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { logout } = useContext(AuthContext); 
 
   // Common classes for consistent styling
   const navItemClass = "flex items-center space-x-6 px-8 py-4 hover:bg-[#282B59] transition-colors duration-200";
@@ -15,23 +17,12 @@ const DoctorSideNav = ({doctor}) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.get('http://localhost:3000/api/users/logout');
-      if (response.data.message === 'Logout successful') {
-        localStorage.removeItem('authToken');
-        navigate('/');
-      } else {
-        console.error('Logout failed:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Logout failed:', error.response.data.message);
-      alert('Logout failed: ' + error.response.data.message);
-    }
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
   };
 
-  const handleMyPations = () => {
+  const handleMyPatients = () => {
     if (doctor) {
       navigate('/doctor', { state: { doctor: doctor } });
     } else {
@@ -96,7 +87,7 @@ const DoctorSideNav = ({doctor}) => {
           {/* My Patients - Active State */}
           <div className="relative">
             <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
-            <div className={`${navItemClass} bg-[#282B59]`} onClick={handleMyPations}>
+            <div className={`${navItemClass} bg-[#282B59]`} onClick={handleMyPatients}>
               <img
                 src="../public/external/iconmonstruser3112411-vi2f.svg"
                 alt="My Patients"

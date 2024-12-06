@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import { AuthContext } from './AuthContext';
+
 
 const PatientSideNav = ({patient}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { logout } = useContext(AuthContext);
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.get('http://localhost:3000/api/users/logout');
-      if (response.data.message === 'Logout successful') {
-        localStorage.removeItem('authToken');
-        navigate('/');
-      } else {
-        console.error('Logout failed:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Logout failed:', error.response.data.message);
-      alert('Logout failed: ' + error.response.data.message);
-    }
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
   };
 
   const handleNotifications = () => {
