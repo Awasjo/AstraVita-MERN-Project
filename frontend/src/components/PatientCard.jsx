@@ -8,27 +8,12 @@ const PatientCard = ({ patient, onClick }) => {
       onClick={() => onClick(patient._id)}
     >
       {/* Profile Picture */}
-      <div className="w-[48px] h-[48px] rounded-full bg-[#D9DAE4] overflow-hidden flex items-center justify-center group">
-        {patient.profilePicture ? (
-          <img
-            src={patient.profilePicture}
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <>
-            <img
-              src="/external/iconmonstruser3112411-vi2f.svg"
-              alt="Profile"
-              className="w-6 h-6 text-[#565886] group-hover:hidden"
-            />
-            <img
-              src="/external/iconmonstruser3112193-o16o.svg"
-              alt="Profile"
-              className="w-6 h-6 text-[#565886] hidden group-hover:block brightness-0 invert"
-            />
-          </>
-        )}
+      <div className="w-[48px] h-[48px] rounded-full bg-[#D9DAE4] overflow-hidden">
+        <img
+          src={patient.profilePicture || "/external/profile-picture-default.png"}
+          alt="Profile"
+          className="w-full h-full object-cover"
+        />
       </div>
 
       {/* Patient Info */}
