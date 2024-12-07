@@ -15,7 +15,16 @@
 }
 
 .nav-link.active {
-    @apply text-strong-blue;
+    @apply text-light-blue underline;
+    text-underline-offset: 4px;
+}
+
+.nav-link.filled-button {
+    @apply rounded block bg-dark-blue font-bold text-white hover:bg-strong-blue px-4 py-2;
+}
+
+.nav-link.outlined-button {
+    @apply rounded block border border-dark-blue font-bold text-dark-blue hover:bg-strong-blue hover:border-strong-blue hover:text-white px-4 py-2;
 }
 
 /* Mobile menu animation */

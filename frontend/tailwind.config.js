@@ -23,6 +23,7 @@ export default {
         'strong-blue': '#0071BC',
       },
       fontFamily: {
+        sans: ['Inter', 'sans-serif'],
         serif: ['DM Serif Display', 'serif'],
       },
       minHeight: {

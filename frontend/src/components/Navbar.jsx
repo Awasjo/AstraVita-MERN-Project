@@ -17,16 +17,16 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-md">
+    <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="OneDrug" className="h-8 w-auto" />
+          <img src={logo} alt="OneDrug logo" className="h-8 w-auto mt-1" />
         </Link>
-        <div className="hidden md:flex space-x-2">
+        <div className="hidden md:flex space-x-8 font-semibold">
           <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
             <Link
               to="/"
-              className={`nav-link font-bold text-dark-blue block px-4 py-2 ${
+              className={`nav-link text-dark-blue block px-4 py-2 ${
                 location.pathname === "/" ? "active" : ""
               }`}
             >
@@ -36,7 +36,7 @@ const Navbar = () => {
           <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
             <Link
               to="/about"
-              className={`nav-link font-bold text-dark-blue block px-4 py-2 ${
+              className={`nav-link text-dark-blue block px-4 py-2 ${
                 location.pathname === "/about" ? "active" : ""
               }`}
             >
@@ -46,7 +46,7 @@ const Navbar = () => {
           <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
             <Link
               to="/products"
-              className={`nav-link font-bold text-dark-blue block px-4 py-2 ${
+              className={`nav-link text-dark-blue block px-4 py-2 ${
                 location.pathname === "/products" ? "active" : ""
               }`}
             >
@@ -56,7 +56,7 @@ const Navbar = () => {
           <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
             <Link
               to="/contact"
-              className={`nav-link font-bold text-dark-blue block px-4 py-2 ${
+              className={`nav-link text-dark-blue block px-4 py-2 ${
                 location.pathname === "/contact" ? "active" : ""
               }`}
             >
@@ -64,14 +64,14 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
-        <div className="hidden md:flex space-x-2">
+        <div className="hidden md:flex space-x-4">
         {user ? (
             <>
               <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
                 <Link
                   to={user.role === "Patient" ? "/patient" : "/doctor"}
                   state={user.role === "Patient" ? {patient:user} : {doctor:user}}
-                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                  className="nav-link filled-button"
                 >
                   Dashboard
                 </Link>
@@ -79,9 +79,9 @@ const Navbar = () => {
               <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
                 <button
                   onClick={handleLogout}
-                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                  className="nav-link outlined-button"
                 >
-                  Logout
+                  Log out
                 </button>
               </div>
             </>
@@ -90,7 +90,7 @@ const Navbar = () => {
               <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
                 <Link
                   to="/login"
-                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                  className="nav-link filled-button"
                 >
                   Log in
                 </Link>
@@ -98,7 +98,7 @@ const Navbar = () => {
               <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
                 <Link
                   to="/register"
-                  className="nav-link font-bold text-dark-blue block px-4 py-2"
+                  className="nav-link outlined-button"
                 >
                   Register
                 </Link>
@@ -135,7 +135,7 @@ const Navbar = () => {
                 to="/"
                 className={`block px-6 py-2 font-bold ${
                   location.pathname === "/" 
-                  ? "text-strong-blue" 
+                  ? "text-light-blue" 
                   : "text-dark-blue"
                 }`}
               >
@@ -147,7 +147,7 @@ const Navbar = () => {
                 to="/about"
                 className={`block px-6 py-2 font-bold ${
                   location.pathname === "/about"
-                  ? "text-strong-blue"
+                  ? "text-light-blue"
                   : "text-dark-blue"
                 }`}
               >
@@ -159,7 +159,7 @@ const Navbar = () => {
                 to="/products"
                 className={`block px-6 py-2 font-bold ${
                   location.pathname === "/products"
-                  ? "text-strong-blue"
+                  ? "text-light-blue"
                   : "text-dark-blue"
                 }`}
               >
@@ -171,7 +171,7 @@ const Navbar = () => {
                 to="/contact"
                 className={`block px-6 py-2 font-bold ${
                   location.pathname === "/contact"
-                  ? "text-strong-blue"
+                  ? "text-light-blue"
                   : "text-dark-blue"
                 }`}
               >
