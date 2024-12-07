@@ -105,6 +105,7 @@ exports.getDoctorPatients = async (req, res) => {
       lastName: patient.lastName,
       username: patient.username,
       isOnline: patient.isOnline,
+      role: patient.role,
       testResults: patient.testResults
     }));
     

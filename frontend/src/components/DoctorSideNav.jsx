@@ -41,6 +41,14 @@ const DoctorSideNav = ({doctor}) => {
     setIsMobileMenuOpen(false);
   };
 
+    const handleSettings = () => {
+    navigate('/settings');
+  };
+
+  const handleMessages = () => {
+    navigate('/messages');
+  }
+
   return (
     <>
       {/* Mobile Menu Button */}
@@ -98,7 +106,7 @@ const DoctorSideNav = ({doctor}) => {
           </div>
 
           {/* Messages */}
-          <div className={navItemClass}>
+          <div className={navItemClass}  onClick={handleMessages}>
             <img
               src="../public/external/iconmonstrspeechbubble1912411-wfu.svg"
               alt="Messages"
@@ -118,7 +126,7 @@ const DoctorSideNav = ({doctor}) => {
           </div>
 
           {/* Settings */}
-          <div className={navItemClass}>
+          <div className={navItemClass} onClick={handleSettings}>
             <img
               src="../public/external/iconmonstrgear112411-zavc.svg"
               alt="Settings"

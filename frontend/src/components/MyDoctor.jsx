@@ -2,43 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import AddDoctor from './AddDoctor';
-
-const DoctorCard = ({ doctor, onCardClick }) => (
-  <div 
-    onClick={() => onCardClick(doctor._id)}
-    className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer"
-  >
-    <div className="flex items-center justify-between">
-      <div className="flex-grow">
-        <h2 className="text-lg font-bold text-[#30336B]">
-          Dr. {doctor.firstName} {doctor.lastName}
-        </h2>
-        <div className="text-gray-600 mt-2">
-          <p>Username: {doctor.username}</p>
-          <p>Specialty: {doctor.specialty || 'General Practice'}</p>
-          <p>Email: {doctor.email}</p>
-        </div>
-      </div>
-      <div className="flex items-center">
-        <img 
-          src="/external/iconmonstrarrowright212522-vyqs.svg" 
-          alt="View Details" 
-          className="w-6 h-6 text-[#30336B]"
-        />
-      </div>
-    </div>
-  </div>
-);
+import UserCard from './UserCard';
+import AddUser from './AddUser';
 
 const MyDoctor = () => {
   const [doctors, setDoctors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
+  const [sortDirection, setSortDirection] = useState('asc');
   const navigate = useNavigate();
-  const [allDoctors, setAllDoctors] = useState([]); // Store all doctors
-  const [filteredDoctors, setFilteredDoctors] = useState([]); // Store filtered results
+
+
   const fetchDoctors = async () => {
     setIsLoading(true);
     try {
@@ -46,12 +22,10 @@ const MyDoctor = () => {
         { withCredentials: true }
       );
       setDoctors(response.data || []);
-      setAllDoctors(doctors);
-      setFilteredDoctors(doctors);
+      setFilteredDoctors(response.data || []);
     } catch (error) {
       toast.error('Failed to fetch doctors: ' + (error.response?.data?.message || error.message));
       setDoctors([]);
-      setAllDoctors([]);
       setFilteredDoctors([]);
     } finally {
       setIsLoading(false);
@@ -61,23 +35,7 @@ const MyDoctor = () => {
   useEffect(() => {
     fetchDoctors();
   }, []);
-/* Filter functionality
-  useEffect(() => {
-    if (!searchQuery.trim()) {
-      setFilteredDoctors(allDoctors);
-      return;
-    }
 
-    const searchLower = searchQuery.toLowerCase();
-    const filtered = allDoctors.filter(doctor => 
-      doctor.firstName.toLowerCase().includes(searchLower) ||
-      doctor.lastName.toLowerCase().includes(searchLower) ||
-      doctor.email.toLowerCase().includes(searchLower) ||
-      (doctor.username && doctor.username.toLowerCase().includes(searchLower))
-    );
-    setFilteredDoctors(filtered);
-  }, [searchQuery, allDoctors]);
-  */
   const handleDoctorDetails = async (doctorId) => {
     try {
       const response = await axios.get(`http://localhost:3000/api/users/${doctorId}`);
@@ -86,21 +44,40 @@ const MyDoctor = () => {
       toast.error('Failed to fetch doctor details: ' + (error.response?.data?.message || error.message));
     }
   };
-/* Filter handlers
-  const handleSearchChange = (e) => {
-    setSearchQuery(e.target.value);
+
+  const handleChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchQuery(value);
+    
+    if (!value.trim()) {
+      setFilteredDoctors(doctors);
+      return;
+    }
+
+    const filtered = doctors.filter(doctor => 
+      doctor.firstName.toLowerCase().includes(value) || 
+      doctor.lastName.toLowerCase().includes(value) ||
+      doctor.username.toLowerCase().includes(value) ||
+      doctor.email.toLowerCase().includes(value)
+    );
+
+    setFilteredDoctors(filtered);
   };
 
-  const filteredDoctors = doctors.filter(doctor => {
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      doctor.firstName.toLowerCase().includes(searchLower) ||
-      doctor.lastName.toLowerCase().includes(searchLower) ||
-      doctor.email.toLowerCase().includes(searchLower) ||
-      (doctor.username && doctor.username.toLowerCase().includes(searchLower))
-    );
-  });
-  */
+  const handleSort = () => {
+    const sorted = [...filteredDoctors].sort((a, b) => {
+      const nameA = a.firstName.toLowerCase();
+      const nameB = b.firstName.toLowerCase();
+      
+      const comparison = nameA.localeCompare(nameB);
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+
+    setFilteredDoctors(sorted);
+    setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+  };
+
+
   return (
     <div className="min-h-screen bg-[#F0F2F5] p-6">
       <div className="max-w-[1200px] mx-auto">
@@ -116,16 +93,16 @@ const MyDoctor = () => {
               alt="Add"
               className="w-5 h-5 brightness-0 invert"
             />
-            <span>Add Doctor</span>
+            <span className='font-semibold'>Add Doctor</span>
           </button>
         </div>
 
         <div className="mb-6 relative">
           <input
             type="text"
-            placeholder="Search doctors by name, username, or email"
+            placeholder="Filter doctors by name, username, or email"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleChange}
             className="w-full px-12 py-3 bg-white rounded-lg shadow-sm focus:outline-none 
               focus:ring-2 focus:ring-[#30336B]"
           />
@@ -136,15 +113,31 @@ const MyDoctor = () => {
           />
         </div>
 
-        {isLoading ? (
+        <div className="flex justify-end mb-6">
+          <button 
+            onClick={handleSort}
+            className="flex items-center gap-2 text-[#444444] hover:text-[#30336B] transition-colors"
+          >
+            <span className="font-semibold text-sm">Sort by First Name</span>
+            <img
+              src="/external/iconmonstrarrow6512522-vjys.svg"
+              alt="Sort"
+              className={`w-4 h-4 transition-transform duration-200 ${
+                sortDirection === 'desc' ? 'rotate-180' : ''
+              }`}
+            />
+          </button>
+        </div>
+
+       {isLoading ? (
           <div className="text-center py-8">Loading doctors...</div>
-        ) : doctors.length > 0 ? (
+        ) : filteredDoctors.length > 0 ? (
           <div className="grid gap-4">
-            {doctors.map((doctor) => (
-              <DoctorCard 
+            {filteredDoctors.map((doctor) => (
+              <UserCard 
                 key={doctor._id} 
-                doctor={doctor} 
-                onCardClick={handleDoctorDetails}
+                user={doctor} 
+                onTestResultClick={handleDoctorDetails}
               />
             ))}
           </div>
@@ -154,7 +147,7 @@ const MyDoctor = () => {
           </div>
         )}
 
-        <AddDoctor
+        <AddUser
           isOpen={searchModalOpen}
           onClose={() => {
             setSearchModalOpen(false);

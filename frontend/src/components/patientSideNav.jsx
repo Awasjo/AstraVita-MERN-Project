@@ -41,6 +41,14 @@ const PatientSideNav = ({patient}) => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleSettings = () => {
+    navigate('/settings');
+  };
+
+  const handleMessages = () => {
+    navigate('/messages');
+  }
+
   const isActive = (path) => location.pathname === path;
 
   const navItemClass = "flex items-center space-x-6 px-8 py-4 hover:bg-[#282B59] transition-colors duration-200";
@@ -135,7 +143,7 @@ const PatientSideNav = ({patient}) => {
           </div>
 
           {/* Messages */}
-          <div className={navItemClass}>
+          <div className={navItemClass} onClick={handleMessages}>
             <img
               src="../public/external/iconmonstrspeechbubble1912234-e9s.svg"
               alt="Messages"
@@ -165,7 +173,7 @@ const PatientSideNav = ({patient}) => {
           </div>
 
           {/* Settings */}
-          <div className={navItemClass}>
+          <div className={navItemClass} onClick={handleSettings}>
             <img
               src="../public/external/iconmonstrgear112234-1lyt.svg"
               alt="Settings"

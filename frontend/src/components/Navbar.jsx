@@ -22,7 +22,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center">
           <img src={logo} alt="OneDrug logo" className="h-8 w-auto mt-1" />
         </Link>
-        <div className="hidden md:flex space-x-8 font-semibold">
+        <div className="hidden lg:flex space-x-8 font-semibold">
           <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
             <Link
               to="/"
@@ -64,7 +64,7 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden lg:flex space-x-4">
         {user ? (
             <>
               <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
@@ -107,7 +107,7 @@ const Navbar = () => {
           )}
         </div>
         <button 
-          className="md:hidden flex items-center text-dark-blue hover:text-strong-blue transition-colors duration-300" 
+          className="lg:hidden flex items-center text-dark-blue hover:text-strong-blue transition-colors duration-300" 
           onClick={toggleMenu}
         >
           <svg
@@ -128,7 +128,7 @@ const Navbar = () => {
       </div>
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100">
+        <div className="lg:hidden bg-white border-t border-gray-100">
           <div className="flex flex-col py-2">
             <div className="hover:bg-light-theme transition-colors duration-300">
               <Link
@@ -182,13 +182,13 @@ const Navbar = () => {
             {user ? (
                 <>
                   <div className="hover:bg-light-theme transition-colors duration-300">
-                    <Link
-                      to={user.role === "Patient" ? "/patient" : "/doctor"}
-                      state={{ user }}
-                      className="block px-6 py-2 font-bold text-dark-blue"
-                    >
-                      Dashboard
-                    </Link>
+                  <Link
+                  to={user.role === "Patient" ? "/patient" : "/doctor"}
+                  state={user.role === "Patient" ? {patient:user} : {doctor:user}}
+                  className="block px-6 py-2 font-bold text-dark-blue"
+                >
+                  Dashboard
+                </Link>
                   </div>
                   <div className="hover:bg-light-theme transition-colors duration-300">
                     <button

@@ -8,13 +8,18 @@ import Register from "./components/Register";
 import DoctorPortal from "./components/DoctorPortal";
 import PatientPortal from "./components/PatientPortal";
 import Layout from "./components/Layout";
-import AddDoctor from "./components/AddDoctor";
 import Notifications from "./components/Notifications";
 import Contact from "./components/Contact";
 import { Home } from "./components/Home";
 import PrivateRoute from "./components/PrivateRoute";
 import NotFound from "./components/NotFound";
 import MyDoctor from "./components/MyDoctor";
+import DoctorProfile from "./components/construction/DoctorProfile";
+import AboutUs from "./components/construction/AboutUs";
+import Products from "./components/construction/Products";
+import Messages from "./components/construction/Messages";
+import Settings from "./components/construction/Settings";
+import AddUser from "./components/AddUser";
 
 const App = () => {
   const location = useLocation();
@@ -44,7 +49,12 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/contact" element={<Contact />} />``
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/doctor-details" element={<DoctorProfile />} />
+        <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/settings" element={<Settings />} />
         <Route
           path="/doctor/*"
           element={
@@ -85,7 +95,7 @@ const App = () => {
             </Layout>
           }
         />
-        <Route path="/add-doctor" element={<AddDoctor />} />
+        <Route path="/add-doctor" element={<AddUser />} />
         <Route path="*" element={<NotFound />} />
         <Route 
           path="/patient/portal" 
