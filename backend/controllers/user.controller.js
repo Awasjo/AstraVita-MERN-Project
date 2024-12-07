@@ -120,15 +120,17 @@ exports.getPatientDoctors = async (req, res) => {
       return res.status(403).json({ message: 'Access denied. Only patients can view their doctors.' });
     }
 
-    const patient = await Patient.findById(req.user._id).populate('approvedDoctors', 'firstName lastName isOnline jobTitle');
+    const patient = await Patient.findById(req.user._id).populate('approvedDoctors', 'firstName username lastName email isOnline jobTitle');
     if (!patient) {
       return res.status(404).json({ message: 'Patient not found' });
     }
 
     const doctors = patient.approvedDoctors.map(doctor => ({
       id: doctor._id,
+      username: doctor.username,
       firstName: doctor.firstName,
       lastName: doctor.lastName,
+      email: doctor.email,
       isOnline: doctor.isOnline,
       jobTitle: doctor.jobTitle
     }));

@@ -56,9 +56,10 @@ function AddDoctor({ isOpen, onClose }) {
     const filteredDoctors = doctors.filter(doctor => {
         const searchLower = searchTerm.toLowerCase();
         return (
-            doctor.firstName.toLowerCase().includes(searchLower) ||
-            doctor.lastName.toLowerCase().includes(searchLower) ||
-            doctor.username.toLowerCase().includes(searchLower)
+            (doctor.firstName && doctor.firstName.toLowerCase().includes(searchLower)) ||
+            (doctor.lastName && doctor.lastName.toLowerCase().includes(searchLower)) ||
+            (doctor.username && doctor.username.toLowerCase().includes(searchLower)) ||
+            (doctor.email && doctor.email.toLowerCase().includes(searchLower))
         );
     });
 

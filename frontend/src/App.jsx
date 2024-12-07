@@ -69,7 +69,7 @@ const App = () => {
           path="/patient/*"
           element={
             <Layout>
-              <PrivateRoute allowedRoles={['Patient']}>
+              <PrivateRoute allowedRoles={['Patient','Doctor']}>
                 <PatientPortal />
               </PrivateRoute>
             </Layout>

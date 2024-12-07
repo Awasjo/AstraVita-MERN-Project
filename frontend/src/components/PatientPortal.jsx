@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "./AuthContext";
+
 
 const PatientPortal = () => {
   const location = useLocation();
+  const { user } = useContext(AuthContext);
+  console.log("user:", user);
   const patient = location.state.patient;
   const testResultId = location.state.testResultId;
 
   var patientId = patient._id || patient.id;
-  const [testResults, setTestResults] = useState([]);
+    const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState(testResultId ?? "");
   const [filteredResults, setFilteredResults] = useState([]);
@@ -151,7 +155,7 @@ const PatientPortal = () => {
             md:absolute md:left-[80px] md:right-[280px] md:top-[107px]"
           >
             <h1 className="text-[28px] font-bold text-[#30336B] font-inter leading-[34px]">
-              My Test Results
+              {(user.role === 'Doctor') ? patient.firstName + ' ' + patient.lastName + '\'s Test Results': 'My Test Results'}
             </h1>
 
             <button 

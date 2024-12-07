@@ -5,7 +5,7 @@ const PatientCard = ({ patient, onClick }) => {
   return (
     <div 
       className="relative w-[1080px] h-[80px] bg-white shadow-sm rounded-md flex items-center px-5 mb-4 cursor-pointer"
-      onClick={() => onClick(patient._id)}
+      onClick={() => onClick(patient.id)}
     >
       {/* Profile Picture */}
       <div className="w-[48px] h-[48px] rounded-full bg-[#D9DAE4] overflow-hidden">
