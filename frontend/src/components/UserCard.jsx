@@ -24,8 +24,8 @@ const UserCard = ({ user, onTestResultClick }) => {
               </>
             ) : (
               <>
-                <p>Username: {user.username}</p>
                 <p>Specialty: {user.specialty || "General Practice"}</p>
+                <p>@{user.username}</p>
                 <p>Email: {user.email}</p>
               </>
             )}
@@ -33,7 +33,7 @@ const UserCard = ({ user, onTestResultClick }) => {
         </div>
         <div className="flex items-center">
           {/* Action Buttons */}
-          <div className="ml-auto flex items-center space-x-4">
+          <div className="ml-auto flex flex-col space-y-4 space-x-0 sm:flex-row sm:space-y-0 sm:space-x-4">
             {/* Test Results and doctor profile Button */}
             {user.role === "Patient" ? (
               <button
