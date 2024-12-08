@@ -7,12 +7,10 @@ import { AuthContext } from "./AuthContext";
 const PatientPortal = () => {
   const location = useLocation();
   const { user } = useContext(AuthContext);
-  console.log("user:", user);
   const patient = location.state.patient;
   const testResultId = location.state.testResultId;
-
   var patientId = patient._id || patient.id;
-    const [testResults, setTestResults] = useState([]);
+  const [testResults, setTestResults] = useState([]);
   const fileInputRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState(testResultId ?? "");
   const [filteredResults, setFilteredResults] = useState([]);
@@ -64,11 +62,16 @@ const PatientPortal = () => {
     setFilteredResults(sortByTestDate(filtered));
   }, [searchQuery, testResults, isSortAscending]);
 
-  const toggleExpand = (id) => {
-    setExpandedResults((prevState) => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
+  const handleDelete = async (testResultId) => {
+    try { 
+      await axios.delete(`http://localhost:3000/api/test-results/${testResultId}`, {
+        withCredentials: true,
+      });
+      setTestResults(prevResults => prevResults.filter(result => result._id !== testResultId));
+      setFilteredResults(prevResults => prevResults.filter(result => result._id !== testResultId));
+    } catch (error) {
+      console.error("Error deleting test result:", error);
+    }
   };
 
   const handleFileChange = (event) => {
@@ -90,7 +93,8 @@ const PatientPortal = () => {
             replace: false
           }
           
-          postToApi(jsonData);
+          await postToApi(jsonData);
+          event.target.value = null;
         } catch (error) {
           console.error("Error uploading data:", error);
         }
@@ -147,21 +151,18 @@ const PatientPortal = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5]">
-      <div className="ml-0 md:ml-[80px] relative p-4 md:p-0">
-        <div className="max-w-[1440px] mx-auto relative">
+    <div className="min-h-screen bg-[#F0F2F5]  p-6">
+      <div className="max-w-[1200px] mx-auto">
           {/* Header Section with Title and Upload Button */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center 
-            md:absolute md:left-[80px] md:right-[280px] md:top-[107px]"
-          >
-            <h1 className="text-[28px] font-bold text-[#30336B] font-inter leading-[34px]">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-[#30336B] mb-4 md:mb-0">
               {(user.role === 'Doctor') ? patient.firstName + ' ' + patient.lastName + '\'s Test Results': 'My Test Results'}
             </h1>
 
             <button 
               onClick={handleUploadTestResult}
-              className="mt-4 md:mt-0 w-full md:w-[160px] h-[40px] flex items-center justify-center 
-                gap-2 bg-[#30336B] text-white rounded-md hover:bg-[#282B59] transition-colors"
+              className="flex items-center gap-2 px-6 py-2 bg-[#30336B] text-white rounded-md 
+            hover:bg-[#282B59] transition-colors"
             >
               <img
                 src="../public/external/iconmonstrupload1812081-46t.svg"
@@ -173,25 +174,23 @@ const PatientPortal = () => {
           </div>
 
           {/* Search Bar Section */}
-          <div className="md:absolute md:left-[80px] md:top-[188px] md:w-[1080px]">
-            <div className="relative w-full">
+          <div className="mb-6 relative">
               <input
                 placeholder="Filter test results by gene or medication"
                 value={searchQuery}
                 onChange={handleSearch}
-                className="w-full h-[40px] px-12 bg-[#D9D9D9] rounded-md text-[#888888] 
-                  placeholder-[#888888] focus:outline-none"
+                className="w-full px-12 py-3 bg-white rounded-lg shadow-sm focus:outline-none 
+            focus:ring-2 focus:ring-[#30336B]"
               />
               <img
                 src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
                 alt="Search"
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4"
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
               />
-            </div>
           </div>
 
           {/* Sort Options - Separate div aligned right */}
-          <div className="flex justify-end md:absolute md:right-[280px] md:top-[240px]">
+          <div className="flex justify-end mb-6">
             <button 
               onClick={handleSortToggle}
               className="flex items-center gap-2 text-[#444444] hover:text-[#30336B] transition-colors"
@@ -208,15 +207,14 @@ const PatientPortal = () => {
           </div>
 
           {/* Test Results List */}
-          <div className="mt-8 space-y-6 md:absolute md:left-[80px] md:top-[280px] md:w-[1080px]">
+          <div className="grid gap-4">
             {filteredResults.map((result) => (
-              <div key={result._id} className="flex flex-col md:flex-row">
+              <div key={result._id} className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow">
                 {/* Main Content */}
-                <div className="flex-1 bg-white rounded-t-md md:rounded-l-md md:rounded-tr-none 
-                  shadow-sm p-4 md:p-8"
-                >
+                <div className="flex flex-col md:flex-row">
+                  <div className="flex-1 p-4">
                   {/* Gene Info Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-x-16 mb-8">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                     <div>
                       <h3 className="font-semibold text-[#222222] text-sm mb-1">Tested Gene</h3>
                       <p className="text-[#222222] text-sm">{result.testedGene.geneName}</p>
@@ -235,7 +233,8 @@ const PatientPortal = () => {
                   <div>
                     <h3 className="font-semibold text-[#222222] text-sm mb-4">Affected Medications</h3>
                     <div className="space-y-4">
-                      {result.affectedMedications.map((annotation, index) => (
+                    {result.affectedMedications.length > 0 ? (
+                      result.affectedMedications.map((annotation, index) => (
                         <div 
                           key={index}
                           className="bg-[#D9DAE4] rounded-lg p-4 max-w-[800px]"
@@ -247,7 +246,9 @@ const PatientPortal = () => {
                           )}
                           <p className="text-[#222222] text-sm">{annotation.description}</p>
                         </div>
-                      ))}
+                      ))) : (
+                        <p className="text-[#222222] text-sm">No affected medications.</p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -287,13 +288,14 @@ const PatientPortal = () => {
                       bg-[#C0392B] text-white rounded-md hover:bg-red-700 transition-colors mt-6"
                   >
                     <img
-                      src="../public/external/iconmonstrtrash1812081-46t.svg"
+                      src="../public/external/iconmonstr-trash-can-27.svg"
                       alt="Delete"
                       className="w-4 h-4 brightness-0 invert"
                     />
                     <span className="text-sm font-semibold">Delete</span>
                   </button>
                 </div>
+              </div>
               </div>
             ))}
           </div>
@@ -308,7 +310,6 @@ const PatientPortal = () => {
           />
         </div>
       </div>
-    </div>
   );
 };
 
