@@ -82,7 +82,7 @@ const DoctorPortal = () => {
       <div className="max-w-[1200px] mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           {/* Title and Add Patient Button */}
-          <h1 className="text-3xl font-bold text-[#30336B] mb-4 md:mb-0">{doctor.username}'s Patients</h1>
+          <h1 className="text-3xl font-bold text-[#30336B] mb-4 md:mb-0">{doctor.firstName} {doctor.lastName}'s Patients</h1>
           <button 
             onClick={() => setSearchModalOpen(true)}
             className="flex items-center gap-2 px-6 py-2 bg-[#30336B] text-white rounded-md 
