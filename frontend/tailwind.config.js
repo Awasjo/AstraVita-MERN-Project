@@ -21,8 +21,8 @@ export default {
         'gray-color': '#C7C7D7',
         'gray-color-2': '#333333',
         'strong-blue': '#0071BC',
-        'lavender-gray-light': '#ECECF2',
-        'lavender-gray-dark': '#D9DAE4',
+        'lavender-gray-light': '#D9DAE4',
+        'lavender-gray-dark': '#B1B3CA',
         'navy-blue-dark': '#181A36',
       },
       fontFamily: {
@@ -30,7 +30,7 @@ export default {
         serif: ['DM Serif Display', 'serif'],
       },
       minHeight: {
-        'home-container': '560px',
+        'home-container': '600px',
       },
     },
 

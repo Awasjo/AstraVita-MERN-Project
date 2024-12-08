@@ -1,7 +1,6 @@
 import React from 'react'
 import { Footer } from './Footer'
 import { Helmet } from 'react-helmet'
-import { Link } from 'react-router-dom'
 
 const AboutUs = () => {
   return (
@@ -13,7 +12,7 @@ const AboutUs = () => {
       </Helmet>
       <div>
         <div className="flex flex-wrap">
-          {/* Top left */}
+          {/* Image (top left) */}
           <div className="w-full md:w-1/2 order-0">
             <img
               alt="Doctor showing a clipboard to a patient"
@@ -22,7 +21,7 @@ const AboutUs = () => {
             />
           </div>
 
-          {/* Top right */}
+          {/* Our Vision (top right) */}
           <div className="w-full md:w-1/2 bg-navy-blue-dark flex justify-center items-center p-8 order-1">
             <div className="text-white w-3/4 md:w-1/2 text-center md:text-left">
               <h1 className="font-serif text-4xl md:text-5xl font-medium">
@@ -34,8 +33,8 @@ const AboutUs = () => {
             </div>
           </div>
 
-          {/* Bottom left */}
-          <div className="w-full md:w-1/2 bg-navy-blue-dark flex justify-center items-center p-8 order-3 md:order-2">
+          {/* Our Mission (bottom left) */}
+          <div className="w-full md:w-1/2 bg-dark-blue flex justify-center items-center p-8 order-3 md:order-2">
             <div className="text-white w-3/4 md:w-1/2 text-center md:text-left">
               <h1 className="font-serif text-4xl md:text-5xl font-medium">
                 Our Mission
@@ -46,7 +45,7 @@ const AboutUs = () => {
             </div>
           </div>
 
-          {/* Bottom right */}
+          {/* Image (bottom right) */}
           <div className="w-full md:w-1/2 order-2 md:order-3">
             <img
               alt="Female researcher next to a microscope"
@@ -55,6 +54,8 @@ const AboutUs = () => {
             />
           </div>
         </div>
+
+        {/* Our Values */}
         <div className="bg-lavender-gray-light text-dark-blue p-16">
           <div className="text-center">
             <h1 className="font-serif text-4xl md:text-5xl font-medium">

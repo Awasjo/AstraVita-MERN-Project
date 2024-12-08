@@ -39,7 +39,7 @@ export const Home = () => {
           <img
               alt="Smiling nurse holding a clipboard"
               src="/external/hero-image-nurse.png"
-              className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-4/5 hidden md:block"
+              className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-5/6 hidden md:block"
             />
         </div>
 
@@ -88,7 +88,7 @@ export const Home = () => {
         </div>
 
         {/* OneDrug ProbeiT */}
-        <div className="bg-light-theme text-dark-blue p-16 md:pt-28">
+        <div className="bg-[#E8EAEA] text-dark-blue p-16 md:pt-28">
           <div className="flex flex-col md:flex-row items-center">
             <div className="flex-1 mb-8 lg:mb-0 ">
               <img
