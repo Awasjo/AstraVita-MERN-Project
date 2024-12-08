@@ -1,10 +1,11 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 
 const DoctorSideNav = ({doctor}) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { logout } = useContext(AuthContext); 
 
@@ -12,6 +13,9 @@ const DoctorSideNav = ({doctor}) => {
   const navItemClass = "flex items-center space-x-6 px-8 py-4 hover:bg-[#282B59] transition-colors duration-200";
   const navTextClass = "font-inter text-base font-semibold text-[#D9DAE4]";
   const navIconClass = "w-4 h-4 brightness-0 invert";
+
+  // Helper function to check if route is active
+  const isActive = (path) => location.pathname === path;
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -92,59 +96,106 @@ const DoctorSideNav = ({doctor}) => {
 
         {/* Navigation */}
         <nav className="flex-1 flex flex-col">
-          {/* My Patients - Active State */}
-          <div className="relative">
-            <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
-            <div className={`${navItemClass} bg-[#282B59]`} onClick={handleMyPatients}>
+          {/* My Patients */}
+          <div className="relative cursor-pointer">
+            {isActive('/doctor') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div 
+              className={`${navItemClass} ${isActive('/doctor') ? 'bg-[#282B59]' : ''}`}
+              onClick={handleMyPatients}
+            >
               <img
                 src="../public/external/iconmonstruser3112411-vi2f.svg"
                 alt="My Patients"
                 className={navIconClass}
               />
-              <span className="font-inter text-base font-semibold text-white">My Patients</span>
+              <span className={`${navTextClass} ${isActive('/doctor') ? 'text-white' : ''}`}>
+                My Patients
+              </span>
             </div>
           </div>
 
           {/* Messages */}
-          <div className={navItemClass}  onClick={handleMessages}>
-            <img
-              src="../public/external/iconmonstrspeechbubble1912411-wfu.svg"
-              alt="Messages"
-              className={navIconClass}
-            />
-            <span className={navTextClass}>Messages</span>
+          <div className="relative cursor-pointer">
+            {isActive('/messages') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div 
+              className={`${navItemClass} ${isActive('/messages') ? 'bg-[#282B59]' : ''}`}
+              onClick={handleMessages}
+            >
+              <img
+                src="../public/external/iconmonstrspeechbubble1912411-wfu.svg"
+                alt="Messages"
+                className={navIconClass}
+              />
+              <span className={`${navTextClass} ${isActive('/messages') ? 'text-white' : ''}`}>
+                Messages
+              </span>
+            </div>
           </div>
 
           {/* Notifications */}
-          <div className={navItemClass} onClick={handleNotifications}>
-            <img
-              src="../public/external/iconmonstrbell2411.svg"
-              alt="Notifications"
-              className={navIconClass}
-            />
-            <span className={navTextClass}>Notifications</span>
+          <div className="relative cursor-pointer">
+            {isActive('/doctor/notifications') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div 
+              className={`${navItemClass} ${isActive('/doctor/notifications') ? 'bg-[#282B59]' : ''}`}
+              onClick={handleNotifications}
+            >
+              <img
+                src="../public/external/iconmonstrbell2411.svg"
+                alt="Notifications"
+                className={navIconClass}
+              />
+              <span className={`${navTextClass} ${isActive('/doctor/notifications') ? 'text-white' : ''}`}>
+                Notifications
+              </span>
+            </div>
           </div>
 
           {/* Settings */}
-          <div className={navItemClass} onClick={handleSettings}>
-            <img
-              src="../public/external/iconmonstrgear112411-zavc.svg"
-              alt="Settings"
-              className={navIconClass}
-            />
-            <span className={navTextClass}>Settings</span>
+          <div className="relative cursor-pointer">
+            {isActive('/settings') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div 
+              className={`${navItemClass} ${isActive('/settings') ? 'bg-[#282B59]' : ''}`}
+              onClick={handleSettings}
+            >
+              <img
+                src="../public/external/iconmonstrgear112411-zavc.svg"
+                alt="Settings"
+                className={navIconClass}
+              />
+              <span className={`${navTextClass} ${isActive('/settings') ? 'text-white' : ''}`}>
+                Settings
+              </span>
+            </div>
           </div>
 
           {/* Bottom Navigation Items */}
           <div className="mt-auto mb-8">
             {/* Homepage */}
-            <div className={navItemClass} onClick={handleHomepage}>
-              <img
-                src="../public/external/iconmonstrhome112411-26ww.svg"
-                alt="Homepage"
-                className={navIconClass}
-              />
-              <span className={navTextClass}>Homepage</span>
+            <div className="relative cursor-pointer">
+              {isActive('/') && (
+                <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+              )}
+              <div 
+                className={`${navItemClass} ${isActive('/') ? 'bg-[#282B59]' : ''}`}
+                onClick={handleHomepage}
+              >
+                <img
+                  src="../public/external/iconmonstrhome112411-26ww.svg"
+                  alt="Homepage"
+                  className={navIconClass}
+                />
+                <span className={`${navTextClass} ${isActive('/') ? 'text-white' : ''}`}>
+                  Homepage
+                </span>
+              </div>
             </div>
 
             {/* Logout */}

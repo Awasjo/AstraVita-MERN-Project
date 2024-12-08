@@ -49,7 +49,15 @@ const PatientSideNav = ({patient}) => {
     navigate('/messages');
   }
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    if (path === '/patient') {
+      return location.pathname === '/patient' || 
+             (location.pathname.startsWith('/patient') && 
+              !location.pathname.includes('/notifications') && 
+              !location.pathname.includes('/my-doctors'));
+    }
+    return location.pathname === path;
+  };
 
   const navItemClass = "flex items-center space-x-6 px-8 py-4 hover:bg-[#282B59] transition-colors duration-200";
   const navTextClass = "font-inter text-base font-semibold text-[#D9DAE4]";
@@ -107,16 +115,16 @@ const PatientSideNav = ({patient}) => {
             className="relative cursor-pointer"
             onClick={handleTestResults}
           >
-            {isActive('/patient/portal') && (
+            {isActive('/patient') && (
               <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
             )}
-            <div className={`${navItemClass} ${isActive('/patient/portal') ? 'bg-[#282B59]' : ''}`}>
+            <div className={`${navItemClass} ${isActive('/patient') ? 'bg-[#282B59]' : ''}`}>
               <img
                 src="../public/external/iconmonstrclipboard112192-hxc9.svg"
                 alt="Test Results"
                 className={navIconClass}
               />
-              <span className={`${navTextClass} ${isActive('/patient/portal') ? 'text-white' : ''}`}>
+              <span className={`${navTextClass} ${isActive('/patient') ? 'text-white' : ''}`}>
                 Test Results
               </span>
             </div>
