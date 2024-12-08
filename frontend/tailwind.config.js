@@ -21,6 +21,8 @@ export default {
         'gray-color': '#C7C7D7',
         'gray-color-2': '#333333',
         'strong-blue': '#0071BC',
+        'lavender-gray-light': '#ECECF2',
+        'lavender-gray-dark': '#D9DAE4',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
