@@ -23,6 +23,7 @@ export default {
         'strong-blue': '#0071BC',
         'lavender-gray-light': '#ECECF2',
         'lavender-gray-dark': '#D9DAE4',
+        'navy-blue-dark': '#181A36',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

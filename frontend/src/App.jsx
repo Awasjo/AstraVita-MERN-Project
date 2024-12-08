@@ -15,7 +15,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import NotFound from "./components/NotFound";
 import MyDoctor from "./components/MyDoctor";
 import DoctorProfile from "./components/construction/DoctorProfile";
-import AboutUs from "./components/construction/AboutUs";
+import AboutUs from "./components/AboutUs";
 import Products from "./components/construction/Products";
 import Messages from "./components/construction/Messages";
 import Settings from "./components/construction/Settings";

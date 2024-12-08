@@ -7,7 +7,7 @@ export const Home = () => {
   return (
     <div>
       <Helmet>
-        <title>OneDrug homepage</title>
+        <title>OneDrug</title>
         <meta property="og:title" content="OneDrug homepage" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
