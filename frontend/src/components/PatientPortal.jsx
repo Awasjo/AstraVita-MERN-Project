@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "./AuthContext";
+import { toast } from "react-toastify";
 
 
 const PatientPortal = () => {
@@ -95,8 +96,10 @@ const PatientPortal = () => {
           
           await postToApi(jsonData);
           event.target.value = null;
+          toast.success("Test result uploaded successfully.");
         } catch (error) {
           console.error("Error uploading data:", error);
+          toast.error("Error uploading data. Please try again.");
         }
       };
       reader.readAsText(file);

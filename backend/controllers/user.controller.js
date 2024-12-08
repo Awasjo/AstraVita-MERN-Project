@@ -103,6 +103,7 @@ exports.getDoctorPatients = async (req, res) => {
       id: patient._id,
       firstName: patient.firstName,
       lastName: patient.lastName,
+      email: patient.email,
       username: patient.username,
       isOnline: patient.isOnline,
       role: patient.role,
