@@ -35,9 +35,9 @@ const Navbar = () => {
           </div>
           <div className="hover:bg-light-theme rounded-md transition-colors duration-300">
             <Link
-              to="/about"
+              to="/about-us"
               className={`nav-link text-dark-blue block px-4 py-2 ${
-                location.pathname === "/about" ? "active" : ""
+                location.pathname === "/about-us" ? "active" : ""
               }`}
             >
               About Us
@@ -144,9 +144,9 @@ const Navbar = () => {
             </div>
             <div className="hover:bg-light-theme transition-colors duration-300">
               <Link
-                to="/about"
+                to="/about-us"
                 className={`block px-6 py-2 font-bold ${
-                  location.pathname === "/about"
+                  location.pathname === "/about-us"
                   ? "text-light-blue"
                   : "text-dark-blue"
                 }`}
