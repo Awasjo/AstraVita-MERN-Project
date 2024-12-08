@@ -17,7 +17,7 @@ export const Home = () => {
           {/* Dark blue (left side) */}
           <div className="flex-1 bg-dark-blue flex flex-col justify-center items-center p-4">
             <div className="text-white text-center md:text-left xl:w-3/6">
-              <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-4">
+              <h1 className="font-serif text-4xl md:text-5xl leading-tight mb-4 font-medium">
                 We’re enabling worldwide access to personalized precision
                 medicine.
               </h1>
@@ -46,7 +46,7 @@ export const Home = () => {
         {/* Why pharmacogenomics? */}
         <div className="bg-lavender-gray-light text-dark-blue p-16">
           <div className="text-center">
-            <h2 className="font-serif text-2xl md:text-4xl font-bold">
+            <h2 className="font-serif text-2xl md:text-4xl font-medium">
               Why pharmacogenomics?
             </h2>
             <p className="font-sans text-base md:text-lg mt-8 text-black">
@@ -55,32 +55,32 @@ export const Home = () => {
             </p>
           </div>
           <div className="text-center">
-            <h3 className="font-serif text-xl font-semibold md:text-2xl mt-16">
+            <h3 className="font-serif text-xl md:text-2xl mt-16 font-medium">
               Adverse drug reactions are responsible for...
             </h3>
             <div className="flex flex-col md:flex-row justify-center items-center space-y-8 md:space-y-0 md:space-x-16 mt-8">
-              <div className="relative flex flex-col items-center w-40 h-40 md:w-44 md:h-44 bg-lavender-gray-dark rounded-full">
-                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-2/3 font-serif font-semibold text-2xl md:text-3xl w-32 md:w-44">
+              <div className="ellipse">
+                <span className="big-text font-serif font-semibold text-3xl">
                   5%
-                </span>
-                <span className="absolute bottom-8 md:bottom-10 left-1/2 transform -translate-x-1/2 font-sans leading-none text-sm w-32 md:w-44">
-                  of all urgent hospital admissions
+                  <span className="small-text font-sans font-normal text-sm">
+                    of all urgent hospital admissions
+                  </span>
                 </span>
               </div>
-              <div className="relative flex flex-col items-center w-40 h-40 md:w-44 md:h-44 bg-lavender-gray-dark rounded-full">
-                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-2/3 font-serif font-semibold text-2xl md:text-3xl w-32 md:w-44">
+              <div className="ellipse">
+                <span className="big-text font-serif font-semibold text-3xl">
                   500,000
-                </span>
-                <span className="absolute bottom-8 md:bottom-10 left-1/2 transform -translate-x-1/2 font-sans leading-none text-sm w-32 md:w-44">
-                  deaths around the world each year
+                  <span className="small-text font-sans font-normal text-sm">
+                    deaths around the world each year
+                  </span>
                 </span>
               </div>
-              <div className="relative flex flex-col items-center w-40 h-40 md:w-44 md:h-44 bg-lavender-gray-dark rounded-full">
-                <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-2/3 font-serif font-semibold text-2xl md:text-3xl w-32 md:w-44">
+              <div className="ellipse">
+                <span className="big-text font-serif font-semibold text-3xl">
                   $30 billion
-                </span>
-                <span className="absolute bottom-8 md:bottom-10 left-1/2 transform -translate-x-1/2 font-sans leading-none text-sm w-32 md:w-44">
-                  in annual healthcare spending
+                  <span className="small-text font-sans font-normal text-sm">
+                    in annual healthcare spending
+                  </span>
                 </span>
               </div>
             </div>
@@ -129,7 +129,7 @@ export const Home = () => {
         {/* Industry partners */}
         <div className="bg-dark-blue text-white p-16">
           <div className="text-center">
-            <h2 className="font-serif text-2xl md:text-xl font-bold">
+            <h2 className="font-serif text-2xl md:text-xl font-medium">
               Trusted by leading institutions worldwide
             </h2>
           </div>

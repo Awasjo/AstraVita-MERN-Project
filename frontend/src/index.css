@@ -27,6 +27,18 @@
     @apply rounded block border border-dark-blue font-bold text-dark-blue hover:bg-strong-blue hover:border-strong-blue hover:text-white px-4 py-2;
 }
 
+.ellipse {
+    @apply rounded-full flex flex-col relative items-center w-48 h-48 bg-lavender-gray-dark;
+
+    .big-text {
+        @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-2/3 w-44;
+    }
+
+    .small-text {
+        @apply absolute top-10 left-1/2 transform -translate-x-1/2 w-36;
+    }
+}
+
 /* Mobile menu animation */
 @keyframes slideDown {
     from {
