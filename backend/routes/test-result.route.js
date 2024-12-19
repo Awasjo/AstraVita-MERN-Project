@@ -12,5 +12,6 @@ router.get('/drug/:drugId', authMiddleware.isAuthenticated, testResultController
 router.get('/:id', authMiddleware.isAuthenticated, testResultController.getById);
 router.put('/:id', authMiddleware.isAuthenticated, testResultController.update);
 router.delete('/:id', authMiddleware.isAuthenticated, testResultController.delete);
+router.delete('/patient/:patientId', authMiddleware.isAuthenticated, testResultController.deleteAllFromPatient);
 
 module.exports = router; 

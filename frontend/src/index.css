@@ -1,67 +1,56 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+    html {
+        @apply text-dark-theme;
+    }
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+@tailwind components;
+@tailwind utilities;
+
+
+.nav-link {
+    @apply transition-colors duration-300 ease-in-out;
 }
 
-body {
-  margin: 0;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+.nav-link.active {
+    @apply text-light-blue underline;
+    text-underline-offset: 4px;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.nav-link.filled-button {
+    @apply rounded block bg-dark-blue font-bold text-white hover:bg-strong-blue px-4 py-2;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.nav-link.outlined-button {
+    @apply rounded block border border-dark-blue font-bold text-dark-blue hover:bg-strong-blue hover:border-strong-blue hover:text-white px-4 py-2;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.ellipse {
+    @apply rounded-full flex flex-col relative items-center w-48 h-48 bg-lavender-gray-dark;
+
+    .big-text {
+        @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-2/3 w-44;
+    }
+
+    .small-text {
+        @apply absolute top-10 left-1/2 transform -translate-x-1/2 w-36;
+    }
+}
+
+/* Mobile menu animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.md:hidden.bg-white {
+    animation: slideDown 0.2s ease-out;
 }

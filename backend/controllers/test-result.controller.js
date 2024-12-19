@@ -46,7 +46,7 @@ const addDetailsToResults = async (results) => {
 
 exports.create = async (req, res) => {
   try {
-    const { patientId, testedGene, maternalAllele, paternalAllele, testDate } =
+    const { patientId, testedGene, maternalAllele, paternalAllele, testDate, replace = false } =
       req.body;
     // Verify the user has permission to create this test result
     if (req.user.role === "Patient" && req.user._id.toString() !== patientId) {
@@ -63,6 +63,37 @@ exports.create = async (req, res) => {
       });
     }
 
+    // Verify that the patient does not already possess a test result for this gene
+    const patient = await Patient.findById(patientId).populate({
+      path: 'testResults',
+      match: { testedGene: testedGene },
+      select: '_id testedGene' // Fetch only necessary fields
+    });
+
+    if (patient.testResults.length > 0) {
+      if (replace) {
+        const idsToDelete = patient.testResults.map(result => result._id);
+
+        // jason: Doing this instead of replaceOne() since many of our current patients in the database already have multiple test results for the same gene
+        const deleteResults = await TestResult.deleteMany({
+          _id: { $in: idsToDelete }
+        });
+
+        await Patient.findByIdAndUpdate(patientId, {
+          $pull: {
+            testResults: { $in: idsToDelete }
+          },
+        });
+
+        console.log(`Deleted ${deleteResults.deletedCount} test result(s) from patient`);
+      } else {
+        return res.status(409).json({
+          message: "The patient already has a test result for this gene"
+        });
+      }
+    }
+
+    // Create test result
     const testResult = new TestResult({
       patient: patientId,
       testedGene,
@@ -73,12 +104,13 @@ exports.create = async (req, res) => {
       uploadedBy: req.user._id,
     });
     await testResult.save();
+
     // Update patient's test results
     await Patient.findByIdAndUpdate(patientId, {
       $push: { testResults: testResult._id },
     });
+    
     // Create notifications
-    const patient = await Patient.findById(patientId);
     const doctor = req.user.role === "Doctor" ? req.user : null;
 
     if (doctor) {
@@ -437,6 +469,56 @@ exports.delete = async (req, res) => {
     res.status(500).json({
       message: "Error deleting test result",
       error: error.message,
+    });
+  }
+};
+
+exports.deleteAllFromPatient = async (req, res) => {
+  try {
+    const { patientId } = req.params;
+    const patient = await Patient.findById(patientId);
+    
+    if (!patient) {
+      return res.status(404).json({
+        message: "Patient not found"
+      });
+    }
+
+    // Verify permissions
+    if (
+      req.user.role === "Patient" &&
+      patientId.toString() !== req.user._id.toString()
+    ) {
+      return res.status(403).json({
+        message: "You can only delete your own test results"
+      });
+    }
+
+    if (
+      req.user.role === "Doctor" &&
+      !req.user.approvedPatients.includes(patientId)
+    ) {
+      return res.status(403).json({
+        message: "You are not authorized to delete this test result",
+      });
+    }
+
+    // Delete all test results and their references from the patient
+    await TestResult.deleteMany({
+      _id: { $in: patient.testResults }
+    });
+
+    await Patient.findByIdAndUpdate(patientId, {
+      testResults: []
+    });
+
+    res.status(200).json({
+      message: "Deleted all test results from patient"
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error deleting test results",
+      error: error.message
     });
   }
 };

@@ -13,7 +13,7 @@ exports.createNotification = async (receiverId, senderId, type, message, testRes
   
 exports.getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ receiver: req.user._id });
+    const notifications = await Notification.find({ receiver: req.user._id }).sort({ createdDate: -1 });
     res.status(200).json(notifications);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching notifications', error: error.message });
