@@ -7,10 +7,6 @@
       "label": "run dev",
       "type": "shell",
       "command": "npm run dev",
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
       "dependsOn": ["backend dev", "frontend dev"]
     },
     {
