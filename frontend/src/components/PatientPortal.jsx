@@ -168,7 +168,7 @@ const PatientPortal = () => {
             hover:bg-[#282B59] transition-colors"
             >
               <img
-                src="../public/external/iconmonstrupload1812081-46t.svg"
+                src="/external/iconmonstrupload1812081-46t.svg"
                 alt="Upload"
                 className="w-5 h-5 brightness-0 invert"
               />
@@ -186,7 +186,7 @@ const PatientPortal = () => {
             focus:ring-2 focus:ring-[#30336B]"
               />
               <img
-                src="../public/external/iconmonstrmagnifier212081-8lkk.svg"
+                src="/external/iconmonstrmagnifier212081-8lkk.svg"
                 alt="Search"
                 className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
               />
@@ -291,7 +291,7 @@ const PatientPortal = () => {
                       bg-[#C0392B] text-white rounded-md hover:bg-red-700 transition-colors mt-6"
                   >
                     <img
-                      src="../public/external/iconmonstr-trash-can-27.svg"
+                      src="/external/iconmonstr-trash-can-27.svg"
                       alt="Delete"
                       className="w-4 h-4 brightness-0 invert"
                     />

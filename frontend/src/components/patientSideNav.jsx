@@ -102,7 +102,7 @@ const PatientSideNav = ({patient}) => {
         {/* Logo */}
         <div className="mt-10 mb-12 mx-auto">
           <img
-            src="../public/external/placeholderlogo1805-9za8-200h.png"
+            src="/external/placeholderlogo1805-9za8-200h.png"
             alt="PlaceholderLogo1805"
             className="w-[109px] h-6"
           />
@@ -120,7 +120,7 @@ const PatientSideNav = ({patient}) => {
             )}
             <div className={`${navItemClass} ${isActive('/patient') ? 'bg-[#282B59]' : ''}`}>
               <img
-                src="../public/external/iconmonstrclipboard112192-hxc9.svg"
+                src="/external/iconmonstrclipboard112192-hxc9.svg"
                 alt="Test Results"
                 className={navIconClass}
               />
@@ -140,7 +140,7 @@ const PatientSideNav = ({patient}) => {
             )}
             <div className={`${navItemClass} ${isActive('/patient/my-doctors') ? 'bg-[#282B59]' : ''}`}>
               <img
-                src="../public/external/iconmonstruser3112193-o16o.svg"
+                src="/external/iconmonstruser3112193-o16o.svg"
                 alt="My Doctors"
                 className={navIconClass}
               />
@@ -153,7 +153,7 @@ const PatientSideNav = ({patient}) => {
           {/* Messages */}
           <div className={navItemClass} onClick={handleMessages}>
             <img
-              src="../public/external/iconmonstrspeechbubble1912234-e9s.svg"
+              src="/external/iconmonstrspeechbubble1912234-e9s.svg"
               alt="Messages"
               className={navIconClass}
             />
@@ -170,7 +170,7 @@ const PatientSideNav = ({patient}) => {
             )}
             <div className={`${navItemClass} ${isActive('/patient/notifications') ? 'bg-[#282B59]' : ''}`}>
               <img
-                src="../public/external/iconmonstrbell2411.svg"
+                src="/external/iconmonstrbell2411.svg"
                 alt="Notifications"
                 className={navIconClass}
               />
@@ -183,7 +183,7 @@ const PatientSideNav = ({patient}) => {
           {/* Settings */}
           <div className={navItemClass} onClick={handleSettings}>
             <img
-              src="../public/external/iconmonstrgear112234-1lyt.svg"
+              src="/external/iconmonstrgear112234-1lyt.svg"
               alt="Settings"
               className={navIconClass}
             />
@@ -202,7 +202,7 @@ const PatientSideNav = ({patient}) => {
               )}
               <div className={`${navItemClass} ${isActive('/') ? 'bg-[#282B59]' : ''}`}>
                 <img
-                  src="../public/external/iconmonstrhome112223-3zd.svg"
+                  src="/external/iconmonstrhome112223-3zd.svg"
                   alt="Homepage"
                   className={navIconClass}
                 />
@@ -215,7 +215,7 @@ const PatientSideNav = ({patient}) => {
             {/* Sign Out */}
             <div className={navItemClass} onClick={handleLogout}>
               <img
-                src="../public/external/iconmonstrlogout1812213-0hv9.svg"
+                src="/external/iconmonstrlogout1812213-0hv9.svg"
                 alt="Sign Out"
                 className={navIconClass}
               />

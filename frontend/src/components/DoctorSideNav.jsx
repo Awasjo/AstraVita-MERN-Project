@@ -88,7 +88,7 @@ const DoctorSideNav = ({doctor}) => {
         {/* Logo */}
         <div className="mt-10 mb-12 mx-auto">
           <img
-            src="../public/external/placeholderlogo1805-9za8-200h.png"
+            src="/external/placeholderlogo1805-9za8-200h.png"
             alt="PlaceholderLogo1805"
             className="w-[109px] h-6"
           />
@@ -106,7 +106,7 @@ const DoctorSideNav = ({doctor}) => {
               onClick={handleMyPatients}
             >
               <img
-                src="../public/external/iconmonstruser3112411-vi2f.svg"
+                src="/external/iconmonstruser3112411-vi2f.svg"
                 alt="My Patients"
                 className={navIconClass}
               />
@@ -126,7 +126,7 @@ const DoctorSideNav = ({doctor}) => {
               onClick={handleMessages}
             >
               <img
-                src="../public/external/iconmonstrspeechbubble1912411-wfu.svg"
+                src="/external/iconmonstrspeechbubble1912411-wfu.svg"
                 alt="Messages"
                 className={navIconClass}
               />
@@ -146,7 +146,7 @@ const DoctorSideNav = ({doctor}) => {
               onClick={handleNotifications}
             >
               <img
-                src="../public/external/iconmonstrbell2411.svg"
+                src="/external/iconmonstrbell2411.svg"
                 alt="Notifications"
                 className={navIconClass}
               />
@@ -166,7 +166,7 @@ const DoctorSideNav = ({doctor}) => {
               onClick={handleSettings}
             >
               <img
-                src="../public/external/iconmonstrgear112411-zavc.svg"
+                src="/external/iconmonstrgear112411-zavc.svg"
                 alt="Settings"
                 className={navIconClass}
               />
@@ -188,7 +188,7 @@ const DoctorSideNav = ({doctor}) => {
                 onClick={handleHomepage}
               >
                 <img
-                  src="../public/external/iconmonstrhome112411-26ww.svg"
+                  src="/external/iconmonstrhome112411-26ww.svg"
                   alt="Homepage"
                   className={navIconClass}
                 />
@@ -201,7 +201,7 @@ const DoctorSideNav = ({doctor}) => {
             {/* Logout */}
             <div className={navItemClass} onClick={handleLogout}>
               <img
-                src="../public/external/iconmonstrlogout1812411-gevq.svg"
+                src="/external/iconmonstrlogout1812411-gevq.svg"
                 alt="Logout"
                 className={navIconClass}
               />
