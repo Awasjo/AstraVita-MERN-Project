@@ -7,7 +7,15 @@
       "label": "run dev",
       "type": "shell",
       "command": "npm run dev",
-      "dependsOn": ["backend dev", "frontend dev"]
+      "dependsOn": ["backend dev", "frontend dev", "messaging service"]
+    },
+    {
+      "label": "messaging service",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/message-service"
+      }
     },
     {
       "label": "backend dev",

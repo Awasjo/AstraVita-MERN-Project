@@ -46,7 +46,8 @@ const PatientSideNav = ({patient}) => {
   };
 
   const handleMessages = () => {
-    navigate('/messages');
+    navigate('/patient/messages', { state: { patient: patient } });
+    setIsMobileMenuOpen(false);
   }
 
   const isActive = (path) => {

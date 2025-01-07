@@ -117,6 +117,16 @@ const App = () => {
             </Layout>
           }
         />
+        <Route
+          path="/patient/messages"
+          element={
+            <Layout>
+              <PrivateRoute>
+                <Messages />
+              </PrivateRoute>
+            </Layout>
+          }
+        />
       </Routes>
     </>
   );
