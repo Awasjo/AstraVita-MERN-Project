@@ -6,6 +6,7 @@ require('dotenv').config();
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('./config/passport');
+const rateLimit = require('express-rate-limit');
 
 const messageRoutes = require('./routes/message.route');
 
@@ -36,7 +37,8 @@ app.use(session({
   saveUninitialized: false,
   cookie: { 
     secure: false,
-    httpOnly: true, 
+    httpOnly: true,
+    maxAge: 14 * 24 * 60 * 60 * 1000 // 14 days
   }
 }));
 app.use(passport.initialize());
@@ -57,8 +59,12 @@ io.on('connection', (socket) => {
     console.log('A user disconnected:', socket.id);
   });
 });
-
-app.use('/api/messages', messageRoutes);
+const messageLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // 100 request per 15 minutes
+  message: 'Too many requests from this IP, please try again later.'
+});
+app.use('/api/messages', messageLimiter, messageRoutes);
 
 const PORT = process.env.PORT;
 server.listen(PORT, () => {
