@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+require('dotenv').config();
 
 const messageSchema = new mongoose.Schema({
     sender: {
@@ -14,9 +15,10 @@ const messageSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        required: true,
-        set: encryptContent,
-        get: decryptContent
+        required: true
+    },
+    iv: {
+        type: String
     },
     timestamp: {
         type: Date,
@@ -25,19 +27,27 @@ const messageSchema = new mongoose.Schema({
     }
 });
 
-//encrypt messages for storage and privacy
-function encryptContent(content) {
-    const cipher = crypto.createCipher('aes-256-cbc', process.env.ENCRYPTION_KEY);
-    let encrypted = cipher.update(content, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    return encrypted;
-}
+// Generate a secure key
+const key = crypto.scryptSync(process.env.ENCRYPTION_KEY, 'salt', 32); 
 
-function decryptContent(content) {
-    const decipher = crypto.createDecipher('aes-256-cbc', process.env.ENCRYPTION_KEY);
-    let decrypted = decipher.update(content, 'hex', 'utf8');
+// Encrypt messages for storage and privacy
+messageSchema.pre('save', function (next) {
+    const iv = crypto.randomBytes(16); 
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let encrypted = cipher.update(this.content, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    this.iv = iv.toString('hex'); 
+    this.content = encrypted;
+    next();
+});
+
+// Decrypt messages for retrieval
+messageSchema.post('init', function (doc) {
+    const iv = Buffer.from(doc.iv, 'hex'); 
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    let decrypted = decipher.update(doc.content, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
-    return decrypted;
-}
+    doc.content = decrypted;
+});
 
 module.exports = mongoose.model('Message', messageSchema);
