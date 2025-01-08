@@ -13,13 +13,13 @@ const Messaging = () => {
   const messageEndRef = useRef(null);
   const location = useLocation();
   const user = location.state.patient ? location.state.patient : location.state.doctor;
-  // console.log('User in Messaging:', user); //user in context
+  console.log('User in Messaging:', user); //user in context
 
   useEffect(() => {
     // Fetch existing messages
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/messages/${user._id}`, { withCredentials: true });
+        const response = await axios.get(`http://localhost:3001/api/messages/${user.id}`, { withCredentials: true });
         // console.log('Messages from response:', response.data.messages); //Messages form the database
         setMessages(response.data.messages);
         // console.log('Messages from setMessages:', messages);
@@ -44,7 +44,7 @@ const Messaging = () => {
     if (!newMessage.trim()) return;
 
     const message = {
-      sender: user._id,
+      sender: user.id,
       receiver: '67255f467406d79956391313', //this is awasd user - temporary
       content: newMessage,
     };
