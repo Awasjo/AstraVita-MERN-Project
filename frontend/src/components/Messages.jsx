@@ -20,7 +20,7 @@ const Messaging = () => {
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/messages/${user.id}`, { withCredentials: true });
-        // console.log('Messages from response:', response.data.messages); //Messages form the database
+        console.log('Messages from response:', response.data.messages); //Messages form the database
         setMessages(response.data.messages);
         // console.log('Messages from setMessages:', messages);
       } catch (error) {

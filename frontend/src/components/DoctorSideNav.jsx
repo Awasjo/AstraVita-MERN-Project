@@ -50,7 +50,7 @@ const DoctorSideNav = ({doctor}) => {
   };
 
   const handleMessages = () => {
-    navigate('/messages');
+    navigate('/doctor/messages', { state: { doctor: doctor }});
   }
 
   return (

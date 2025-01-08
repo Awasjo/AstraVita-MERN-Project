@@ -17,7 +17,7 @@ import MyDoctor from "./components/MyDoctor";
 import DoctorProfile from "./components/construction/DoctorProfile";
 import AboutUs from "./components/AboutUs";
 import Products from "./components/Products";
-import Messages from "./components/construction/Messages";
+import Messages from "./components/Messages";
 import Settings from "./components/construction/Settings";
 import AddUser from "./components/AddUser";
 
@@ -76,6 +76,16 @@ const App = () => {
           }
         />
         <Route
+          path="/doctor/messages"
+          element={
+            <Layout>
+              <PrivateRoute allowedRoles={['Doctor']}>
+                <Messages />
+              </PrivateRoute>
+            </Layout>
+          }
+        />
+        <Route
           path="/patient/*"
           element={
             <Layout>
@@ -111,7 +121,7 @@ const App = () => {
           path="/patient/my-doctors"
           element={
             <Layout>
-              <PrivateRoute>
+              <PrivateRoute allowedRoles={['Patient']}>
                 <MyDoctor />
               </PrivateRoute>
             </Layout>
@@ -121,7 +131,7 @@ const App = () => {
           path="/patient/messages"
           element={
             <Layout>
-              <PrivateRoute>
+              <PrivateRoute allowedRoles={['Patient']}>
                 <Messages />
               </PrivateRoute>
             </Layout>
