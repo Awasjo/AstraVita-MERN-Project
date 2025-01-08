@@ -16,6 +16,9 @@ const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
 
 //only port 5173 is allowed to access the messaging service during dev
 const io = socketIo(server, { cors: { origin: allowedOrigins } }); 
+app.set('socketio', io); //accessible to the router
+const userSocketMap = {}; //map of incoming user id to socket id
+
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -50,13 +53,28 @@ mongoose.connect(process.env.MONGODB_URI)
 
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
+  // Register user socket based on userid
+  socket.on('register', (userId) => {
+    userSocketMap[userId] = socket.id;
+    console.log('User registered:', userId, 'with socket ID:', socket.id);
+  });
 
   socket.on('send_message', (data) => {
-    io.to(data.recipient).emit('receive_message', data);
+    console.log('Message Service Index.js io data on send message callback:', data);
+    const recipientSocketId = userSocketMap[data.receiver];
+    if (recipientSocketId) {
+      io.to(recipientSocketId).emit('receive_message', data);
+    }
   });
 
   socket.on('disconnect', () => {
     console.log('A user disconnected:', socket.id);
+    for (const userId in userSocketMap) {
+      if (userSocketMap[userId] === socket.id) {
+        delete userSocketMap[userId];
+        break;
+      }
+    }
   });
 });
 const messageLimiter = rateLimit({

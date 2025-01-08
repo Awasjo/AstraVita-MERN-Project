@@ -13,16 +13,16 @@ const Messaging = () => {
   const messageEndRef = useRef(null);
   const location = useLocation();
   const user = location.state.patient ? location.state.patient : location.state.doctor;
-  console.log('User in Messaging:', user); //user in context
 
   useEffect(() => {
+    // Register the user ID with the socket ID
+    socket.emit('register', user.id);
+
     // Fetch existing messages
     const fetchMessages = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/api/messages/${user.id}`, { withCredentials: true });
-        console.log('Messages from response:', response.data.messages); //Messages form the database
         setMessages(response.data.messages);
-        // console.log('Messages from setMessages:', messages);
       } catch (error) {
         console.error('Failed to fetch messages:', error);
       }
@@ -45,11 +45,9 @@ const Messaging = () => {
 
     const message = {
       sender: user.id,
-      receiver: '67255f467406d79956391313', //this is awasd user - temporary
+      receiver: '67255f467406d79956391313', //this is awasd1 user - temporary
       content: newMessage,
     };
-
-    console.log('Message to send:', message);
 
     try {
       await axios.post('http://localhost:3001/api/messages/send', message);
