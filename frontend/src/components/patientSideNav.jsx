@@ -46,7 +46,8 @@ const PatientSideNav = ({patient}) => {
   };
 
   const handleMessages = () => {
-    navigate('/messages');
+    navigate('/patient/messages', { state: { patient: patient } });
+    setIsMobileMenuOpen(false);
   }
 
   const isActive = (path) => {
@@ -54,6 +55,7 @@ const PatientSideNav = ({patient}) => {
       return location.pathname === '/patient' || 
              (location.pathname.startsWith('/patient') && 
               !location.pathname.includes('/notifications') && 
+              !location.pathname.includes('/messages') && 
               !location.pathname.includes('/my-doctors'));
     }
     return location.pathname === path;
@@ -150,14 +152,23 @@ const PatientSideNav = ({patient}) => {
             </div>
           </div>
 
-          {/* Messages */}
-          <div className={navItemClass} onClick={handleMessages}>
-            <img
-              src="/external/iconmonstrspeechbubble1912234-e9s.svg"
-              alt="Messages"
-              className={navIconClass}
-            />
-            <span className={navTextClass}>Messages</span>
+          <div 
+            className="relative cursor-pointer"
+            onClick={handleMessages}
+          >
+            {isActive('/patient/my-doctors') && (
+              <div className="absolute left-0 top-0 w-1.5 h-full bg-white" />
+            )}
+            <div className={`${navItemClass} ${isActive('/patient/messages') ? 'bg-[#282B59]' : ''}`}>
+              <img
+                src="/external/iconmonstruser3112193-o16o.svg"
+                alt="My Doctors"
+                className={navIconClass}
+              />
+              <span className={`${navTextClass} ${isActive('/patient/messages') ? 'text-white' : ''}`}>
+                Messages
+              </span>
+            </div>
           </div>
 
           {/* Notifications */}

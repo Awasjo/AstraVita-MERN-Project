@@ -5,6 +5,7 @@ const session = require('express-session');
 const userRoutes = require('./routes/user.route');
 const testResultRoutes = require('./routes/test-result.route');
 const notificationRoutes = require('./routes/notification.route');
+const MongoStore = require('connect-mongo');
 
 const authMiddleware = require('./middleware/auth.middleware');
 require('dotenv').config();
@@ -36,12 +37,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
+    store: MongoStore.create({ mongoUrl: mongoUri }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: { 
     secure: false,
     httpOnly: true, 
+    maxAge: 14 * 24 * 60 * 60 * 1000 // 14 day
 }
 }));
 
