@@ -1,7 +1,7 @@
 import React, { useState, useContext} from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
-import logo from "/external/logo-placeholder-primary.png";
+import logo from "/external/astravita-wordmark.png";
 
 const Navbar = () => {
   const location = useLocation();
@@ -20,7 +20,7 @@ const Navbar = () => {
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <Link to="/" className="flex items-center">
-          <img src={logo} alt="OneDrug logo" className="h-8 w-auto mt-1" />
+          <img src={logo} alt="AstraVita logo" className="h-8 w-auto mt-1" />
         </Link>
         <div className="hidden lg:flex space-x-8 font-semibold">
           <div className="hover:bg-light-theme rounded-md transition-colors duration-300">

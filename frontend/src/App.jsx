@@ -20,6 +20,7 @@ import Products from "./components/Products";
 import Messages from "./components/Messages";
 import Settings from "./components/construction/Settings";
 import AddUser from "./components/AddUser";
+import UnderConstruction from "./components/construction/UnderConstruction";
 
 const App = () => {
   const location = useLocation();
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/products" element={<Products />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/forgot-password" element={<UnderConstruction />} />
         <Route
           path="/doctor/*"
           element={

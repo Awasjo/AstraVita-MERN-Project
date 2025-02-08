@@ -6,8 +6,8 @@ const AboutUs = () => {
   return (
     <div>
       <Helmet>
-        <title>About OneDrug</title>
-        <meta property="og:title" content="OneDrug About Us page" />
+        <title>About AstraVita</title>
+        <meta property="og:title" content="AstraVita About Us page" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <div>
@@ -28,7 +28,7 @@ const AboutUs = () => {
                 Our Vision
               </h1>
               <p className="font-sans text-base md:text-lg mt-4">
-                OneDrug’s vision is to lead the global transformation of healthcare by making personalized precision medicine accessible and impactful across every corner of the world.
+                AstraVita’s vision is to lead the global transformation of healthcare by making personalized precision medicine accessible and impactful across every corner of the world.
               </p>
             </div>
           </div>
@@ -40,7 +40,7 @@ const AboutUs = () => {
                 Our Mission
               </h1>
               <p className="font-sans text-base md:text-lg mt-4">
-                OneDrug’s mission is to pioneer innovative smart technology solutions that revolutionize healthcare by enabling personalized treatments.
+                AstraVita’s mission is to pioneer innovative smart technology solutions that revolutionize healthcare by enabling personalized treatments.
               </p>
             </div>
           </div>

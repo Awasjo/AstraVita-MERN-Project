@@ -6,8 +6,8 @@ const Products = () => {
   return (
     <div>
       <Helmet>
-        <title>OneDrug Products</title>
-        <meta property="og:title" content="OneDrug Products page" />
+        <title>AstraVita Products</title>
+        <meta property="og:title" content="AstraVita Products page" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <div>
@@ -15,18 +15,18 @@ const Products = () => {
           {/* Image (top left) */}
           <div className="w-full md:w-1/2 order-0">
             <img
-              alt="OneDrug ProbeiT test device"
-              src="/external/probeit-device-render.png"
+              alt="AstraVita BioScan test device"
+              src="/external/bioscan-device-render.png"
               className="w-full h-full object-cover"
             />
           </div>
 
-          {/* OneDrug ProbeiT (top right) */}
+          {/* AstraVita BioScan (top right) */}
           <div className="w-full md:w-1/2 bg-dark-blue flex justify-center items-center p-8 order-1">
             <div className="text-white w-3/4 md:w-1/2">
               <img
-                src="/external/probeit-wordmark-white.svg"
-                alt="OneDrug ProbeiT logo"
+                src="/external/bioscan-wordmark-white.png"
+                alt="AstraVita BioScan logo"
                 className="h-12"
               />
               <div className="font-sans text-base md:text-lg mt-4">
@@ -54,7 +54,7 @@ const Products = () => {
               />
               <div className="font-sans text-base md:text-lg mt-4">
                 <p>
-                  Our online user portal bridges the gap between patients and doctors by allowing ProbeiT test results to be accessed from any computer by trusted contacts.
+                  Our online user portal bridges the gap between patients and doctors by allowing BioScan test results to be accessed from any computer by trusted contacts.
                 </p>
                 <ul className="list-disc mt-4">
                   <li>Telemedicine hub</li>

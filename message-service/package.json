@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "This is a message service between users in the OneDrug project. This was made as for learning purposes.",
+  "description": "This is a message service between users in the AstraVita project. This was made as for learning purposes.",
   "dependencies": {
     "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
