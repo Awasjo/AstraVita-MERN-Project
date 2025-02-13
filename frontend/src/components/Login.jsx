@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
 import heroImage from "/external/hero-image-medicine.jpg";
-import logo from "/external/placeholderlogo1805-9za8-200h.png";
+import logo from "/external/astravita-wordmark-white.png";
 import xMark from "/external/iconmonstr-x-mark-9.svg";
 import eye from "/external/iconmonstr-eye-filled.svg";
 
@@ -67,13 +67,13 @@ function Login() {
           </h1>
           <p className="font-sans text-lg leading-none">
             Log in or create an account to view your{" "}
-            <span className="font-bold">OneDrug ProbeiT</span> results
+            <span className="font-bold">AstraVita BioScan</span> results
           </p>
         </div>
         <img
           className="absolute bottom-10 left-10 h-10 xl:left-40"
           src={logo}
-          alt="OneDrug Logo"
+          alt="AstraVita Logo"
         />
       </section>
 
@@ -86,7 +86,7 @@ function Login() {
         </button>
         <form onSubmit={handleLogin} className="w-full max-w-md">
           <h2 className="font-sans text-2xl font-bold mb-8 text-black">
-            Log in to OneDrug
+            Log in to AstraVita
           </h2>
 
           <div className="mb-4">

@@ -104,7 +104,7 @@ const PatientSideNav = ({patient}) => {
         {/* Logo */}
         <div className="mt-10 mb-12 mx-auto">
           <img
-            src="/external/placeholderlogo1805-9za8-200h.png"
+            src="/external/astravita-wordmark-white.png"
             alt="PlaceholderLogo1805"
             className="w-[109px] h-6"
           />

@@ -7,8 +7,8 @@ export const Home = () => {
   return (
     <div>
       <Helmet>
-        <title>OneDrug</title>
-        <meta property="og:title" content="OneDrug homepage" />
+        <title>AstraVita</title>
+        <meta property="og:title" content="AstraVita homepage" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Helmet>
       <div>
@@ -87,20 +87,20 @@ export const Home = () => {
           </div>
         </div>
 
-        {/* OneDrug ProbeiT */}
+        {/* AstraVita BioScan */}
         <div className="bg-[#E8EAEA] text-dark-blue p-16 md:pt-28">
           <div className="flex flex-col md:flex-row items-center">
             <div className="flex-1 mb-8 lg:mb-0 ">
               <img
-                alt="ProbeiT test device"
-                src="/external/probitDevice.png"
+                alt="BioScan test device"
+                src="/external/bioscan-device.png"
                 className="h-80 md:ml-auto md:mr-44"
               />
             </div>
             <div className="flex-1 lg:pl-8">
               <img
-                src="/external/probeit-wordmark-color.svg"
-                alt="OneDrug ProbeiT logo"
+                src="/external/bioscan-wordmark.svg"
+                alt="AstraVita BioScan logo"
                 className="mb-4 h-10 md:h-8"
               />
               <p className="font-sans text-base md:text-lg md:leading-none mb-8 leading-none max-w-96">
@@ -136,22 +136,22 @@ export const Home = () => {
           <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-12">
             <img
               alt="University of Toronto"
-              src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/64b188d9-a472-4b5a-9158-d52f2ed82634/db610096-cc1a-4c16-a6a4-d7fe86039a7e?org_if_sml=17907&amp;force_format=original"
+              src="/external/uoft-logo.svg"
               className="w-32 h-auto md:w-40 md:h-auto"
             />
             <img
               alt="University Health Network"
-              src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/64b188d9-a472-4b5a-9158-d52f2ed82634/8947b1d9-4a27-422b-b9c9-a69a48e3233e?org_if_sml=13690&amp;force_format=original"
+              src="external/uhn-logo.svg"
               className="w-32 h-auto md:w-40 md:h-auto"
             />
             <img
               alt="Princeton Plainsboro Teaching Hospital"
-              src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/64b188d9-a472-4b5a-9158-d52f2ed82634/f2ed2315-43c9-45dd-9ba6-652d699892c3?org_if_sml=111680&amp;force_format=original"
+              src="/external/princeton-logo.svg"
               className="w-32 h-auto md:w-40 md:h-auto"
             />
             <img
               alt="Grey Sloan Memorial Hospital"
-              src="https://aheioqhobo.cloudimg.io/v7/_playground-bucket-v2.teleporthq.io_/64b188d9-a472-4b5a-9158-d52f2ed82634/1c8dc7fb-084c-4576-ac70-b5772815c26a?org_if_sml=15119&amp;force_format=original"
+              src="external/greysloan-logo.svg"
               className="w-32 h-auto md:w-40 md:h-auto"
             />
           </div>

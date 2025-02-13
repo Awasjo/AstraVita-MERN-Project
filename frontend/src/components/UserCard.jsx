@@ -2,7 +2,7 @@ import React from "react";
 
 const UserCard = ({ user, onTestResultClick }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow cursor-pointer flex items-center">
+    <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow flex items-center">
       <div className="w-[48px] h-[48px] rounded-full bg-[#D9DAE4] overflow-hidden mr-4 hidden md:block">
       <img
           src="/external/profile-picture-default.png"

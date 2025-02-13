@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import heroImage from '/external/hero-image-medicine.jpg';
-import logo from '/external/placeholderlogo1805-9za8-200h.png';
+import logo from '/external/astravita-wordmark-white.png';
 import xMark from '/external/iconmonstr-x-mark-9.svg';
 import eye from '/external/iconmonstr-eye-filled.svg';
 
@@ -68,13 +68,13 @@ const Register = () => {
           </h1>
           <p className="font-sans text-lg leading-none">
             Log in or create an account to view your{" "}
-            <span className="font-bold">OneDrug ProbeiT</span> results
+            <span className="font-bold">AstraVita BioScan</span> results
           </p>
         </div>
         <img
           className="absolute bottom-10 left-10 h-10 xl:left-40"
           src={logo}
-          alt="OneDrug Logo"
+          alt="AstraVita Logo"
         />
       </section>
 
@@ -88,7 +88,7 @@ const Register = () => {
 
         <form onSubmit={handleSubmit} className="w-full max-w-md" noValidate>
           <h2 className="font-sans text-2xl font-bold mb-8 text-black">
-            Create a OneDrug account
+            Create a AstraVita account
           </h2>
 
           <div className="mb-4">
