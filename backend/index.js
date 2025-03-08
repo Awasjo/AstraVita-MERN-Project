@@ -8,11 +8,15 @@ const notificationRoutes = require('./routes/notification.route');
 const MongoStore = require('connect-mongo');
 
 const authMiddleware = require('./middleware/auth.middleware');
-require('dotenv').config();
+
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
+
 const app = express();
 
 
-const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
+const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173','http://localhost:4173', 'http://127.0.0.1:4173'];
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
@@ -67,7 +71,7 @@ app.use(authMiddleware.isAuthenticated);
 
 // Simple route
 app.get('/', (req, res) => {
-    res.send('This API is under construction');
+    res.send('This API serves as backend to the AstraVita Frontend project');
 });
 
 // Start server

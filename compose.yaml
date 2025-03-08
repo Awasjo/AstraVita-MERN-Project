@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4173:4173
+    depends_on:
+      - backend
+      - message-service
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3000:3000
+    env_file:
+      - ./backend/.env
+
+  message-service:
+    build:
+      context: ./message-service
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3001:3001
+    env_file:
+      - ./message-service/.env
