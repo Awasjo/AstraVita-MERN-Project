@@ -53,7 +53,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((err) => console.error('MongoDB connection error:', err));
 
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  //console.log('A user connected:', socket.id);
 
   socket.on('join_room', ({ userId, contactId }) => {
     const roomId = `room-${Math.min(userId, contactId)}-${Math.max(userId, contactId)}`;
@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
+    //console.log('A user disconnected:', socket.id);
   });
 });
 const messageLimiter = rateLimit({
