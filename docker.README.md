@@ -6,7 +6,7 @@ This project consists of three services that work together:
 - **Backend** (Node.js/Express API) – Runs on [http://localhost:3000](http://localhost:3000)
 - **Message Service** (Handles messaging functionality) – Runs on [http://localhost:3001](http://localhost:3001)
 
-The application allows users to register as either **patients** or **doctors**, with different roles and permissions. Users can also upload and download files, which are stored in an `assets` folder at the root level.
+The application allows users to register as either **patients** or **doctors**, with different roles and permissions. Users can also upload and download files, which are stored in an `sample-files` folder at the root level.
 
 ---
 
@@ -36,7 +36,7 @@ docker compose down
 
 ### File Upload & Download
 - Users can upload sample genetic test files.
-- Sample files are available to be uploaded in the Assets folder.
+- Sample files are available to be uploaded in the `sample-files` folder.
 
 ### Doctor-Patient Messaging
 - Doctors are able to communicate with their patients.
