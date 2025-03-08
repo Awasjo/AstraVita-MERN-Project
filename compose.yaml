@@ -2,32 +2,20 @@ version: '3.8'
 
 services:
   frontend:
-    build:
-      context: ./frontend
-    environment:
-      NODE_ENV: production
+    image: awasjo/astravita:frontend
     ports:
-      - 4173:4173
+      - "4173:4173"
+    restart: always
     depends_on:
       - backend
       - message-service
 
   backend:
-    build:
-      context: ./backend
-    environment:
-      NODE_ENV: production
+    image: awasjo/astravita:backend
     ports:
-      - 3000:3000
-    env_file:
-      - ./backend/.env
+      - "3000:3000"
 
   message-service:
-    build:
-      context: ./message-service
-    environment:
-      NODE_ENV: production
+    image: awasjo/astravita:message-service
     ports:
-      - 3001:3001
-    env_file:
-      - ./message-service/.env
+      - "3001:3001"

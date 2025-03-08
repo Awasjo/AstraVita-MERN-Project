@@ -13,6 +13,17 @@ FROM node:${NODE_VERSION}-alpine
 # Use production node environment by default.
 ENV NODE_ENV production
 
+# Define build arguments
+ARG MONGODB_URI
+ARG SESSION_SECRET
+ARG PORT
+ARG ENCRYPTION_KEY
+
+# Set environment variables from build arguments
+ENV MONGODB_URI=${MONGODB_URI}
+ENV SESSION_SECRET=${SESSION_SECRET}
+ENV PORT=${PORT}
+ENV ENCRYPTION_KEY=${ENCRYPTION_KEY}
 
 WORKDIR /usr/src/app
 
