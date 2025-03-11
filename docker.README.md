@@ -11,14 +11,14 @@ The application allows users to register as either **patients** or **doctors**, 
 ---
 
 ## Running the Application with Docker Compose
-To start all services, ensure you have [Docker](https://www.docker.com/) installed, then run:
+To start all services, ensure you have [Docker](https://www.docker.com/) installed, then in the terminal where the compose.yaml file is stored run:
 
 ```sh
-docker compose up --build
+docker compose up
 ```
 
 This command will:
-- Build the images for the frontend, backend, and message service.
+- Pull the images for the frontend, backend, and message service from Dockerhub.
 - Start all three services together.
 
 To stop the services, press `Ctrl + C` or run:
@@ -59,12 +59,11 @@ Initially, MongoDB was chosen based on the professor's recommendation. However, 
 
 ### Dockerizing a Multi-Service App
 - Organizing all services under one **docker-compose** setup makes it easier to manage dependencies and environments.
-- Using `.env` files per service simplifies configuration management.
 - Exposing correct ports ensures smooth communication between services.
 
 ### Frontend & Backend Communication
 - Ensure CORS policies are set up correctly for smooth frontend-backend interaction.
-- Instead of using local MongoDB, a free tier cluster is used for this project.
+- Instead of using local MongoDB, a free-tier cluster is used for this project.
 
 ---
 
