@@ -40,7 +40,7 @@ const DoctorPortal = () => {
   }, []);
 
   const handleCardClick = async ( id ) => {
-    console.log('patient id: ', id);
+    //console.log('patient id: ', id);
     const patient = await axios.get(`http://localhost:3000/api/users/${id}`);
     navigate('/patient', { state: { patient: patient.data } }); // Update state with patient data
   };

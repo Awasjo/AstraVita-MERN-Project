@@ -308,14 +308,14 @@ exports.setOnlineStatus = async (req, res) => {
 };
 
 exports.searchPatients = async (req, res) => {
-  console.log('Search patients request received:', req.query);
+  //console.log('Search patients request received:', req.query);
   try {
     const { firstName, lastName } = req.query;
     const patients = await Patient.find({
       firstName: { $regex: firstName, $options: 'i' },
       lastName: { $regex: lastName, $options: 'i' },
     });
-    console.log('Search results:', patients);
+    //console.log('Search results:', patients);
     res.status(200).json(patients);
   } catch (error) {
     console.error('Error searching for patients:', error);

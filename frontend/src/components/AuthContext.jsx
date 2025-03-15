@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const response = await axios.get('http://localhost:3000/api/users/me');
           setUser(response.data);  // Set user data from response
-          console.log('User set in AuthContext:', response.data);  // Log user data
+          //console.log('User set in AuthContext:', response.data);  // Log user data
         } catch (error) {
           console.error('Error fetching user:', error);
           setUser(null);  // Set to null if not authenticated or error occurs
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
   
     return (
         <AuthContext.Provider value={{user, setUser, loading, logout}}>
-          {console.log('User in AuthContext:', user)} {/* Debugging line */}
+          {/*console.log('User in AuthContext:', user)*/} {/* Debugging line */}
           {children}
         </AuthContext.Provider>
       );

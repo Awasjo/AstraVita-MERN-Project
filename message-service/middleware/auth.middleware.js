@@ -13,7 +13,7 @@ exports.requireRole = (role) => {
 };
 
 exports.isAuthenticated = (req, res, next) => {
-  console.log(' authenticating...');
+  //console.log(' authenticating...');
   if (req.isAuthenticated()) {
     return next();
   }

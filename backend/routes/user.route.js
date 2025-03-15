@@ -6,8 +6,8 @@ const authMiddleware = require('../middleware/auth.middleware');
 
 // Authentication routes
 router.post('/login', passport.authenticate('local'), (req, res) => {
-  console.log('Session after login:', req.session);
-  console.log('req.session.passport.user:', req.session.passport.user);
+  //console.log('Session after login:', req.session);
+  //console.log('req.session.passport.user:', req.session.passport.user);
 
   res.json({
     message: 'Login successful',
@@ -52,7 +52,7 @@ router.get('/permission-requests', authMiddleware.isAuthenticated, userControlle
 
 // Get user
 router.get('/me', (req, res) => {
-  console.log('req.user:', req.user);
+  //console.log('req.user:', req.user);
   if (req.isAuthenticated()) {
     const { _id, username, role } = req.user;
     res.json({ _id, username, role });

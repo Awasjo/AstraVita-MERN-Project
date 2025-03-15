@@ -2,17 +2,20 @@ const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
 const mongoose = require('mongoose');
-require('dotenv').config();
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const passport = require('./config/passport');
 const rateLimit = require('express-rate-limit');
 
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const messageRoutes = require('./routes/message.route');
 
 const app = express();
 const server = http.createServer(app);
-const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173'];
+const allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:4173', 'http://127.0.0.1:4173'];
 
 //only port 5173 is allowed to access the messaging service during dev
 const io = socketIo(server, { cors: { origin: allowedOrigins } }); 
@@ -50,7 +53,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((err) => console.error('MongoDB connection error:', err));
 
 io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  //console.log('A user connected:', socket.id);
 
   socket.on('join_room', ({ userId, contactId }) => {
     const roomId = `room-${Math.min(userId, contactId)}-${Math.max(userId, contactId)}`;
@@ -63,7 +66,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('A user disconnected:', socket.id);
+    //console.log('A user disconnected:', socket.id);
   });
 });
 const messageLimiter = rateLimit({

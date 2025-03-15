@@ -85,7 +85,7 @@ exports.create = async (req, res) => {
           },
         });
 
-        console.log(`Deleted ${deleteResults.deletedCount} test result(s) from patient`);
+        //console.log(`Deleted ${deleteResults.deletedCount} test result(s) from patient`);
       } else {
         return res.status(409).json({
           message: "The patient already has a test result for this gene"

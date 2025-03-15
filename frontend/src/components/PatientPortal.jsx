@@ -27,7 +27,7 @@ const PatientPortal = () => {
       const sortedResults = sortByTestDate(response.data);
       setTestResults(response.data);
       setFilteredResults(sortedResults);
-      console.log("testResults:", response.data);
+      //console.log("testResults:", response.data);
     } catch (error) {
       console.error("Error fetching test results:", error);
     }
@@ -118,7 +118,7 @@ const PatientPortal = () => {
           withCredentials: true,
         }
       );
-      console.log("Data uploaded successfully:", response.data);
+      //console.log("Data uploaded successfully:", response.data);
       fetchTestResults(patientId);
     } catch (error) {
       if (error.status === 409) {
