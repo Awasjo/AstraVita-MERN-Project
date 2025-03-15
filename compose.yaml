@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: awasjo/astravita:frontend
+    ports:
+      - "4173:4173"
+    restart: always
+    depends_on:
+      - backend
+      - message-service
+
+  backend:
+    image: awasjo/astravita:backend
+    ports:
+      - "3000:3000"
+
+  message-service:
+    image: awasjo/astravita:message-service
+    ports:
+      - "3001:3001"
