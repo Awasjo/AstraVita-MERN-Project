@@ -1,0 +1,56 @@
+@tailwind base;
+
+@layer base {
+    html {
+        @apply text-dark-theme;
+    }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+
+.nav-link {
+    @apply transition-colors duration-300 ease-in-out;
+}
+
+.nav-link.active {
+    @apply text-light-blue underline;
+    text-underline-offset: 4px;
+}
+
+.nav-link.filled-button {
+    @apply rounded block bg-dark-blue font-bold text-white hover:bg-strong-blue px-4 py-2;
+}
+
+.nav-link.outlined-button {
+    @apply rounded block border border-dark-blue font-bold text-dark-blue hover:bg-strong-blue hover:border-strong-blue hover:text-white px-4 py-2;
+}
+
+.ellipse {
+    @apply rounded-full flex flex-col relative items-center w-48 h-48 bg-lavender-gray-dark;
+
+    .big-text {
+        @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-2/3 w-44;
+    }
+
+    .small-text {
+        @apply absolute top-10 left-1/2 transform -translate-x-1/2 w-36;
+    }
+}
+
+/* Mobile menu animation */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.md:hidden.bg-white {
+    animation: slideDown 0.2s ease-out;
+}
