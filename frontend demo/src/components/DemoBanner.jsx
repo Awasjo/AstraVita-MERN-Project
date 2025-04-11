@@ -1,57 +1,39 @@
 import React, { useState } from 'react';
 
 const DemoBanner = () => {
-  const [isOpen, setIsOpen] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
-  if (!isOpen) return null;
+  if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-dark-blue text-white shadow-lg z-50">
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <span className="font-bold mr-2">DEMO MODE</span>
-            <span className="hidden md:inline">
-              {isExpanded ? 
-                "This is a demo version with static data. No server connection required." :
-                "This is a demo version with static data."}
-            </span>
-          </div>
-          
-          <div className="flex items-center">
-            <button 
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="mr-3 text-sm underline hover:text-blue-200"
-            >
-              {isExpanded ? "Show Less" : "Learn More"}
-            </button>
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="ml-2 bg-white text-dark-blue rounded-full w-6 h-6 flex items-center justify-center"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-        
-        {isExpanded && (
-          <div className="mt-3 text-sm">
-            <p className="mb-2">
-              This demo showcases AstraVita's interface for both doctors and patients without requiring a server connection.
-            </p>
-            <p className="mb-2">
-              To experience the full application with real data:
-            </p>
-            <code className="bg-navy-blue-dark p-1 rounded">
-              docker compose up
-            </code>
-            <p className="mt-2">
-              <span className="font-semibold">Demo Users:</span> Use the demo login to switch between doctor and patient views.
-            </p>
-          </div>
-        )}
-      </div>
+    <div className="bg-yellow-100 border-b border-yellow-300 text-center p-1 sm:p-2 w-full relative z-50">
+      <p className="text-xs sm:text-sm md:text-base px-2 sm:px-4 py-1 pr-8">
+        This is a demonstration version of AstraVita. For the complete application, visit our
+        <a 
+          href="https://github.com/Awasjo/AstraVita-MERN-Project" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-blue-600 hover:text-blue-800 font-medium mx-1 inline-block"
+        >
+          GitHub repository
+        </a>
+        to access all necessary files and learn how to run the full application with Docker Compose.
+      </p>
+      <button 
+        onClick={() => setIsVisible(false)}
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-gray-900 focus:outline-none"
+        aria-label="Close banner"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          className="h-4 w-4 sm:h-5 sm:w-5" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
   );
 };

@@ -14,7 +14,6 @@ const MyDoctor = () => {
   const [sortDirection, setSortDirection] = useState('asc');
   const navigate = useNavigate();
 
-
   const fetchDoctors = async () => {
     setIsLoading(true);
     try {
@@ -77,10 +76,9 @@ const MyDoctor = () => {
     setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
   };
 
-
   return (
-    <div className="min-h-screen bg-[#F0F2F5] p-6">
-      <div className="max-w-[1200px] mx-auto">
+    <div className="h-full bg-[#F0F2F5] p-6">
+      <div className="max-w-[1200px] mx-auto h-[calc(100vh-3.5rem)] overflow-y-auto">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-[#30336B] mb-4 md:mb-0">My Doctors</h1>
           <button 
@@ -129,7 +127,7 @@ const MyDoctor = () => {
           </button>
         </div>
 
-       {isLoading ? (
+        {isLoading ? (
           <div className="text-center py-8">Loading doctors...</div>
         ) : filteredDoctors.length > 0 ? (
           <div className="grid gap-4">

@@ -16,21 +16,25 @@ const Layout = ({ children}) => {
     
     if (loading) {
         return <p>Loading...</p>; // Render loading state while fetching user
-      }
+    }
       
     if (!user) {
         return null;
     }
 
     return (
-        <div className="flex">
-        <div className="fixed md:relative z-40">
-          {user.role === 'Patient' ? <PatientSideNav patient={user} /> : <DoctorSideNav doctor={user}/>}
+        <div className="flex h-screen overflow-hidden">
+            {/* Mobile header spacer */}
+            <div className="md:hidden h-14 w-full fixed top-0 bg-[#F0F2F5] z-30"></div>
+            
+            <div className="fixed md:relative z-40">
+                {user.role === 'Patient' ? <PatientSideNav patient={user} /> : <DoctorSideNav doctor={user}/>}
+            </div>
+            
+            <div className="flex-1 ml-0 md:ml-[200px] overflow-y-auto h-screen pt-14 md:pt-0">
+                {children}
+            </div>
         </div>
-        <div className="flex-1 ml-0 md:ml-[200px] p-4">
-          {children}
-        </div>
-      </div>
     )
 }
 

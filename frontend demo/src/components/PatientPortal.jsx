@@ -135,41 +135,42 @@ const PatientPortal = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] p-6">
-      {showDemoHint && (
-        <div className="bg-blue-100 border-l-4 border-blue-500 p-4 mb-6 relative">
-          <button 
-            className="absolute top-2 right-2 text-blue-500"
-            onClick={() => setShowDemoHint(false)}
-          >
-            ×
-          </button>
-          <div className="flex">
-            <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <div className="ml-3">
-              <p className="text-sm text-blue-800">
-                <span className="font-bold">DEMO MODE:</span> This page displays test results from static data. 
-                You can try these features:
-              </p>
-              <ul className="mt-2 list-disc list-inside text-sm text-blue-700">
-                <li>Filter results using the search bar</li>
-                <li>Sort results by test date</li>
-                <li>Upload sample test files from the src/assets folder</li>
-                <li>Delete test results (changes persist only for this session)</li>
-              </ul>
+    <div className="h-full bg-[#F0F2F5] p-6">
+      <div className="max-w-[1200px] mx-auto h-[calc(100vh-3rem)] md:h-[calc(100vh-3.5rem)] overflow-y-auto">
+        {showDemoHint && (
+          <div className="bg-blue-100 border-l-4 border-blue-500 p-4 mb-6 relative">
+            <button 
+              className="absolute top-2 right-2 text-blue-500"
+              onClick={() => setShowDemoHint(false)}
+            >
+              ×
+            </button>
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-blue-500" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm text-blue-800">
+                  <span className="font-bold">DEMO MODE:</span> This page displays test results from static data. 
+                  You can try these features:
+                </p>
+                <ul className="mt-2 list-disc list-inside text-sm text-blue-700">
+                  <li>Filter results using the search bar</li>
+                  <li>Sort results by test date</li>
+                  <li>Upload sample test files from the src/assets folder</li>
+                  <li>Delete test results (changes persist only for this session)</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <div className="max-w-[1200px] mx-auto">
+        <div className="max-w-[1200px] mx-auto">
           {/* Header Section with Title and Upload Button */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-[#30336B] mb-4 md:mb-0">
+            <h1 className="text-3xl font-bold text-[#30336B] mb-4 md:mb-0">
               {(user.role === 'Doctor') ? patient.firstName + ' ' + patient.lastName + '\'s Test Results': 'My Test Results'}
             </h1>
 
@@ -189,18 +190,18 @@ const PatientPortal = () => {
 
           {/* Search Bar Section */}
           <div className="mb-6 relative">
-              <input
-                placeholder="Filter test results by gene or medication"
-                value={searchQuery}
-                onChange={handleSearch}
-                className="w-full px-12 py-3 bg-white rounded-lg shadow-sm focus:outline-none 
+            <input
+              placeholder="Filter test results by gene or medication"
+              value={searchQuery}
+              onChange={handleSearch}
+              className="w-full px-12 py-3 bg-white rounded-lg shadow-sm focus:outline-none 
             focus:ring-2 focus:ring-[#30336B]"
-              />
-              <img
-                src="/external/iconmonstrmagnifier212081-8lkk.svg"
-                alt="Search"
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
-              />
+            />
+            <img
+              src="/external/iconmonstrmagnifier212081-8lkk.svg"
+              alt="Search"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"
+            />
           </div>
 
           {/* Sort Options - Separate div aligned right */}
@@ -228,89 +229,89 @@ const PatientPortal = () => {
                   {/* Main Content */}
                   <div className="flex flex-col md:flex-row">
                     <div className="flex-1 p-4">
-                    {/* Gene Info Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-                      <div>
-                        <h3 className="font-semibold text-[#222222] text-sm mb-1">Tested Gene</h3>
-                        <p className="text-[#222222] text-sm">{result.testedGene.geneName}</p>
+                      {/* Gene Info Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                        <div>
+                          <h3 className="font-semibold text-[#222222] text-sm mb-1">Tested Gene</h3>
+                          <p className="text-[#222222] text-sm">{result.testedGene.geneName}</p>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-[#222222] text-sm mb-1">Diplotype</h3>
+                          <p className="text-[#222222] text-sm">{result.diplotype}</p>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-[#222222] text-sm mb-1">Phenotype</h3>
+                          <p className="text-[#222222] text-sm">{result.phenotype}</p>
+                        </div>
                       </div>
+
+                      {/* Middle Section - Affected Medications */}
                       <div>
-                        <h3 className="font-semibold text-[#222222] text-sm mb-1">Diplotype</h3>
-                        <p className="text-[#222222] text-sm">{result.diplotype}</p>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-[#222222] text-sm mb-1">Phenotype</h3>
-                        <p className="text-[#222222] text-sm">{result.phenotype}</p>
+                        <h3 className="font-semibold text-[#222222] text-sm mb-4">Affected Medications</h3>
+                        <div className="space-y-4">
+                          {result.affectedMedications.length > 0 ? (
+                            result.affectedMedications.map((annotation, index) => (
+                              <div 
+                                key={index}
+                                className="bg-[#D9DAE4] rounded-lg p-4 max-w-[800px]"
+                              >
+                                {annotation.associatedDrug && (
+                                  <p className="font-semibold text-[#222222] text-sm mb-2">
+                                    {annotation.associatedDrug.drugName}
+                                  </p>
+                                )}
+                                <p className="text-[#222222] text-sm">{annotation.description}</p>
+                              </div>
+                            ))) : (
+                            <p className="text-[#222222] text-sm">No affected medications.</p>
+                          )}
+                        </div>
                       </div>
                     </div>
 
-                    {/* Middle Section - Affected Medications */}
-                    <div>
-                      <h3 className="font-semibold text-[#222222] text-sm mb-4">Affected Medications</h3>
-                      <div className="space-y-4">
-                      {result.affectedMedications.length > 0 ? (
-                        result.affectedMedications.map((annotation, index) => (
-                          <div 
-                            key={index}
-                            className="bg-[#D9DAE4] rounded-lg p-4 max-w-[800px]"
-                          >
-                            {annotation.associatedDrug && (
-                              <p className="font-semibold text-[#222222] text-sm mb-2">
-                                {annotation.associatedDrug.drugName}
-                              </p>
-                            )}
-                            <p className="text-[#222222] text-sm">{annotation.description}</p>
-                          </div>
-                        ))) : (
-                          <p className="text-[#222222] text-sm">No affected medications.</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Side Panel */}
-                  <div className="w-full md:w-[200px] bg-white rounded-b-md md:rounded-r-md md:rounded-bl-none 
-                    shadow-sm p-4 md:p-6 border-t md:border-l md:border-t-0 border-[#D9DAE4] flex flex-col"
-                  >
-                    <div className="space-y-4">
-                      <div>
-                        <h3 className="font-semibold text-[#222222] text-sm">Test Date</h3>
-                        <p className="text-[#222222] text-sm">
-                          {new Date(result.testDate).toLocaleDateString('en-GB')}
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-[#222222] text-sm">Upload Date</h3>
-                        <p className="text-[#222222] text-sm">
-                          {new Date(result.uploadDate).toLocaleDateString('en-GB')}
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-[#222222] text-sm">Uploaded by</h3>
-                        <p className="text-[#222222] text-sm">
-                          {result.uploadedBy.firstName} {result.uploadedBy.lastName}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {/* Delete Button */}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(result._id);
-                      }}
-                      className="flex items-center justify-center gap-2 w-full md:w-[100px] h-[40px] 
-                        bg-[#C0392B] text-white rounded-md hover:bg-red-700 transition-colors mt-6"
+                    {/* Right Side Panel */}
+                    <div className="w-full md:w-[200px] bg-white rounded-b-md md:rounded-r-md md:rounded-bl-none 
+                      shadow-sm p-4 md:p-6 border-t md:border-l md:border-t-0 border-[#D9DAE4] flex flex-col"
                     >
-                      <img
-                        src="/external/iconmonstr-trash-can-27.svg"
-                        alt="Delete"
-                        className="w-4 h-4 brightness-0 invert"
-                      />
-                      <span className="text-sm font-semibold">Delete</span>
-                    </button>
+                      <div className="space-y-4">
+                        <div>
+                          <h3 className="font-semibold text-[#222222] text-sm">Test Date</h3>
+                          <p className="text-[#222222] text-sm">
+                            {new Date(result.testDate).toLocaleDateString('en-GB')}
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-[#222222] text-sm">Upload Date</h3>
+                          <p className="text-[#222222] text-sm">
+                            {new Date(result.uploadDate).toLocaleDateString('en-GB')}
+                          </p>
+                        </div>
+                        <div>
+                          <h3 className="font-semibold text-[#222222] text-sm">Uploaded by</h3>
+                          <p className="text-[#222222] text-sm">
+                            {result.uploadedBy.firstName} {result.uploadedBy.lastName}
+                          </p>
+                        </div>
+                      </div>
+                      
+                      {/* Delete Button */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDelete(result._id);
+                        }}
+                        className="flex items-center justify-center gap-2 w-full md:w-[100px] h-[40px] 
+                          bg-[#C0392B] text-white rounded-md hover:bg-red-700 transition-colors mt-6"
+                      >
+                        <img
+                          src="/external/iconmonstr-trash-can-27.svg"
+                          alt="Delete"
+                          className="w-4 h-4 brightness-0 invert"
+                        />
+                        <span className="text-sm font-semibold">Delete</span>
+                      </button>
+                    </div>
                   </div>
-                </div>
                 </div>
               ))
             ) : (
@@ -336,6 +337,7 @@ const PatientPortal = () => {
           />
         </div>
       </div>
+    </div>
   );
 };
 

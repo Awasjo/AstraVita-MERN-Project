@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -30,21 +30,43 @@ const App = () => {
     location.pathname.startsWith(route)
   );
 
+  // Get device type for toast positioning
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       {!shouldHideNavbar && <Navbar />}
-      {/* Global toast configuration for the app */}
+      {/* Modified toast configuration for better mobile experience */}
       <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
+        position={isMobile ? "bottom-center" : "top-right"}
+        autoClose={isMobile ? 3000 : 5000}
+        hideProgressBar={isMobile}
         newestOnTop={false}
         closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
+        pauseOnHover={!isMobile}
         theme="light"
+        className={isMobile ? "mt-14" : ""}
+        style={isMobile ? {
+          bottom: '20px',
+          width: '90%',
+          left: '5%',
+          right: '5%',
+        } : {}}
+        toastClassName={isMobile ? "text-sm" : ""}
       />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -54,7 +76,6 @@ const App = () => {
         <Route path="/doctor-details" element={<DoctorProfile />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/products" element={<Products />} />
-        <Route path="/messages" element={<Messages />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/forgot-password" element={<UnderConstruction />} />
         <Route

@@ -55,9 +55,9 @@ const DoctorSideNav = ({doctor}) => {
 
   return (
     <>
-      {/* Mobile Menu Button */}
+      {/* Mobile Menu Button - Updated positioning */}
       <button 
-        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-md bg-[#181A36]"
+        className="md:hidden fixed top-3 left-3 z-50 p-2 rounded-md bg-[#181A36] shadow-md"
         onClick={toggleMobileMenu}
       >
         <svg 

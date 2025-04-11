@@ -69,10 +69,10 @@ const Notifications = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] flex flex-col items-center p-4">
-      <div className="w-full max-w-[1440px]">
+    <div className="h-full bg-[#F0F2F5] flex flex-col items-center p-4">
+      <div className="w-full max-w-[1440px] h-[calc(100vh-3rem)] md:h-[calc(100vh-3.5rem)] overflow-y-auto">
         {/* Title */}
-        <h2 className="text-[24px] text-center md:text-left  md:text-[28px] font-bold text-[#30336B] font-inter leading-[34px] mb-6">
+        <h2 className="text-[24px] text-center md:text-left md:text-[28px] font-bold text-[#30336B] font-inter leading-[34px] mb-6">
           Notifications
         </h2>
         {/* Notifications List */}

@@ -78,8 +78,8 @@ const DoctorPortal = () => {
 
 
   return (
-    <div className="min-h-screen bg-[#F0F2F5] p-6">
-      <div className="max-w-[1200px] mx-auto">
+    <div className="h-full bg-[#F0F2F5] p-6">
+      <div className="max-w-[1200px] mx-auto h-[calc(100vh-3rem)] md:h-[calc(100vh-3.5rem)] overflow-y-auto">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8">
           {/* Title and Add Patient Button */}
           <h1 className="text-3xl font-bold text-[#30336B] mb-4 md:mb-0">{doctor.firstName} {doctor.lastName}'s Patients</h1>
